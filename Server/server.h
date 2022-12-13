@@ -381,8 +381,8 @@ void handleRecvSignUp(CLIENT* aClient) {
 		string un = payload.substr(0, 20);
 		password = payload.substr(21);
 		if (un[19] == ' ') {
-			int index = 19;
-			for (int i = index; i >= 0; i--) {
+			long long index = 19;
+			for (long long i = index; i >= 0; i--) {
 				if (un[i] != ' ') {
 					index = i;
 					break;
@@ -435,8 +435,8 @@ void handleRecvSignIn(CLIENT* aClient) {
 		string un = payload.substr(0, 20);
 		password = payload.substr(21);
 		if (un[19] == ' ') {
-			int index = 19;
-			for (int i = index; i >= 0; i--) {
+			long long index = 19;
+			for (long long i = index; i >= 0; i--) {
 				if (un[i] != ' ') {
 					index = i;
 					break;

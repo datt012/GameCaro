@@ -2,12 +2,12 @@
 #include "server.h"
 
 int main(int argc, char* argv[]) {
-	if (argc != 2) {
+	/*if (argc != 2) {
 		printf("Use command: %s <ServerPortNumber>\n", argv[0]);
 		printf("Example: %s 8888\n", argv[0]);
 		return 1;
-	}
-	u_short serverPort = atoi(argv[1]);
+	}*/
+	u_short serverPort = SERVER_PORT;
 
 	// Initiate WinSock
 	WSADATA wsaData;

@@ -21,7 +21,7 @@ struct CLIENT {
 	bool isBusy = false;
 
 	/* Files */
-	FILE* fPointer;
+	FILE* fPointer{};
 	unsigned short bytesInFile{};
 	unsigned short bytesRead{};
 };

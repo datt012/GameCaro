@@ -35,7 +35,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="server.cpp">
+    <ClCompile Include="servers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -27,7 +27,7 @@
     <ClInclude Include="server.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="server.cpp" />
+    <ClCompile Include="servers.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{80FB6B77-381E-4F80-9398-8F916513EE8C}</ProjectGuid>

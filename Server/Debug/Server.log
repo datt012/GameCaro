@@ -1,11 +1,2 @@
 ﻿  server.cpp
-c:\users\dattt\desktop\tic-tac-toe-game\server\server.cpp(166): warning C4018: '<': signed/unsigned mismatch
-c:\users\dattt\desktop\tic-tac-toe-game\server\server.cpp(192): warning C4018: '<': signed/unsigned mismatch
-c:\users\dattt\desktop\tic-tac-toe-game\server\server.cpp(565): warning C4018: '<': signed/unsigned mismatch
-  room.cpp
-  file.cpp
-  database.cpp
-c:\users\dattt\desktop\tic-tac-toe-game\server\database.cpp(358): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  Server.vcxproj -> C:\Users\dattt\Desktop\tic-tac-toe-game\Debug\Server.exe
-  Server.vcxproj -> C:\Users\dattt\Desktop\tic-tac-toe-game\Debug\Server.pdb (Full PDB)
+  Server.vcxproj -> D:\GameCaro\Debug\Server.exe

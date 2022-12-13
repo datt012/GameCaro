@@ -265,7 +265,7 @@ void removeClient(int index) {
 }
 
 void removeRoom(SOCKET socket) {
-	int i;
+	unsigned int i;
 	for (i = 0; i < rooms.size(); i++)
 		if (rooms[i].isPlayerInRoom(socket)) break;
 	if (i != rooms.size())
@@ -292,7 +292,7 @@ int findClientIndexBySocket(SOCKET socket) {
 }
 
 Room* findRoomBySocket(SOCKET socket) {
-	for (int i = 0; i < rooms.size(); i++) {
+	for (unsigned int i = 0; i < rooms.size(); i++) {
 		if (rooms[i].isPlayerInRoom(socket)) {
 			return &rooms[i];
 		}
@@ -341,7 +341,7 @@ void handleRecv(CLIENT* aClient) {
 }
 
 int handleSend(CLIENT* aClient, int index) {
-	int ret;
+	int ret = 0;
 	switch (aClient->opcode) {
 	case OPCODE_FILE:
 		ret = handleSendFile(aClient);
@@ -672,7 +672,7 @@ void updateMatchLog(Room* aRoom, CLIENT* client1, CLIENT* client2, int endReason
 		+ "Move Log\n";
 
 	size_t movesCount = movesList.size();
-	for (int i = 0; i < movesCount; i++) {
+	for (unsigned int i = 0; i < movesCount; i++) {
 		string move = "{x: " + to_string(movesList[i].x)
 			+ ", y: " + to_string(movesList[i].y)
 			+ ", type: " + to_string(movesList[i].type) + "}\n";

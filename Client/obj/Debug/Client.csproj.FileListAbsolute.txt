@@ -132,3 +132,16 @@ D:\TicTacToe\Client\obj\Debug\Client.csproj.GenerateResource.cache
 D:\TicTacToe\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
 D:\TicTacToe\Client\obj\Debug\Client.exe
 D:\TicTacToe\Client\obj\Debug\Client.pdb
+D:\GameCaro\x64\Debug\Client.exe.config
+D:\GameCaro\x64\Debug\Client.exe
+D:\GameCaro\x64\Debug\Client.pdb
+D:\GameCaro\Client\obj\Debug\Client.csproj.AssemblyReference.cache
+D:\GameCaro\Client\obj\Debug\Client.csproj.SuggestedBindingRedirects.cache
+D:\GameCaro\Client\obj\Debug\Client.FormAccount.resources
+D:\GameCaro\Client\obj\Debug\Client.FormPlay.resources
+D:\GameCaro\Client\obj\Debug\Client.FormMain.resources
+D:\GameCaro\Client\obj\Debug\Client.Properties.Resources.resources
+D:\GameCaro\Client\obj\Debug\Client.csproj.GenerateResource.cache
+D:\GameCaro\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+D:\GameCaro\Client\obj\Debug\Client.exe
+D:\GameCaro\Client\obj\Debug\Client.pdb

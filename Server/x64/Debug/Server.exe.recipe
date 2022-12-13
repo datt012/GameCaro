@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\TicTacToe\x64\Debug\Server.exe</FullPath>
+      <FullPath>D:\GameCaro\x64\Debug\Server.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

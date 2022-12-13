@@ -25,7 +25,7 @@
 
 using namespace std;
 #define SQL_RESULT_LEN 240
-#define SQL_RETURN_CODE_LEN 1000
+#define SQL_RETURN_CODE_LEN 1001
 #define SCORE 3
 
 
@@ -252,7 +252,7 @@ int updateSignIn(char *username, char *password) {
 		else
 		{
 			char pass[PASSWORD_SIZE] = "";
-			int onlineStatus;
+			int onlineStatus = 0;
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS) {
 				SQLGetData(SQLStatementHandle, 1, SQL_C_DEFAULT, &pass, sizeof(pass), NULL);
 				SQLGetData(SQLStatementHandle, 2, SQL_C_ULONG, &onlineStatus, 0, NULL);
@@ -362,7 +362,7 @@ int getRank(char *username) {
 
 
 int getFreeStatus(char *username) {
-	int freeStatus, onlineStatus;
+	int freeStatus = 0, onlineStatus = 0;
 	string SQLQuery = "SELECT freeStatus, onlineStatus FROM information WHERE username='" + string(username) + "'";
 	if (connectDatabase()) {
 		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
@@ -384,7 +384,7 @@ int getFreeStatus(char *username) {
 }
 
 int getScore(char *username) {
-	int score;
+	int score = 0;
 	string SQLQuery = "SELECT score FROM information WHERE username='" + string(username) + "'";
 	if (connectDatabase()) {
 		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
@@ -480,7 +480,7 @@ void updateRank() {
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 		}
 		else {
-			for (int i = 1; i < listScore.size(); i++) {
+			for (unsigned int i = 1; i < listScore.size(); i++) {
 				if (scoreUser != listScore[i].score) {
 					rankUser++;
 					scoreUser = listScore[i].score;

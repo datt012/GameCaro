@@ -6,24 +6,24 @@
 #pragma comment (lib,"ws2_32.lib")
 
 struct CLIENT {
-	SOCKET socket;
-	char address[INET_ADDRSTRLEN];
-	int port;
-	int opcode;
-	unsigned short buffLen;
-	unsigned short recvBytes;
-	unsigned short sentBytes;
-	char buff[BUFF_SIZE];
+	SOCKET socket{};
+	char address[INET_ADDRSTRLEN]{};
+	int port{};
+	int opcode{};
+	unsigned short buffLen{};
+	unsigned short recvBytes{};
+	unsigned short sentBytes{};
+	char buff[BUFF_SIZE]{};
 
 	/* Player Info */
-	char username[USERNAME_SIZE];
+	char username[USERNAME_SIZE]{};
 	bool isLoggedIn = false;
 	bool isBusy = false;
 
 	/* Files */
 	FILE* fPointer;
-	unsigned short bytesInFile;
-	unsigned short bytesRead;
+	unsigned short bytesInFile{};
+	unsigned short bytesRead{};
 };
 
 void initClient(CLIENT* aClient) {

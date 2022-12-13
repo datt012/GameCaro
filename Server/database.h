@@ -25,7 +25,7 @@
 
 using namespace std;
 #define SQL_RESULT_LEN 240
-#define SQL_RETURN_CODE_LEN 1001
+#define SQL_RETURN_CODE_LEN 1024
 #define SCORE 3
 
 
@@ -318,14 +318,13 @@ void updateUserCurrentChallenge(char *username, char *usernameChallenge) {
 
 
 string getUserCurrentChallenge(char *username) {
-	char userChallenge[USERNAME_SIZE];
+	char userChallenge[USERNAME_SIZE] = { 0 };
 	string SQLQuery = "SELECT currentChallenge FROM information WHERE username='" + string(username) + "'";
 	if (connectDatabase()) {
 		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
 		{
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			disconnectDatabase();
-			return 0;
 		}
 		else
 		{
@@ -340,7 +339,7 @@ string getUserCurrentChallenge(char *username) {
 
 
 int getRank(char *username) {
-	int rank;
+	int rank = 0;
 	string SQLQuery = "SELECT rank FROM information WHERE username='" + string(username) + "'";
 	if (connectDatabase()) {
 		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
@@ -362,7 +361,7 @@ int getRank(char *username) {
 
 
 int getFreeStatus(char *username) {
-	int freeStatus = 0, onlineStatus = 0;
+	unsigned int freeStatus = 0, onlineStatus = 0;
 	string SQLQuery = "SELECT freeStatus, onlineStatus FROM information WHERE username='" + string(username) + "'";
 	if (connectDatabase()) {
 		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
@@ -501,7 +500,7 @@ string getFreePlayerList(char *username) {
 	string listFreePlayer = "";
 	string SQLQuery = "SELECT username FROM information WHERE onlineStatus=1 AND freeStatus=1 AND username != '" + string(username) + "'";
 	if (connectDatabase()) {
-		char userFree[USERNAME_SIZE];
+		char userFree[USERNAME_SIZE] = { 0 };
 		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
 		{
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);

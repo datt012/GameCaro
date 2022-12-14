@@ -177,6 +177,7 @@ namespace Client
 
         private void challengeBtn_Click(object sender, EventArgs e)
         {
+        
             challengeBtn.Enabled = false;
             string challengedUsername = challengedPlayerName.Text;
             opponentName = challengedUsername;

@@ -96,23 +96,6 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion surrenderButton_Click: Triggered when surrenderButton is clicked
-        ///<para></para>
-        ///@param sender: The object that trigger the event
-        ///<para></para>
-        ///@param e: The events argument sent when the function is triggered
-        /// </summary>
-        private void surrenderButton_Click(object sender, EventArgs e)
-        {
-            DialogResult dialogResult = MessageBox.Show("Are you sure about giving up?", "Question", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
-            {
-                this.FormClosing -= FormPlay_FormClosing;
-                this.Close();
-            }
-        }
-
-        ///<summary>
         ///@funtion FormPlay_FormClosing: Triggered when form is closing
         ///<para></para>
         ///@param sender: The object that trigger the event
@@ -122,9 +105,8 @@ namespace Client
         private void FormPlay_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason != CloseReason.UserClosing) return;
-            if (MessageBox.Show("Are you sure about giving up?", "Question", MessageBoxButtons.OKCancel) != System.Windows.Forms.DialogResult.OK)
-                e.Cancel = true;
-            {
+            if (MessageBox.Show("Are you sure about giving up?", "Question", MessageBoxButtons.OKCancel) != System.Windows.Forms.DialogResult.OK) e.Cancel = true;
+            else {
                 this.FormClosing -= FormPlay_FormClosing;
                 if (this.board.clientTurn == 1) MessageBox.Show("What a shame " + namePlayer1.Text + ", you lost!");
                 else MessageBox.Show("What a shame " + namePlayer2.Text + ", you lost!");

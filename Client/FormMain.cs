@@ -143,7 +143,6 @@ namespace Client
             DialogResult dialogResult = MessageBox.Show("Do you confirm to log out?", "Question", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                this.challengedPlayerName.Clear();
                 this.listPlayer.Clear();
                 signOutButton.Enabled = false;
                 SocketManager.socketManager.sendData(new Message(Constants.OPCODE_SIGN_OUT));
@@ -174,7 +173,18 @@ namespace Client
             reloadButton.Enabled = false;
             SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
         }
-
+        private void listPlayer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListView lst = sender as ListView;
+            if(lst.SelectedItems.Count > 0)
+            {
+                challengedPlayerName.Text = lst.SelectedItems[0].Text;
+            }
+            else
+            {
+                challengedPlayerName.Text = "";
+            }
+        }
         private void challengeBtn_Click(object sender, EventArgs e)
         {
         
@@ -360,6 +370,5 @@ namespace Client
         {
             this.toolStripStatusLabel1.Text = status;
         }
-
     }
 }

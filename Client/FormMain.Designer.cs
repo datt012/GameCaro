@@ -45,9 +45,9 @@
             this.userScoreInfo = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.challengedPlayerName = new System.Windows.Forms.TextBox();
             this.challengeBtn = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.challengedPlayerName = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.exitButton = new System.Windows.Forms.Button();
             this.signOutButton = new System.Windows.Forms.Button();
@@ -72,11 +72,12 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 419);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 418);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(344, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(344, 23);
             this.statusStrip1.TabIndex = 16;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -84,7 +85,7 @@
             // 
             this.toolStripStatusLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(63, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(79, 17);
             this.toolStripStatusLabel1.Text = "TicTacToe!";
             // 
             // flowLayoutPanel1
@@ -97,7 +98,7 @@
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(8);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(344, 419);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(344, 418);
             this.flowLayoutPanel1.TabIndex = 6;
             // 
             // groupBox1
@@ -122,7 +123,7 @@
             this.playerListStatus.ForeColor = System.Drawing.Color.White;
             this.playerListStatus.Location = new System.Drawing.Point(206, 204);
             this.playerListStatus.Name = "playerListStatus";
-            this.playerListStatus.Size = new System.Drawing.Size(91, 13);
+            this.playerListStatus.Size = new System.Drawing.Size(121, 17);
             this.playerListStatus.TabIndex = 5;
             this.playerListStatus.Text = "No player found...";
             // 
@@ -140,14 +141,15 @@
             this.listPlayer.HideSelection = false;
             this.listPlayer.HoverSelection = true;
             this.listPlayer.LabelWrap = false;
-            this.listPlayer.Location = new System.Drawing.Point(8, 21);
+            this.listPlayer.Location = new System.Drawing.Point(8, 24);
             this.listPlayer.Margin = new System.Windows.Forms.Padding(6);
             this.listPlayer.MultiSelect = false;
             this.listPlayer.Name = "listPlayer";
-            this.listPlayer.Size = new System.Drawing.Size(302, 206);
+            this.listPlayer.Size = new System.Drawing.Size(302, 203);
             this.listPlayer.TabIndex = 4;
             this.listPlayer.UseCompatibleStateImageBehavior = false;
             this.listPlayer.View = System.Windows.Forms.View.SmallIcon;
+            this.listPlayer.SelectedIndexChanged += new System.EventHandler(this.listPlayer_SelectedIndexChanged);
             // 
             // splitContainer1
             // 
@@ -207,10 +209,10 @@
             // 
             this.userNameInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.userNameInfo.AutoSize = true;
-            this.userNameInfo.Location = new System.Drawing.Point(41, 6);
+            this.userNameInfo.Location = new System.Drawing.Point(52, 4);
             this.userNameInfo.Margin = new System.Windows.Forms.Padding(0);
             this.userNameInfo.Name = "userNameInfo";
-            this.userNameInfo.Size = new System.Drawing.Size(53, 13);
+            this.userNameInfo.Size = new System.Drawing.Size(71, 17);
             this.userNameInfo.TabIndex = 3;
             this.userNameInfo.Text = "username";
             this.userNameInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -219,10 +221,10 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 6);
+            this.label1.Location = new System.Drawing.Point(3, 4);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
+            this.label1.Size = new System.Drawing.Size(49, 17);
             this.label1.TabIndex = 0;
             this.label1.Text = "Name:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -231,10 +233,10 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(160, 6);
+            this.label2.Location = new System.Drawing.Point(152, 4);
             this.label2.Margin = new System.Windows.Forms.Padding(0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(36, 13);
+            this.label2.Size = new System.Drawing.Size(45, 17);
             this.label2.TabIndex = 1;
             this.label2.Text = "Rank:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -243,10 +245,10 @@
             // 
             this.userRankInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.userRankInfo.AutoSize = true;
-            this.userRankInfo.Location = new System.Drawing.Point(196, 6);
+            this.userRankInfo.Location = new System.Drawing.Point(197, 0);
             this.userRankInfo.Margin = new System.Windows.Forms.Padding(0);
             this.userRankInfo.Name = "userRankInfo";
-            this.userRankInfo.Size = new System.Drawing.Size(28, 13);
+            this.userRankInfo.Size = new System.Drawing.Size(29, 26);
             this.userRankInfo.TabIndex = 4;
             this.userRankInfo.Text = "rank";
             this.userRankInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -255,10 +257,10 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(235, 6);
+            this.label3.Location = new System.Drawing.Point(230, 4);
             this.label3.Margin = new System.Windows.Forms.Padding(0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(38, 13);
+            this.label3.Size = new System.Drawing.Size(49, 17);
             this.label3.TabIndex = 2;
             this.label3.Text = "Score:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -267,10 +269,10 @@
             // 
             this.userScoreInfo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.userScoreInfo.AutoSize = true;
-            this.userScoreInfo.Location = new System.Drawing.Point(273, 6);
+            this.userScoreInfo.Location = new System.Drawing.Point(279, 0);
             this.userScoreInfo.Margin = new System.Windows.Forms.Padding(0);
             this.userScoreInfo.Name = "userScoreInfo";
-            this.userScoreInfo.Size = new System.Drawing.Size(33, 13);
+            this.userScoreInfo.Size = new System.Drawing.Size(35, 26);
             this.userScoreInfo.TabIndex = 5;
             this.userScoreInfo.Text = "score";
             this.userScoreInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -290,12 +292,12 @@
             // 
             this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 82F));
-            this.tableLayoutPanel2.Controls.Add(this.challengedPlayerName, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.challengeBtn, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.label4, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.challengedPlayerName, 1, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 4);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -303,15 +305,6 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(314, 33);
             this.tableLayoutPanel2.TabIndex = 0;
-            // 
-            // challengedPlayerName
-            // 
-            this.challengedPlayerName.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.challengedPlayerName.Location = new System.Drawing.Point(78, 6);
-            this.challengedPlayerName.Name = "challengedPlayerName";
-            this.challengedPlayerName.Size = new System.Drawing.Size(137, 20);
-            this.challengedPlayerName.TabIndex = 0;
-            this.challengedPlayerName.WordWrap = false;
             // 
             // challengeBtn
             // 
@@ -329,11 +322,20 @@
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(4, 10);
+            this.label4.Location = new System.Drawing.Point(16, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(67, 13);
+            this.label4.Size = new System.Drawing.Size(52, 33);
             this.label4.TabIndex = 8;
-            this.label4.Text = "Player Name";
+            this.label4.Text = "Player Name:";
+            // 
+            // challengedPlayerName
+            // 
+            this.challengedPlayerName.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.challengedPlayerName.AutoSize = true;
+            this.challengedPlayerName.Location = new System.Drawing.Point(88, 8);
+            this.challengedPlayerName.Name = "challengedPlayerName";
+            this.challengedPlayerName.Size = new System.Drawing.Size(0, 17);
+            this.challengedPlayerName.TabIndex = 9;
             // 
             // tableLayoutPanel1
             // 
@@ -418,7 +420,7 @@
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(344, 441);
             this.Controls.Add(this.flowLayoutPanel1);
@@ -474,11 +476,11 @@
         public System.Windows.Forms.Label userNameInfo;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox challengedPlayerName;
         private System.Windows.Forms.Button challengeBtn;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label playerListStatus;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Label challengedPlayerName;
     }
 }

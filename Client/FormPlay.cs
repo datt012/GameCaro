@@ -17,6 +17,7 @@ namespace Client
         private const int PLAYER_2 = 2;
         public static string player1;
         public static string player2;
+        private string clientUser;
         private Board board;
 
         ///<summary>
@@ -31,11 +32,13 @@ namespace Client
         public FormPlay(string opponentName, string clientName, bool clientGoFirst)
         {
             InitializeComponent();
+            clientUser = clientName;
             if (clientGoFirst)
             {
                 player1 = clientName;
                 player2 = opponentName;
-            } else
+            } 
+            else
             {
                 player1 = opponentName;
                 player2 = clientName;
@@ -76,6 +79,7 @@ namespace Client
                 EventManager.eventManager.Result -= EventManager_Result;
                 this.FormClosing -= FormPlay_FormClosing;
                 this.Close();
+                SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO, (ushort)clientUser.Length, clientUser));
             }));
         }
 
@@ -127,6 +131,7 @@ namespace Client
             FormManager.openForm(Constants.FORM_MAIN);
             openSaveFileDialog();
             this.Close();
+            SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO, (ushort)clientUser.Length, clientUser));
         }
 
         ///<summary>

@@ -51,7 +51,6 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.exitButton = new System.Windows.Forms.Button();
             this.signOutButton = new System.Windows.Forms.Button();
-            this.infoButton = new System.Windows.Forms.Button();
             this.reloadButton = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
@@ -347,7 +346,6 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.Controls.Add(this.exitButton, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.signOutButton, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.infoButton, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.reloadButton, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(11, 376);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -384,20 +382,6 @@
             this.signOutButton.Text = "Sign Out";
             this.signOutButton.UseVisualStyleBackColor = true;
             this.signOutButton.Click += new System.EventHandler(this.signOutButton_Click);
-            // 
-            // infoButton
-            // 
-            this.infoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.infoButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.infoButton.Location = new System.Drawing.Point(83, 3);
-            this.infoButton.Name = "infoButton";
-            this.infoButton.Size = new System.Drawing.Size(74, 27);
-            this.infoButton.TabIndex = 13;
-            this.infoButton.Text = "Refresh Info";
-            this.infoButton.UseVisualStyleBackColor = true;
-            this.infoButton.Click += new System.EventHandler(this.infoButton_Click);
             // 
             // reloadButton
             // 
@@ -464,7 +448,6 @@
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.Button signOutButton;
         private System.Windows.Forms.Button reloadButton;
-        private System.Windows.Forms.Button infoButton;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;

@@ -149,18 +149,6 @@ namespace Client
             }
         }
 
-        ///<summary>
-        ///@funtion infoButton_Click: Triggered when the infoButton is clicked
-        ///<para></para>
-        ///@param sender: The object that trigger the event
-        ///<para></para>
-        ///@param e: The events argument sent when the function is triggered
-        /// </summary>
-        private void infoButton_Click(object sender, EventArgs e)
-        {
-            infoButton.Enabled = false;
-            SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO));
-        }
 
         ///<summary>
         ///@funtion reloadButton_Click: Triggered when the reloadButton is clicked
@@ -262,7 +250,6 @@ namespace Client
                     string[] words = e.ReturnText.Split(' ');
                     userRankInfo.Text = words[1];
                     userScoreInfo.Text = words[0];
-                    infoButton.Enabled = true;
                 }));
             } else
             {

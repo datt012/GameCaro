@@ -17,7 +17,6 @@ namespace Client
         private const int PLAYER_2 = 2;
         public static string player1;
         public static string player2;
-        private string clientUser;
         private Board board;
 
         ///<summary>
@@ -32,7 +31,6 @@ namespace Client
         public FormPlay(string opponentName, string clientName, bool clientGoFirst)
         {
             InitializeComponent();
-            clientUser = clientName;
             if (clientGoFirst)
             {
                 player1 = clientName;
@@ -79,7 +77,6 @@ namespace Client
                 EventManager.eventManager.Result -= EventManager_Result;
                 this.FormClosing -= FormPlay_FormClosing;
                 this.Close();
-                SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO, (ushort)clientUser.Length, clientUser));
             }));
         }
 
@@ -114,6 +111,7 @@ namespace Client
                 this.FormClosing -= FormPlay_FormClosing;
                 if (this.board.clientTurn == 1) MessageBox.Show("What a shame " + namePlayer1.Text + ", you lost!");
                 else MessageBox.Show("What a shame " + namePlayer2.Text + ", you lost!");
+                SocketManager.socketManager.sendData(new Message(Constants.OPCODE_SURRENDER));
             }
         }
 
@@ -126,12 +124,11 @@ namespace Client
         /// </summary>
         private void FormPlay_FormClosed(object sender, FormClosedEventArgs e)
         {
-            SocketManager.socketManager.sendData(new Message(Constants.OPCODE_SURRENDER));
+            SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO_ONL));
             EventManager.eventManager.Result -= EventManager_Result;
             FormManager.openForm(Constants.FORM_MAIN);
             openSaveFileDialog();
             this.Close();
-            SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO, (ushort)clientUser.Length, clientUser));
         }
 
         ///<summary>

@@ -49,9 +49,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.challengedPlayerName = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.exitButton = new System.Windows.Forms.Button();
             this.signOutButton = new System.Windows.Forms.Button();
-            this.reloadButton = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.statusStrip1.SuspendLayout();
@@ -344,9 +342,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.Controls.Add(this.exitButton, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.signOutButton, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.reloadButton, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.signOutButton, 3, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(11, 376);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -355,48 +351,19 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(321, 33);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
-            // exitButton
-            // 
-            this.exitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.exitButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.exitButton.Location = new System.Drawing.Point(243, 3);
-            this.exitButton.Name = "exitButton";
-            this.exitButton.Size = new System.Drawing.Size(75, 27);
-            this.exitButton.TabIndex = 6;
-            this.exitButton.Text = "Exit";
-            this.exitButton.UseVisualStyleBackColor = true;
-            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
-            // 
             // signOutButton
             // 
             this.signOutButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.signOutButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.signOutButton.Location = new System.Drawing.Point(163, 3);
+            this.signOutButton.Location = new System.Drawing.Point(243, 3);
             this.signOutButton.Name = "signOutButton";
-            this.signOutButton.Size = new System.Drawing.Size(74, 27);
+            this.signOutButton.Size = new System.Drawing.Size(75, 27);
             this.signOutButton.TabIndex = 6;
             this.signOutButton.Text = "Sign Out";
             this.signOutButton.UseVisualStyleBackColor = true;
             this.signOutButton.Click += new System.EventHandler(this.signOutButton_Click);
-            // 
-            // reloadButton
-            // 
-            this.reloadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.reloadButton.CausesValidation = false;
-            this.reloadButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.reloadButton.Location = new System.Drawing.Point(3, 3);
-            this.reloadButton.Name = "reloadButton";
-            this.reloadButton.Size = new System.Drawing.Size(74, 27);
-            this.reloadButton.TabIndex = 6;
-            this.reloadButton.Text = "Refresh List";
-            this.reloadButton.UseVisualStyleBackColor = true;
-            this.reloadButton.Click += new System.EventHandler(this.reloadButton_Click);
             // 
             // errorProvider1
             // 
@@ -445,9 +412,7 @@
         private System.Windows.Forms.ListView listPlayer;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.Button signOutButton;
-        private System.Windows.Forms.Button reloadButton;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;

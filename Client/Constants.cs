@@ -73,6 +73,7 @@
         public const byte OPCODE_INFO = 60;
         public const byte OPCODE_INFO_FOUND = 61;
         public const byte OPCODE_INFO_NOT_FOUND = 62;
+        public const byte OPCODE_INFO_ONL = 63;
 
         public const byte OPCODE_PLAY = 70;
         public const byte OPCODE_PLAY_OPPONENT = 71;

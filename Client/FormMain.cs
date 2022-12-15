@@ -115,24 +115,6 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion exitButton_Click: Triggered when the exit button is clicked
-        ///<para></para>
-        ///@param sender: The object that trigger the event
-        ///<para></para>
-        ///@param e: The events argument sent when the function is triggered
-        /// </summary>
-        private void exitButton_Click(object sender, EventArgs e) {
-            try
-            {
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        ///<summary>
         ///@funtion signOutButton_Click: Triggered when the signOutButton is clicked
         ///<para></para>
         ///@param sender: The object that trigger the event
@@ -150,17 +132,6 @@ namespace Client
         }
 
 
-        ///<summary>
-        ///@funtion reloadButton_Click: Triggered when the reloadButton is clicked
-        ///<para></para>
-        ///@param sender: The object that trigger the event
-        ///<para></para>
-        ///@param e: The events argument sent when the function is triggered
-        /// </summary>
-        private void reloadButton_Click(object sender, EventArgs e) {
-            reloadButton.Enabled = false;
-            SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
-        }
         private void listPlayer_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListView lst = sender as ListView;
@@ -200,11 +171,13 @@ namespace Client
                     {
                         MessageBox.Show("Let the game begin!");
                         FormManager.openForm(Constants.FORM_PLAY, e);
+                        SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
                     }
                     else
                     {
                         opponentName = e.ReturnText;
                         MessageBox.Show("Challenge accepted!");
+                        SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
                         FormManager.openForm(Constants.FORM_PLAY, e);
                     }
                 }
@@ -251,7 +224,8 @@ namespace Client
                     userRankInfo.Text = words[1];
                     userScoreInfo.Text = words[0];
                 }));
-            } else
+            } 
+            else
             {
                 if (e.ReturnCode == Constants.OPCODE_INFO_NOT_FOUND)
                 {
@@ -318,9 +292,9 @@ namespace Client
                 {
                     this.playerListStatus.Show();
                 }
-
-                reloadButton.Enabled = true;
+                
             }));
+            
         }
 
         ///<summary>
@@ -337,7 +311,8 @@ namespace Client
                 signOutButton.Enabled = true;
                 if (e.ReturnCode == Constants.OPCODE_SIGN_OUT_SUCCESS)
                 {
-                    FormManager.openForm(Constants.FORM_ACCOUNT, e);
+                    SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
+                    FormManager.openForm(Constants.FORM_ACCOUNT, e);  
                 }
                 else if (e.ReturnCode == Constants.OPCODE_SIGN_OUT_NOT_LOGGED_IN)
                 {

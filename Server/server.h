@@ -206,6 +206,13 @@ void handleRecvChallengeRefuse(CLIENT* aClient);
 void handleRecvInfo(CLIENT* aClient);
 
 /*
+@function handleRecvInfoOnl: Handle a request that has opcode equals OPCODE_INFO_ONL
+
+@param aClient: The client that requested
+*/
+void handleRecvInfoOnl(CLIENT* aClient);
+
+/*
 @function handleRecvPlay: Handle a request that has opcode equals OPCODE_PLAY
 
 @param aClient: The client that requested
@@ -247,13 +254,13 @@ int handleSendFile(CLIENT* aClient);
 
 void removeClient(int index) {
 	CLIENT* aClient = &clients[index];
-	closesocket(aClient->socket);
 	// Update user in database if user is signed in
 	if (aClient->isLoggedIn) {
 		updateFreeStatus(aClient->username, UPDATE_USER_NOT_BUSY);
 		updateOnlineStatus(aClient->username, UPDATE_USER_STATUS_OFFLINE);
 		updateUserCurrentChallenge(aClient->username, "");
 	}
+	closesocket(aClient->socket);
 	// Move the last client to the client at current index
 	*aClient = clients[nEvents - 1];
 	initClient(&clients[nEvents - 1]);
@@ -310,6 +317,9 @@ void handleRecv(CLIENT* aClient) {
 		break;
 	case OPCODE_INFO:
 		handleRecvInfo(aClient);
+		break;
+	case OPCODE_INFO_ONL:
+		handleRecvInfoOnl(aClient);
 		break;
 	case OPCODE_CHALLENGE:
 		handleRecvChallenge(aClient);
@@ -497,8 +507,20 @@ void handleRecvSignOut(CLIENT* aClient) {
 
 void handleRecvList(CLIENT* aClient) {
 	string payload = getFreePlayerList(aClient->username);
-	string test = payload.c_str();
 	Send(aClient, OPCODE_LIST_REPLY, (unsigned short)payload.size(), (char*)payload.c_str());
+	if (!payload.empty()) {
+		string s = payload;
+		string delimiter = " ";
+		size_t pos = 0;
+		std::string token;
+		while ((pos = s.find(delimiter)) != std::string::npos) {
+			token = s.substr(0, pos);
+			char* nameUser = (char*)token.c_str();
+			string childPayload = getFreePlayerList(nameUser);
+			Send(findClientByUsername(nameUser), OPCODE_LIST_REPLY, (unsigned short)childPayload.size(), (char*)childPayload.c_str());
+			s.erase(0, pos + delimiter.length());
+		}
+	}
 	return;
 }
 
@@ -588,6 +610,35 @@ void handleRecvInfo(CLIENT* aClient) {
 	int rank = getRank(aClient->username);
 	string msg = to_string(score) + " " + to_string(rank);
 	Send(aClient, OPCODE_INFO_FOUND, (unsigned short) msg.size(), (char*)msg.c_str());
+}
+
+void handleRecvInfoOnl(CLIENT* aClient) {
+	if (!aClient->isLoggedIn) {
+		Send(aClient, OPCODE_INFO_NOT_FOUND, 0, NULL);
+		return;
+	}
+	//Get data from database
+	int score = getScore(aClient->username);
+	int rank = getRank(aClient->username);
+	string msg = to_string(score) + " " + to_string(rank);
+	Send(aClient, OPCODE_INFO_FOUND, (unsigned short)msg.size(), (char*)msg.c_str());
+	string payload = getFreePlayerList(aClient->username);
+	if (!payload.empty()) {
+		string s = payload;
+		string delimiter = " ";
+		size_t pos = 0;
+		std::string token;
+		while ((pos = s.find(delimiter)) != std::string::npos) {
+			token = s.substr(0, pos);
+			char* nameUser = (char*)token.c_str();
+			score = getScore(nameUser);
+			rank = getRank(nameUser);
+			msg = to_string(score) + " " + to_string(rank);
+			Send(findClientByUsername(nameUser), OPCODE_INFO_FOUND, (unsigned short)msg.size(), (char*)msg.c_str());
+			s.erase(0, pos + delimiter.length());
+		}
+	}
+	return;
 }
 
 void handleRecvPlay(CLIENT* aClient) {

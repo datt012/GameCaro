@@ -94,6 +94,7 @@ Opcode for sending and receiving querying player's info request and reply
 #define OPCODE_INFO 60
 #define OPCODE_INFO_FOUND 61
 #define OPCODE_INFO_NOT_FOUND 62
+#define OPCODE_INFO_ONL 63
 
 /*
 Opcode for  receiving request and sending reply of players' move in a match 

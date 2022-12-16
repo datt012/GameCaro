@@ -145,6 +145,7 @@
             this.listPlayer.Size = new System.Drawing.Size(302, 203);
             this.listPlayer.TabIndex = 4;
             this.listPlayer.UseCompatibleStateImageBehavior = false;
+            this.listPlayer.View = System.Windows.Forms.View.SmallIcon;
             this.listPlayer.SelectedIndexChanged += new System.EventHandler(this.listPlayer_SelectedIndexChanged);
             // 
             // splitContainer1

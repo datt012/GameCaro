@@ -206,13 +206,6 @@ void handleRecvChallengeRefuse(CLIENT* aClient);
 void handleRecvInfo(CLIENT* aClient);
 
 /*
-@function handleRecvInfoOnl: Handle a request that has opcode equals OPCODE_INFO_ONL
-
-@param aClient: The client that requested
-*/
-void handleRecvInfoOnl(CLIENT* aClient);
-
-/*
 @function handleRecvPlay: Handle a request that has opcode equals OPCODE_PLAY
 
 @param aClient: The client that requested
@@ -621,7 +614,7 @@ void handleRecvInfo(CLIENT* aClient) {
 	int rank = getRank(aClient->username);
 	string msg = to_string(score) + " " + to_string(rank);
 	Send(aClient, OPCODE_INFO_FOUND, (unsigned short) msg.size(), (char*)msg.c_str());
-	if (!strlen(aClient->buff)) {
+	if (!aClient->recvBytes) {
 		string payload = getFreePlayerList(aClient->username);
 		string s = payload;
 		string delimiter = " ";

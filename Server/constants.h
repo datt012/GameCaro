@@ -3,7 +3,7 @@
 /*
 Define sever variables
 */
-#define SERVER_ADDR "127.0.0.1"
+#define SERVER_ADDR "192.168.0.101"
 #define SERVER_PORT 5500
 #define MAX_CLIENT 1024
 #define BUFF_SIZE 2048
@@ -94,7 +94,7 @@ Opcode for sending and receiving querying player's info request and reply
 #define OPCODE_INFO 60
 #define OPCODE_INFO_FOUND 61
 #define OPCODE_INFO_NOT_FOUND 62
-#define OPCODE_INFO_ONL 63
+
 
 /*
 Opcode for  receiving request and sending reply of players' move in a match 

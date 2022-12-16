@@ -95,6 +95,7 @@ int main(int argc, char* argv[]) {
 				clients[nEvents].port = ntohs(clientAddr.sin_port);
 				events[nEvents] = WSACreateEvent();
 				WSAEventSelect(clients[nEvents].socket, events[nEvents], FD_READ | FD_CLOSE);
+				printf("Client connected\n");
 				nEvents++;
 			}
 
@@ -137,7 +138,10 @@ int main(int argc, char* argv[]) {
 
 		if (sockEvent.lNetworkEvents & FD_CLOSE) {
 			if (sockEvent.iErrorCode[FD_CLOSE_BIT] != 0) {
-				printf("FD_CLOSE failed with error %d\n", sockEvent.iErrorCode[FD_CLOSE_BIT]);
+				if (sockEvent.iErrorCode[FD_CLOSE_BIT] == 10053) {
+					printf("Client disconnected\n");
+				}
+				else printf("FD_CLOSE failed with error %d\n", sockEvent.iErrorCode[FD_CLOSE_BIT]);
 			}
 			//Release socket and event
 			removeClient(index);

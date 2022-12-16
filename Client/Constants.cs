@@ -21,7 +21,7 @@
         public static string SAMPLE_00 = "00";
         public static string SPACE = " ";
 
-        public static string IP = "127.0.0.1";
+        public static string IP = "192.168.0.101";
         public static int port = 5500;
         public static int BUFFER_SIZE = 1024;
 
@@ -73,7 +73,6 @@
         public const byte OPCODE_INFO = 60;
         public const byte OPCODE_INFO_FOUND = 61;
         public const byte OPCODE_INFO_NOT_FOUND = 62;
-        public const byte OPCODE_INFO_ONL = 63;
 
         public const byte OPCODE_PLAY = 70;
         public const byte OPCODE_PLAY_OPPONENT = 71;

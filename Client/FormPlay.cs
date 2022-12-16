@@ -124,7 +124,7 @@ namespace Client
         /// </summary>
         private void FormPlay_FormClosed(object sender, FormClosedEventArgs e)
         {
-            SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO_ONL));
+            SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO));
             EventManager.eventManager.Result -= EventManager_Result;
             FormManager.openForm(Constants.FORM_MAIN);
             openSaveFileDialog();

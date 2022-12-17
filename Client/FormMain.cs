@@ -170,7 +170,6 @@ namespace Client
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
                     if (String.Compare(e.ReturnText, "") == 0)
                     {
-                        MessageBox.Show("Let the game begin!");
                         FormManager.openForm(Constants.FORM_PLAY, e);
                     }
                     else

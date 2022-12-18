@@ -167,17 +167,21 @@ namespace Client
                 challengeBtn.Enabled = true;
                 if (e.ReturnCode == Constants.OPCODE_CHALLENGE_ACCEPT)
                 {
+                    this.Hide();
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
                     if (String.Compare(e.ReturnText, "") == 0)
                     {
+                        
                         FormManager.openForm(Constants.FORM_PLAY, e);
+                        
                     }
                     else
                     {
                         opponentName = e.ReturnText;
-                        MessageBox.Show("Challenge accepted!");
                         FormManager.openForm(Constants.FORM_PLAY, e);
+                       
                     }
+                    this.Show();
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
                 }
                 else
@@ -333,3 +337,4 @@ namespace Client
         }
     }
 }
+

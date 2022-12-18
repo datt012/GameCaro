@@ -35,7 +35,7 @@ namespace Client
             {
                 player1 = clientName;
                 player2 = opponentName;
-            } 
+            }
             else
             {
                 player1 = opponentName;
@@ -107,7 +107,8 @@ namespace Client
         {
             if (e.CloseReason != CloseReason.UserClosing) return;
             if (MessageBox.Show("Are you sure about giving up?", "Question", MessageBoxButtons.OKCancel) != System.Windows.Forms.DialogResult.OK) e.Cancel = true;
-            else {
+            else
+            {
                 this.FormClosing -= FormPlay_FormClosing;
                 if (this.board.clientTurn == 1) MessageBox.Show("What a shame " + namePlayer1.Text + ", you lost!");
                 else MessageBox.Show("What a shame " + namePlayer2.Text + ", you lost!");
@@ -138,7 +139,7 @@ namespace Client
         /// </summary>
         public void changeActivePictureBox(int type)
         {
-            if(type == Constants.TURN_X)
+            if (type == Constants.TURN_X)
             {
                 pictureBoxX.Margin = new Padding(3, 3, 3, 10);
                 pictureBoxO.Margin = new Padding(3, 3, 3, 0);
@@ -149,10 +150,11 @@ namespace Client
                 pictureBoxX.Margin = new Padding(3, 3, 3, 0);
             }
 
-            if(type == board.clientTurn)
+            if (type == board.clientTurn)
             {
                 changeStatus("It's your turn to move!");
-            } else
+            }
+            else
             {
                 changeStatus("Waiting your opponent to make a move...");
             }

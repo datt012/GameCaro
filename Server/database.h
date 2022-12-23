@@ -137,6 +137,11 @@ void updateScore(char *username, int win);
 void updateUserCurrentChallenge(char *username, char *usernameChallenge);
 
 
+void updateHistory(string player1, string player2, string matchEndBy, string winner, string timeStart, string timeEnd);
+
+string getHistory(char* username);
+
+
 
 SQLHENV  SQLEnvHandle = NULL;
 SQLHDBC  SQLConnectionHandle = NULL;
@@ -528,4 +533,36 @@ void updateHistory(string player1, string player2, string matchEndBy, string win
 		disconnectDatabase();
 	}
 }
+
+string getHistory(char* username) {
+	string listHistory = "";
+	string SQLQuery = "SELECT * FROM history WHERE player1 = '" + string(username) + "'OR player2 = '" + string(username) + "';";
+	if (connectDatabase()) {
+		char player1[USERNAME_SIZE] = { 0 };
+		char player2[USERNAME_SIZE] = { 0 };
+		char matchEndBy[12] = { 0 };
+		char winner[USERNAME_SIZE] = { 0 };
+		char timeStart[27] = { 0 };
+		char timeEnd[27] = { 0 };
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
+		{
+			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+		}
+		else
+		{
+			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS) {
+				SQLGetData(SQLStatementHandle, 1, SQL_C_DEFAULT, &player1, sizeof(player1), NULL);
+				SQLGetData(SQLStatementHandle, 2, SQL_C_DEFAULT, &player2, sizeof(player2), NULL);
+				SQLGetData(SQLStatementHandle, 3, SQL_C_DEFAULT, &matchEndBy, sizeof(matchEndBy), NULL);
+				SQLGetData(SQLStatementHandle, 4, SQL_C_DEFAULT, &winner, sizeof(winner), NULL);
+				SQLGetData(SQLStatementHandle, 5, SQL_C_DEFAULT, &timeStart, sizeof(timeStart), NULL);
+				SQLGetData(SQLStatementHandle, 6, SQL_C_DEFAULT, &timeEnd, sizeof(timeEnd), NULL);
+				listHistory = listHistory + player1 + " " + player2 + " " + matchEndBy + " " + winner + " " + timeStart + " " + timeEnd + " "; //Each space delimiter " "
+			}
+		}
+		disconnectDatabase();
+	}
+	return listHistory;
+}
+
 #endif

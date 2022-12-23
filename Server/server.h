@@ -726,7 +726,7 @@ void updateMatchLog(Room* aRoom, CLIENT* client1, CLIENT* client2, int endReason
 	default:
 		break;
 	}
-	
+	cout << getHistory(client1->username);
 	size_t movesCount = movesList.size();
 	for (unsigned int i = 0; i < movesCount; i++) {
 		string move = "{x: " + to_string(movesList[i].x)

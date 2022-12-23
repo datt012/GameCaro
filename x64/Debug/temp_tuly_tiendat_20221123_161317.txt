@@ -1,0 +1,15 @@
+Match end by win. Winner: tuly.
+
+Match start at Fri Dec 23 16:12:58 2022
+Match end at Fri Dec 23 16:13:17 2022
+
+IP Address: 127.0.0.1	Player 1: tuly
+IP Address: 127.0.0.1	Player 2: tiendat
+
+Move Log
+{x: 2, y: 8, type: 1}
+{x: 10, y: 6, type: 2}
+{x: 6, y: 5, type: 1}
+{x: 10, y: 7, type: 2}
+{x: 5, y: 12, type: 1}
+{x: 10, y: 8, type: 2}

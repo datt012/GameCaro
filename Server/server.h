@@ -712,7 +712,21 @@ void updateMatchLog(Room* aRoom, CLIENT* client1, CLIENT* client2, int endReason
 		+ "IP Address: " + string(client1->address) + "\tPlayer 1: " + string(client1->username) + "\n"
 		+ "IP Address: " + string(client2->address) + "\tPlayer 2: " + string(client2->username) + "\n\n"
 		+ "Move Log\n";
-
+	switch (endReasonType)
+	{
+	case MATCH_END_BY_DRAW:
+		updateHistory(string(client1->username), string(client2->username), "Draw", winner, aRoom->getStartTime(), getCurrentTime());
+		break;
+	case MATCH_END_BY_WIN:
+		updateHistory(string(client1->username), string(client2->username), "Win", winner, aRoom->getStartTime(), getCurrentTime());
+		break;
+	case MATCH_END_BY_SURRENDER:
+		updateHistory(string(client1->username), string(client2->username), "Surrender", winner, aRoom->getStartTime(), getCurrentTime());
+		break;
+	default:
+		break;
+	}
+	
 	size_t movesCount = movesList.size();
 	for (unsigned int i = 0; i < movesCount; i++) {
 		string move = "{x: " + to_string(movesList[i].x)

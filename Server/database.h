@@ -516,4 +516,16 @@ string getFreePlayerList(char *username) {
 	}
 	return listFreePlayer;
 }
+
+void updateHistory(string player1, string player2, string matchEndBy, string winner, string timeStart, string timeEnd) {
+	string SQLQuery = "INSERT INTO history VALUES ('" + player1 + "','" + player2 + "','" + matchEndBy + "','" + winner + "','" + timeStart + "','" + timeEnd + "');";
+	if (connectDatabase()) {
+		//Executes a preparable statement
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
+		{
+			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+		}
+		disconnectDatabase();
+	}
+}
 #endif

@@ -21,7 +21,7 @@
         public static string SAMPLE_00 = "00";
         public static string SPACE = " ";
 
-        public static string IP = "192.168.0.101";
+        public static string IP = "127.0.0.1";
         public static int port = 5500;
         public static int BUFFER_SIZE = 1024;
 

@@ -3,7 +3,7 @@
 /*
 Define sever variables
 */
-#define SERVER_ADDR "192.168.0.101"
+#define SERVER_ADDR "127.0.0.1"
 #define SERVER_PORT 5500
 #define MAX_CLIENT 1024
 #define BUFF_SIZE 2048

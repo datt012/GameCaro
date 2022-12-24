@@ -77,7 +77,33 @@ namespace Client
         ///<summary>
         ///@funtion recvData: The Receive() wrapper
         /// </summary>
-        
+        private Message recvData()
+        {
+            int ret, bytesToReceive, bytesReceived;
+            byte[] recvBuff = new byte[Constants.BUFFER_SIZE];
+            bytesReceived = 0;
+            bytesToReceive = Constants.OPCODE_SIZE + Constants.LENGTH_SIZE;
+
+            // Recv opcode and length
+            while(bytesReceived < bytesToReceive)
+            {
+                ret = client.Receive(recvBuff, bytesReceived, bytesToReceive - bytesReceived, SocketFlags.Partial);
+                if (ret <= 0) return null;
+                bytesReceived += ret;
+            }
+            // Recv payload
+            ushort length = BitConverter.ToUInt16(recvBuff, Constants.OPCODE_SIZE);
+            bytesToReceive += length;
+            while (bytesReceived < bytesToReceive)
+            {
+                ret = client.Receive(recvBuff, bytesReceived, bytesToReceive, SocketFlags.Partial);
+                if (ret <= 0) return null;
+                bytesReceived += ret;
+            }
+
+            Message aMessage = new Message(recvBuff);
+            return aMessage;
+        }
 
         ///<summary>
         ///@funtion Listen: Listen for message server

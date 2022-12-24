@@ -28,7 +28,32 @@ namespace Client
         ///<para></para>
         ///@param e: The events argument sent when the function is triggered
         /// </summary>
-        
+        public static void openForm(int formType, SuperEventArgs e = null)
+        {
+            switch (formType)
+            {
+                case Constants.FORM_ACCOUNT:
+                    _currentForm = Constants.FORM_ACCOUNT;
+                    FormAccount formAccount = new FormAccount();
+                    formAccount.ShowDialog();
+                    break;
+                case Constants.FORM_PLAY:
+                    string opponentName, clientName;
+                    FormPlay formPlay;
+                    _currentForm = Constants.FORM_PLAY;
+                    opponentName = FormMain.App.opponentName;
+                    clientName = FormMain.App.getPlayerName();
+                    bool isClientGoFirst = e.ReturnText == "" ? false : true;
+                    formPlay = new FormPlay(opponentName, clientName, isClientGoFirst);
+                    formPlay.ShowDialog();
+                    break;
+                case Constants.FORM_MAIN:
+                    _currentForm = Constants.FORM_MAIN;
+                    break;
+                default:
+                    break;
+            }
+        }
 
 
     }

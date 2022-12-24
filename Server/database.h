@@ -362,21 +362,6 @@ int getRank(char *username) {
 		}
 	}
 	return rank;
-	if (connectDatabase()) {
-		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery1.c_str(), SQL_NTS))
-		{
-			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
-		}
-		else
-		{
-			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS) {
-				SQLGetData(SQLStatementHandle, 1, SQL_C_DEFAULT, &username, sizeof(username), NULL);
-				SQLGetData(SQLStatementHandle, 2, SQL_C_ULONG, &score, 0, NULL);
-				listScore.push_back(userScore(username, score)); //List username vs score sorted with descending order
-			}
-		}
-		disconnectDatabase();
-	}
 }
 
 
@@ -475,7 +460,21 @@ void updateRank() {
 	vector<userScore> listScore;
 	string SQLQuery1 = "SELECT username, score FROM information ORDER BY score DESC";
 
-	
+	if (connectDatabase()) {
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery1.c_str(), SQL_NTS))
+		{
+			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+		}
+		else
+		{
+			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS) {
+				SQLGetData(SQLStatementHandle, 1, SQL_C_DEFAULT, &username, sizeof(username), NULL);
+				SQLGetData(SQLStatementHandle, 2, SQL_C_ULONG, &score, 0, NULL);
+				listScore.push_back(userScore(username, score)); //List username vs score sorted with descending order
+			}
+		}
+		disconnectDatabase();
+	}
 	if (connectDatabase()) {
 		scoreUser = listScore[0].score;
 		string SQLQuery2 = "UPDATE information SET rank=" + to_string(rankUser) + " WHERE username='" + string(listScore[0].username) + "'";

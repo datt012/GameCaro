@@ -189,6 +189,8 @@ namespace Client
         public void notifyInvite(string name) {
             if (_invite != null)
                 _invite(this, new SuperEventArgs(name));
+            if (_info != null)
+                _info(this, new SuperEventArgs(code, info));
         }
 
         ///<summary>

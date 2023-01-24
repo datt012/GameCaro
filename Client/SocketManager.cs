@@ -75,7 +75,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion recvData: The Receive() wrapper
+        ///@funtion recvData: Receive message from server
         /// </summary>
         private Message recvData()
         {
@@ -84,14 +84,14 @@ namespace Client
             bytesReceived = 0;
             bytesToReceive = Constants.OPCODE_SIZE + Constants.LENGTH_SIZE;
 
-            // Recv opcode and length
+            //Receive opcode and length
             while(bytesReceived < bytesToReceive)
             {
                 ret = client.Receive(recvBuff, bytesReceived, bytesToReceive - bytesReceived, SocketFlags.Partial);
                 if (ret <= 0) return null;
                 bytesReceived += ret;
             }
-            // Recv payload
+            //Receive payload
             ushort length = BitConverter.ToUInt16(recvBuff, Constants.OPCODE_SIZE);
             bytesToReceive += length;
             while (bytesReceived < bytesToReceive)
@@ -131,7 +131,7 @@ namespace Client
 
                 } catch
                 {
-
+                   
                 }
             });
             listenThread.IsBackground = true;
@@ -149,7 +149,7 @@ namespace Client
         private void processRecv(Message aMessage) {
             byte opcode = aMessage.Opcode;
             string payload = System.Text.Encoding.Default.GetString(aMessage.Payload, 0, aMessage.Length);
-            // Handle background 
+            //Handle background 
             if (opcode == Constants.OPCODE_FILE_DATA)
             {
                 if (aMessage.Length == 0)
@@ -166,7 +166,7 @@ namespace Client
                 return;
             }
 
-            // Handle to foregound
+            //Handle to foregound
             switch (FormManager.currentForm)
             {
                 case Constants.FORM_MAIN:
@@ -181,7 +181,6 @@ namespace Client
                 default:
                     break;
             }
-
         }
 
         ///<summary>
@@ -217,13 +216,17 @@ namespace Client
                 case Constants.OPCODE_INFO_NOT_FOUND:
                     EventManager.eventManager.notifyInfo(opcode, payload);
                     break;
+                case Constants.OPCODE_HISTORY_FOUND:
+                case Constants.OPCODE_HISTORY_NOT_FOUND:
+                    EventManager.eventManager.notifyHistory(opcode, payload);
+                    break;
                 default:
                     break;
             }
         }
 
         ///<summary>
-        ///@funtion processRecvMain: process data received while in FormAccount
+        ///@funtion processRecvAccount: process data received while in FormAccount
         ///<para></para>
         ///@param mess: The message received
         /// </summary>
@@ -255,7 +258,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion processRecvMain: process data received while in FormPlay
+        ///@funtion processRecvPlay: process data received while in FormPlay
         ///<para></para>
         ///@param mess: The message received
         /// </summary>

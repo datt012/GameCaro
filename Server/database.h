@@ -28,7 +28,7 @@ using namespace std;
 #define SQL_RETURN_CODE_LEN 1024
 #define SCORE 3
 
-
+/* START DEFINE FUNCITON PROTOTYPES */
 /*
 @Function connectDatabase: Connect to database
 @Return: True if connect successful
@@ -136,12 +136,29 @@ void updateScore(char *username, int win);
 */
 void updateUserCurrentChallenge(char *username, char *usernameChallenge);
 
-
+/*
+@Function updateHistory: Update history match to database
+@Param player1: Username of player 1
+@Param player2: Username of player 2
+@Param matchEndBy: Type of match
+@Param winnner: Username of player win
+@Param timeStart: Time start match
+@Param timeEnd: Time end match
+@Return: None
+*/
 void updateHistory(string player1, string player2, string matchEndBy, string winner, string timeStart, string timeEnd);
 
+/*
+@Function getHistoy: Get history match of user
+@Param username: Username of user
+@Return: List history of user
+*/
 string getHistory(char* username);
 
+/* END DEFINE FUNCITON PROTOTYPES */
 
+
+/* START FUNCITON DEFINITION */
 
 SQLHENV  SQLEnvHandle = NULL;
 SQLHDBC  SQLConnectionHandle = NULL;
@@ -301,8 +318,6 @@ void updateFreeStatus(char *username, int freeStatus) {
 	}
 }
 
-
-
 void updateUserCurrentChallenge(char *username, char *usernameChallenge) {
 	string SQLQuery;
 	if (strlen(usernameChallenge) > 0) {
@@ -320,7 +335,6 @@ void updateUserCurrentChallenge(char *username, char *usernameChallenge) {
 		}
 	}
 }
-
 
 string getUserCurrentChallenge(char *username) {
 	char userChallenge[USERNAME_SIZE] = { 0 };
@@ -341,7 +355,6 @@ string getUserCurrentChallenge(char *username) {
 	}
 	return string(userChallenge);
 }
-
 
 int getRank(char *username) {
 	int rank = 0;
@@ -557,12 +570,12 @@ string getHistory(char* username) {
 				SQLGetData(SQLStatementHandle, 4, SQL_C_DEFAULT, &winner, sizeof(winner), NULL);
 				SQLGetData(SQLStatementHandle, 5, SQL_C_DEFAULT, &timeStart, sizeof(timeStart), NULL);
 				SQLGetData(SQLStatementHandle, 6, SQL_C_DEFAULT, &timeEnd, sizeof(timeEnd), NULL);
-				listHistory = listHistory + player1 + " " + player2 + " " + matchEndBy + " " + winner + " " + timeStart + " " + timeEnd + " "; //Each space delimiter " "
+				listHistory = listHistory + player1 + " " + player2 + " " + matchEndBy + " " + winner + " " + timeStart + " " + timeEnd + ","; //Each space delimiter " " and "," each row
 			}
 		}
 		disconnectDatabase();
 	}
 	return listHistory;
 }
-
+/* END FUNCITON DEFINITION */
 #endif

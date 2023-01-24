@@ -50,8 +50,9 @@
             this.challengedPlayerName = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.signOutButton = new System.Windows.Forms.Button();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.historyButton = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -342,6 +343,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.Controls.Add(this.historyButton, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.signOutButton, 3, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(11, 376);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -368,6 +370,20 @@
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
+            // 
+            // historyButton
+            // 
+            this.historyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.historyButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.historyButton.Location = new System.Drawing.Point(3, 3);
+            this.historyButton.Name = "historyButton";
+            this.historyButton.Size = new System.Drawing.Size(74, 27);
+            this.historyButton.TabIndex = 7;
+            this.historyButton.Text = "History";
+            this.historyButton.UseVisualStyleBackColor = true;
+            this.historyButton.Click += new System.EventHandler(this.historyButton_Click);
             // 
             // FormMain
             // 
@@ -427,8 +443,9 @@
         private System.Windows.Forms.Button challengeBtn;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label playerListStatus;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.Label challengedPlayerName;
+        private System.Windows.Forms.Button historyButton;
     }
 }

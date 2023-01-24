@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Security.Cryptography;
 
 namespace Client
 {
@@ -125,15 +126,7 @@ namespace Client
         /// </summary>
         private void signInButton_Click(object sender, EventArgs e)
         {
-            string username = userNameTextBox.Text;
-            if (username.Length < 20)
-            {
-                for (int i = username.Length; i < 20; i++)
-                {
-                    username = username + " ";
-                }
-            }
-            string payload = username + Constants.SPACE + passwordTextBox.Text;
+            string payload = userNameTextBox.Text + " " + hashPassword(passwordTextBox.Text);
             Message sentMessage = new Message(Constants.OPCODE_SIGN_IN, (ushort)payload.Length, payload);
             SocketManager.socketManager.sendData(sentMessage);
         }
@@ -148,15 +141,7 @@ namespace Client
         private void signUpButton_Click(object sender, EventArgs e)
         {
             EventManager.eventManager.SignUp += EventManager_SignUp;
-            string username = userNameTextBox.Text;
-            if (username.Length < 20)
-            {
-                for (int i = username.Length; i < 20; i++)
-                {
-                    username = username + " ";
-                }
-            }
-            string payload = username + Constants.SPACE + passwordTextBox.Text;
+            string payload = userNameTextBox.Text + " " + hashPassword(passwordTextBox.Text);
             Message sentMessage = new Message(Constants.OPCODE_SIGN_UP, (ushort)payload.Length, payload);
             SocketManager.socketManager.sendData(sentMessage);
         }
@@ -168,7 +153,7 @@ namespace Client
         ///<para></para>
         ///@param e: The events argument sent when the function is triggered
         /// </summary>
-        void userNameTextBox_Validating(object sender, CancelEventArgs e)
+        private void userNameTextBox_Validating(object sender, CancelEventArgs e)
         {
             string error = null;
             if (userNameTextBox.Text.Length == 0)
@@ -191,7 +176,7 @@ namespace Client
         ///<para></para>
         ///@param e: The events argument sent when the function is triggered
         /// </summary>
-        void passwordTextBox_Validating(object sender, CancelEventArgs e)
+        private void passwordTextBox_Validating(object sender, CancelEventArgs e)
         {
             string error = null;
             if (passwordTextBox.Text.Length == 0)
@@ -207,5 +192,19 @@ namespace Client
             errorProvider1.SetError((Control)sender, error);
         }
 
+        ///<summary>
+        ///@funtion hashPassword: Hasing password before send to server
+        ///<para></para>
+        ///@param password: Password of user
+        ///<para></para>
+        ///@return : Password hashed
+        /// </summary>
+        private string hashPassword(string password)
+        {
+            var sha = SHA256.Create();
+            var asByteArray = Encoding.Default.GetBytes(password);
+            var hashedPassword = sha.ComputeHash(asByteArray);
+            return Convert.ToBase64String(hashedPassword);
+        }
     }
 }

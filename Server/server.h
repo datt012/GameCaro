@@ -206,6 +206,13 @@ void handleRecvChallengeRefuse(CLIENT* aClient);
 void handleRecvInfo(CLIENT* aClient);
 
 /*
+@function handleRecvHistory: Handle a request that has opcode equals OPCODE_HISTORY
+
+@param aClient: The client that requested
+*/
+void handleRecvHistory(CLIENT* aClient);
+
+/*
 @function handleRecvPlay: Handle a request that has opcode equals OPCODE_PLAY
 
 @param aClient: The client that requested
@@ -349,6 +356,9 @@ void handleRecv(CLIENT* aClient) {
 	case OPCODE_SIGN_UP:
 		handleRecvSignUp(aClient);
 		break;
+	case OPCODE_HISTORY:
+		handleRecvHistory(aClient);
+		break;
 	default:
 		break;
 	}
@@ -381,43 +391,21 @@ void handleRecvFile(CLIENT* aClient) {
 
 void handleRecvSignUp(CLIENT* aClient) {
 	string payload(aClient->buff);
-	string username, password;
-	// Validate username and password
-	if (payload[20] != ' ' || payload.size() == 0) {
-		Send(aClient, OPCODE_SIGN_UP_INVALID_USERNAME, 0, NULL);
+
+	//Split username and password
+	string username = payload.substr(0, payload.find(" "));
+	string password = payload.substr(payload.find(" ") + 1);
+
+	//Check if username or password contain character " " or username contain more 20 character
+	if (username.find(' ') != string::npos || username.size() > 20 ) {
+		Send(aClient, OPCODE_SIGN_IN_INVALID_USERNAME, 0, NULL);
 		return;
 	}
-	else if (payload.size() > 41 || payload.size() < 22) {
-		Send(aClient, OPCODE_SIGN_UP_INVALID_PASSWORD, 0, NULL);
+	else if (password.find(' ') != string::npos) {
+		Send(aClient, OPCODE_SIGN_IN_INVALID_PASSWORD, 0, NULL);
 		return;
 	}
-	else {
-		string un = payload.substr(0, 20);
-		password = payload.substr(21);
-		if (un[19] == ' ') {
-			long long index = 19;
-			for (long long i = index; i >= 0; i--) {
-				if (un[i] != ' ') {
-					index = i;
-					break;
-				}
-			}
-			username = un.substr(0, index + 1);
-		}
-		else username = un;
 
-		//Check if username or password contain character " "
-		if (username.find(' ') != string::npos) {
-			Send(aClient, OPCODE_SIGN_UP_INVALID_USERNAME, 0, NULL);
-			return;
-		}
-
-		else if (password.find(' ') != string::npos) {
-			Send(aClient, OPCODE_SIGN_UP_INVALID_PASSWORD, 0, NULL);
-			return;
-		}
-
-	}
 	//Check for signed up user
 	int ret = updateSignUp((char*)username.c_str(), (char*)password.c_str());
 	switch (ret) {
@@ -435,43 +423,21 @@ void handleRecvSignUp(CLIENT* aClient) {
 
 void handleRecvSignIn(CLIENT* aClient) {
 	string payload(aClient->buff);
-	string username, password;
-	// Validate username and password
-	if (payload[20] != ' ' || payload.size() == 0) {
+	
+	//Split username and password
+	string username = payload.substr(0, payload.find(" "));
+	string password = payload.substr(payload.find(" ") + 1);
+
+	//Check if username or password contain character " " or username contain more 20 character
+	if (username.find(' ') != string::npos || username.size() > 20) {
 		Send(aClient, OPCODE_SIGN_IN_INVALID_USERNAME, 0, NULL);
 		return;
 	}
-	else if (payload.size() > 41 || payload.size() < 22) {
+	else if (password.find(' ') != string::npos) {
 		Send(aClient, OPCODE_SIGN_IN_INVALID_PASSWORD, 0, NULL);
 		return;
 	}
-	else {
-		string un = payload.substr(0, 20);
-		password = payload.substr(21);
-		if (un[19] == ' ') {
-			long long index = 19;
-			for (long long i = index; i >= 0; i--) {
-				if (un[i] != ' ') {
-					index = i;
-					break;
-				}
-			}
-			username = un.substr(0, index + 1);
-		}
-		else username = un;
 
-		//Check if username or password contain character " "
-		if (username.find(' ') != string::npos) {
-			Send(aClient, OPCODE_SIGN_IN_INVALID_USERNAME, 0, NULL);
-			return;
-		}
-
-		else if (password.find(' ') != string::npos) {
-			Send(aClient, OPCODE_SIGN_IN_INVALID_PASSWORD, 0, NULL);
-			return;
-		}
-
-	}
 	//Check for signed in user
 	int ret = updateSignIn((char*)username.c_str(), (char*)password.c_str());
 	switch (ret) {
@@ -632,6 +598,16 @@ void handleRecvInfo(CLIENT* aClient) {
 	}
 }
 
+void handleRecvHistory(CLIENT* aClient) {
+	if (!aClient->isLoggedIn) {
+		Send(aClient, OPCODE_HISTORY_NOT_FOUND, 0, NULL);
+		return;
+	}
+	//Get data from database
+	string payload = getHistory(aClient->username);
+	Send(aClient, OPCODE_HISTORY_FOUND, (unsigned short)payload.size(), (char*)payload.c_str());
+}
+
 void handleRecvPlay(CLIENT* aClient) {
 	Room* aRoom = findRoomBySocket(aClient->socket);
 	if (aRoom == NULL || !aRoom->isPlayerTurn(aClient->socket)) {
@@ -726,7 +702,6 @@ void updateMatchLog(Room* aRoom, CLIENT* client1, CLIENT* client2, int endReason
 	default:
 		break;
 	}
-	cout << getHistory(client1->username);
 	size_t movesCount = movesList.size();
 	for (unsigned int i = 0; i < movesCount; i++) {
 		string move = "{x: " + to_string(movesList[i].x)

@@ -10,7 +10,7 @@
 
 #define BOARD_HEIGHT 16
 #define BOARD_WIDTH 16
-#define BOARD_WIN_SCORE 3
+#define BOARD_WIN_SCORE 7
 
 #define TYPE_O 1
 #define TYPE_X 2

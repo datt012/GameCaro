@@ -156,7 +156,7 @@ namespace Client
                         Location = new Point(previousBtn.Location.X + previousBtn.Width, previousBtn.Location.Y),
                         BackgroundImageLayout = ImageLayout.Stretch,
                         BackColor = Color.Transparent,
-                        Tag = j.ToString(Constants.SAMPLE_00) + i.ToString(Constants.SAMPLE_00)
+                        Tag = j.ToString("00") + i.ToString("00")
                     };
                     btn.Click += Btn_Click;
                     boardChess.Controls.Add(btn);

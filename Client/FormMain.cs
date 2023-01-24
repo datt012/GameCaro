@@ -40,6 +40,7 @@ namespace Client
             EventManager.eventManager.List += EventManager_List;
             EventManager.eventManager.SignOut += EventManager_SignOut;
             EventManager.eventManager.Info += EventManager_Info;
+            EventManager.eventManager.History += EventManager_History;
             this.isFree = false;
             this.Shown += FormMain_Shown;
             this.FormClosing += new FormClosingEventHandler(FormMain_FormClosing);
@@ -64,7 +65,7 @@ namespace Client
         /// </summary>
         public System.Windows.Forms.SaveFileDialog getSaveFileDialog()
         {
-            return this.saveFileDialog1;
+            return this.saveFileDialog;
         }
 
         /// <summary>
@@ -131,7 +132,24 @@ namespace Client
             }
         }
 
-
+        ///<summary>
+        ///@funtion historyButton_Click: Triggered when the historyButton is clicked
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
+        private void historyButton_Click(object sender, EventArgs e)
+        {
+            if (Application.OpenForms.OfType<FormHistory>().FirstOrDefault() != null)
+            {
+                Application.OpenForms.OfType<FormHistory>().FirstOrDefault().Close();
+            }
+            else
+            {
+                SocketManager.socketManager.sendData(new Message(Constants.OPCODE_HISTORY));
+            }
+        }
         private void listPlayer_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListView lst = sender as ListView;
@@ -146,14 +164,12 @@ namespace Client
         }
         private void challengeBtn_Click(object sender, EventArgs e)
         {
-        
             challengeBtn.Enabled = false;
             string challengedUsername = challengedPlayerName.Text;
             opponentName = challengedUsername;
             Message sentMessage = new Message(Constants.OPCODE_CHALLENGE, (ushort) challengedUsername.Length, challengedUsername);
             SocketManager.socketManager.sendData(sentMessage);
         }
-
         ///<summary>
         ///@funtion EventManager_Challenge: Triggered when there is a reply from server after a player sent or received a challenge
         ///<para></para>
@@ -161,28 +177,36 @@ namespace Client
         ///<para></para>
         ///@param e: The events argument sent when the function is triggered
         /// </summary>
-        private void EventManager_Challenge(object sender, SuperEventArgs e) {
+        private void EventManager_Challenge(object sender, SuperEventArgs e) 
+        {
             FormMain.App.BeginInvoke((MethodInvoker)(() =>
             {
                 challengeBtn.Enabled = true;
                 if (e.ReturnCode == Constants.OPCODE_CHALLENGE_ACCEPT)
                 {
                     this.Hide();
+                    bool formHistoryAlready = false;
+                    if (Application.OpenForms.OfType<FormHistory>().FirstOrDefault() != null)
+                    {
+                        Application.OpenForms.OfType<FormHistory>().FirstOrDefault().Close();
+                        formHistoryAlready = true;
+                    }
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
                     if (String.Compare(e.ReturnText, "") == 0)
-                    {
-                        
-                        FormManager.openForm(Constants.FORM_PLAY, e);
-                        
+                    { 
+                        FormManager.openForm(Constants.FORM_PLAY, e);  
                     }
                     else
                     {
                         opponentName = e.ReturnText;
                         FormManager.openForm(Constants.FORM_PLAY, e);
-                       
                     }
                     this.Show();
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
+                    if(formHistoryAlready == true)
+                    {
+                        SocketManager.socketManager.sendData(new Message(Constants.OPCODE_HISTORY));
+                    }  
                 }
                 else
                 {
@@ -209,7 +233,6 @@ namespace Client
                 }
             }));
         }
-
         ///<summary>
         ///@funtion EventManager_Info: Triggered when there is a reply from server the player's info
         ///<para></para>
@@ -244,7 +267,8 @@ namespace Client
         ///<para></para>
         ///@param e: The events argument sent when the function is triggered
         /// </summary>
-        private void EventManager_Invite(object sender, SuperEventArgs e) {
+        private void EventManager_Invite(object sender, SuperEventArgs e)
+        {
             this.opponentName = e.ReturnText;
             if(!isFree)
             {
@@ -273,15 +297,13 @@ namespace Client
         ///<para></para>
         ///@param e: The events argument sent when the function is triggered
         /// </summary>
-        private void EventManager_List(object sender, SuperEventArgs e) {
+        private void EventManager_List(object sender, SuperEventArgs e)
+        {
             FormMain.App.BeginInvoke((MethodInvoker)(() =>
             {
                 string listname = e.ReturnText;
-
                 listPlayer.Items.Clear();
-
                 string[] list = listname.Split(' ');
-
                 if(list.Length > 1)
                 {
                     this.playerListStatus.Hide();
@@ -291,13 +313,32 @@ namespace Client
                         listPlayer.Items.Add(list[i]);
                     }
 
-                } else
+                }
+                else
                 {
                     this.playerListStatus.Show();
                 }
-                
             }));
             
+        }
+
+        private void EventManager_History(object sender, SuperEventArgs e)
+        {
+            if (e.ReturnCode == Constants.OPCODE_HISTORY_FOUND)
+            {
+                FormMain.App.BeginInvoke((MethodInvoker)(() =>
+                {
+                    FormManager.openForm(Constants.FORM_HISTORY, e);
+                    historyButton.Enabled = true;
+                }));
+            }
+            else
+            {
+                if (e.ReturnCode == Constants.OPCODE_HISTORY_NOT_FOUND)
+                {
+                    MessageBox.Show("Sorry, we can't find that history match!");
+                }
+            }
         }
 
         ///<summary>
@@ -309,13 +350,13 @@ namespace Client
         /// </summary>
         private void EventManager_SignOut(object sender, SuperEventArgs e)
         {
-            FormMain.App.BeginInvoke((MethodInvoker) (() =>
+            FormMain.App.BeginInvoke((MethodInvoker)(() =>
             {
                 signOutButton.Enabled = true;
                 if (e.ReturnCode == Constants.OPCODE_SIGN_OUT_SUCCESS)
                 {
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
-                    FormManager.openForm(Constants.FORM_ACCOUNT, e);  
+                    FormManager.openForm(Constants.FORM_ACCOUNT, e);
                 }
                 else if (e.ReturnCode == Constants.OPCODE_SIGN_OUT_NOT_LOGGED_IN)
                 {
@@ -335,6 +376,8 @@ namespace Client
         {
             this.toolStripStatusLabel1.Text = status;
         }
+
+        
     }
 }
 

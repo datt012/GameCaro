@@ -19,7 +19,7 @@ Define message variables
 #define OPCODE_SIZE 1
 #define LENGTH_SIZE 2
 #define USERNAME_SIZE 20
-#define PASSWORD_SIZE 20
+#define PASSWORD_SIZE 50
 #define PLAYER_MOVE_SIZE 1
 
 /*
@@ -114,5 +114,12 @@ Opcode for receiving request and sending reply players surrender while in a matc
 Opcode for sending and receiving game result request and reply
 */
 #define OPCODE_RESULT 90
+
+/*
+Opcode for sending and receiving querying history match request and reply
+*/
+#define OPCODE_HISTORY 100
+#define OPCODE_HISTORY_FOUND 101
+#define OPCODE_HISTORY_NOT_FOUND 102
 /* END OPCODE */
 

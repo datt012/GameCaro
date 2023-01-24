@@ -45,11 +45,16 @@ namespace Client
             namePlayer2.Text = player2;
             board = new Board(this, namePlayer1, namePlayer2);
             board.clientTurn = clientGoFirst ? Constants.TURN_O : Constants.TURN_X;
+            prcbCoolDown.Step = Constants.COOL_DOWN_STEP;
+            prcbCoolDown.Maximum = Constants.COOL_DOWN_TIME;
+            prcbCoolDown.Value = 0;
+            tmCoolDown.Interval = Constants.COOL_DOWN_INTERVAL;
             board.drawBoard(panelBoard);
             this.changeActivePictureBox(Constants.TURN_O);
+            tmCoolDown.Start();
             EventManager.eventManager.Result += EventManager_Result;
-            this.FormClosing += FormPlay_FormClosing;
-            this.FormClosed += FormPlay_FormClosed;
+            this.FormClosing += new FormClosingEventHandler(FormPlay_FormClosing);
+            this.FormClosed += new FormClosedEventHandler(FormPlay_FormClosed);
         }
 
         ///<summary>
@@ -167,7 +172,11 @@ namespace Client
         /// </summary>
         public void changeStatus(string status)
         {
-            this.toolStripStatusLabel1.Text = status;
+            this.toolStripStatusLabel.Text = status;
+        }
+        private void tmCoolDown_Tick(object sender, EventArgs e)
+        {
+            prcbCoolDown.PerformStep();
         }
     }
 }

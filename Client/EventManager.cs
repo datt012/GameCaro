@@ -14,9 +14,9 @@ namespace Client
         private event EventHandler<SuperEventArgs> _invite;
         private event EventHandler<SuperEventArgs> _list;
         private event EventHandler<SuperEventArgs> _signout;
+        private event EventHandler<SuperEventArgs> _history;
 
-        public static EventManager eventManager
-        {
+        public static EventManager eventManager {
             get
             {
                 if (_eventManager == null)
@@ -27,8 +27,7 @@ namespace Client
             }
         }
 
-        public event EventHandler<SuperEventArgs> SignUp
-        {
+        public event EventHandler<SuperEventArgs> SignUp {
             add
             {
                 _signup += value;
@@ -38,8 +37,7 @@ namespace Client
                 _signup -= value;
             }
         }
-        public event EventHandler<SuperEventArgs> SignIn
-        {
+        public event EventHandler<SuperEventArgs> SignIn {
             add {
                 _signin += value;
             }
@@ -48,8 +46,7 @@ namespace Client
             }
         }
 
-        public event EventHandler<SuperEventArgs> SignOut
-        {
+        public event EventHandler<SuperEventArgs> SignOut {
             add
             {
                 _signout += value;
@@ -69,8 +66,7 @@ namespace Client
             }
         }
 
-        public event EventHandler<SuperEventArgs> Info
-        {
+        public event EventHandler<SuperEventArgs> Info {
             add
             {
                 _info += value;
@@ -116,6 +112,17 @@ namespace Client
                 _list -= value;
             }
         }
+
+        public event EventHandler<SuperEventArgs> History {
+            add
+            {
+                _history += value;
+            }
+            remove
+            {
+                _history -= value;
+            }
+        }
         public void notifySignUp(int result)
         {
             if (_signup != null)
@@ -137,7 +144,7 @@ namespace Client
         }
 
         /// <summary>
-        /// @funtion notifyChallenge: notifyy the respond of other player to the event objecct when receiving a message
+        /// @funtion notifyChallenge: notify the respond of other player to the event objecct when receiving a message
         /// <para></para>
         /// @param code: opcode of the meassage
         /// @param name: name of the other player
@@ -148,7 +155,7 @@ namespace Client
         }
 
         /// <summary>
-        ///@funtion notifyChallenge: notify the respond of other player to the event objecct when receiving a message
+        ///@funtion notifyInfo: notify the info player to the event object
         ///<para></para>
         ///@param code: opcode of the meassage 
         ///@param name: name of the other player
@@ -172,7 +179,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion notifyResult: notifyy the result of the game to the event object
+        ///@funtion notifyResult: notify the result of the game to the event object
         /// 
         ///@param name: name of the winner 
         ///</summary>
@@ -192,13 +199,24 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion notifyList: notify the list player to event object
+        ///@funtion notifyList: notify the list player to the event object
         ///<para></para>
         ///@param listname: string containing the list 
         /// </summary>
-        public void notifyList(string listname) {
+        public void notifyList(string listName) {
             if (_list != null)
-                _list(this, new SuperEventArgs(listname));
+                _list(this, new SuperEventArgs(listName));
+        }
+
+        ///<summary>
+        ///@funtion notifyHistory: notify the list history match to the event object
+        ///<para></para>
+        ///@param listHistory: string containing the list 
+        /// </summary>
+        public void notifyHistory(int code, string listHistory)
+        {
+            if (_history != null)
+                _history(this, new SuperEventArgs(code, listHistory));
         }
 
     }
@@ -207,12 +225,6 @@ namespace Client
     {
         private int returnCode;
         private string returnText;
-
-        ///<summary>
-        ///@funtion notifyList: notify the list player to event object
-        ///<para></para>
-        ///@param returnCode: string containing the return code 
-        /// </summary>
         public SuperEventArgs(int returnCode) {
 
             this.ReturnCode = returnCode;
@@ -228,7 +240,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion SuperEventArgs: notify the list player to event object
+        ///@funtion SuperEventArgs: 
         ///<para></para>
         ///@param returnCode: string containing the return code 
         ///@param returnName: string containing the text 

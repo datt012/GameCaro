@@ -17,18 +17,19 @@
         public static int OPCODE_SIZE = 1;
         public static int LENGTH_SIZE = 2;
         public static int LOCATION_SIZE = 1;
-        public static string SAMPLE_0000 = "0000";
-        public static string SAMPLE_00 = "00";
-        public static string SPACE = " ";
 
         public static string IP = "127.0.0.1";
         public static int port = 5500;
-        public static int BUFFER_SIZE = 1024;
+        public static int BUFFER_SIZE = 2048;
 
+        public static int COOL_DOWN_STEP = 1000;
+        public static int COOL_DOWN_TIME = 10000;
+        public static int COOL_DOWN_INTERVAL = 100;
 
         public const int FORM_MAIN = 0;
         public const int FORM_PLAY = 1;
         public const int FORM_ACCOUNT = 2;
+        public const int FORM_HISTORY = 3;
 
         public const int TURN_O = 1;
         public const int TURN_X = 2;
@@ -82,5 +83,9 @@
         public const byte OPCODE_SURRENDER_NO_ROOM = 81;
 
         public const byte OPCODE_RESULT = 90;
+
+        public const byte OPCODE_HISTORY = 100;
+        public const byte OPCODE_HISTORY_FOUND = 101;
+        public const byte OPCODE_HISTORY_NOT_FOUND = 102;
     }
 }

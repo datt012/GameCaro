@@ -25,17 +25,19 @@ namespace Client
 
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panelBoard = new System.Windows.Forms.Panel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBoxX = new System.Windows.Forms.PictureBox();
             this.pictureBoxO = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.namePlayer1 = new System.Windows.Forms.Label();
             this.namePlayer2 = new System.Windows.Forms.Label();
+            this.prcbCoolDown = new System.Windows.Forms.ProgressBar();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.statusStrip1.SuspendLayout();
+            this.tmCoolDown = new System.Windows.Forms.Timer(this.components);
+            this.statusStrip.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxO)).BeginInit();
@@ -51,42 +53,41 @@ namespace Client
             this.panelBoard.Size = new System.Drawing.Size(320, 320);
             this.panelBoard.TabIndex = 0;
             // 
-            // statusStrip1
+            // statusStrip
             // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 415);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(344, 26);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
+            this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel});
+            this.statusStrip.Location = new System.Drawing.Point(0, 415);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(344, 26);
+            this.statusStrip.TabIndex = 1;
+            this.statusStrip.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // toolStripStatusLabel
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(151, 20);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(143, 20);
+            this.toolStripStatusLabel.Text = "toolStripStatusLabel";
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel1.Controls.Add(this.pictureBoxX, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.pictureBoxO, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.namePlayer1, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.namePlayer2, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.namePlayer1, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.namePlayer2, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.prcbCoolDown, 1, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 324);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(336, 95);
             this.tableLayoutPanel1.TabIndex = 2;
@@ -97,10 +98,10 @@ namespace Client
             this.pictureBoxX.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.pictureBoxX.Enabled = false;
             this.pictureBoxX.Image = global::Client.Properties.Resources.x;
-            this.pictureBoxX.Location = new System.Drawing.Point(247, 22);
+            this.pictureBoxX.Location = new System.Drawing.Point(255, 22);
             this.pictureBoxX.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.pictureBoxX.Name = "pictureBoxX";
-            this.tableLayoutPanel1.SetRowSpan(this.pictureBoxX, 3);
+            this.tableLayoutPanel1.SetRowSpan(this.pictureBoxX, 2);
             this.pictureBoxX.Size = new System.Drawing.Size(42, 42);
             this.pictureBoxX.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxX.TabIndex = 2;
@@ -112,37 +113,21 @@ namespace Client
             this.pictureBoxO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBoxO.Enabled = false;
             this.pictureBoxO.Image = global::Client.Properties.Resources.o;
-            this.pictureBoxO.Location = new System.Drawing.Point(46, 22);
+            this.pictureBoxO.Location = new System.Drawing.Point(37, 22);
             this.pictureBoxO.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.pictureBoxO.Name = "pictureBoxO";
-            this.tableLayoutPanel1.SetRowSpan(this.pictureBoxO, 3);
+            this.tableLayoutPanel1.SetRowSpan(this.pictureBoxO, 2);
             this.pictureBoxO.Size = new System.Drawing.Size(42, 42);
             this.pictureBoxO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxO.TabIndex = 3;
             this.pictureBoxO.TabStop = false;
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(134, 30);
-            this.label1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 12);
-            this.label1.Name = "label1";
-            this.tableLayoutPanel1.SetRowSpan(this.label1, 3);
-            this.label1.Size = new System.Drawing.Size(67, 22);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "VS";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // namePlayer1
             // 
             this.namePlayer1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.namePlayer1.AutoSize = true;
             this.namePlayer1.BackColor = System.Drawing.Color.Transparent;
-            this.namePlayer1.Location = new System.Drawing.Point(39, 71);
+            this.namePlayer1.Location = new System.Drawing.Point(30, 71);
             this.namePlayer1.Name = "namePlayer1";
             this.namePlayer1.Size = new System.Drawing.Size(56, 16);
             this.namePlayer1.TabIndex = 6;
@@ -153,11 +138,18 @@ namespace Client
             this.namePlayer2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.namePlayer2.AutoSize = true;
             this.namePlayer2.BackColor = System.Drawing.Color.Transparent;
-            this.namePlayer2.Location = new System.Drawing.Point(240, 71);
+            this.namePlayer2.Location = new System.Drawing.Point(248, 71);
             this.namePlayer2.Name = "namePlayer2";
             this.namePlayer2.Size = new System.Drawing.Size(56, 16);
             this.namePlayer2.TabIndex = 7;
             this.namePlayer2.Text = "Player 2";
+            // 
+            // prcbCoolDown
+            // 
+            this.prcbCoolDown.Location = new System.Drawing.Point(120, 19);
+            this.prcbCoolDown.Name = "prcbCoolDown";
+            this.prcbCoolDown.Size = new System.Drawing.Size(94, 23);
+            this.prcbCoolDown.TabIndex = 8;
             // 
             // tableLayoutPanel2
             // 
@@ -175,16 +167,21 @@ namespace Client
             this.tableLayoutPanel2.Size = new System.Drawing.Size(344, 441);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
+            // tmCoolDown
+            // 
+            this.tmCoolDown.Tick += new System.EventHandler(this.tmCoolDown_Tick);
+            // 
             // FormPlay
             // 
             this.ClientSize = new System.Drawing.Size(344, 441);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.tableLayoutPanel2);
             this.MaximizeBox = false;
             this.Name = "FormPlay";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.Text = "Match";
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).EndInit();
@@ -196,14 +193,15 @@ namespace Client
         }
 
         public Panel panelBoard;
-        private StatusStrip statusStrip1;
-        private ToolStripStatusLabel toolStripStatusLabel1;
+        private StatusStrip statusStrip;
+        private ToolStripStatusLabel toolStripStatusLabel;
         private TableLayoutPanel tableLayoutPanel1;
         private PictureBox pictureBoxX;
         private PictureBox pictureBoxO;
-        private Label label1;
+        private TableLayoutPanel tableLayoutPanel2;
         public Label namePlayer1;
         public Label namePlayer2;
-        private TableLayoutPanel tableLayoutPanel2;
+        private ProgressBar prcbCoolDown;
+        private Timer tmCoolDown;
     }
 }

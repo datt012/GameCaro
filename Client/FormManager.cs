@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Client
 {
@@ -39,22 +41,24 @@ namespace Client
                     break;
                 case Constants.FORM_PLAY:
                     string opponentName, clientName;
-                    FormPlay formPlay;
                     _currentForm = Constants.FORM_PLAY;
                     opponentName = FormMain.App.opponentName;
                     clientName = FormMain.App.getPlayerName();
                     bool isClientGoFirst = e.ReturnText == "" ? false : true;
-                    formPlay = new FormPlay(opponentName, clientName, isClientGoFirst);
+                    FormPlay formPlay = new FormPlay(opponentName, clientName, isClientGoFirst);
                     formPlay.ShowDialog();
                     break;
                 case Constants.FORM_MAIN:
                     _currentForm = Constants.FORM_MAIN;
                     break;
+                case Constants.FORM_HISTORY:
+                    _currentForm = Constants.FORM_HISTORY;
+                    FormHistory formHistory = new FormHistory(e.ReturnText);
+                    formHistory.Show();
+                    break;
                 default:
                     break;
             }
         }
-
-
     }
 }

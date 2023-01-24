@@ -51,8 +51,6 @@ void closeOpenendFile(CLIENT* aClient) {
 	aClient->bytesRead = 0;
 }
 
-
-
 /*	
 @Function Recv: A recv() wrapper, make sure everything from the message is received.
 Opcode, length and payload will be stored in the aClient struct.

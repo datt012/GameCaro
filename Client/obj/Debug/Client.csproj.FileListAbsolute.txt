@@ -145,3 +145,4 @@ D:\GameCaro\Client\obj\Debug\Client.csproj.GenerateResource.cache
 D:\GameCaro\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
 D:\GameCaro\Client\obj\Debug\Client.exe
 D:\GameCaro\Client\obj\Debug\Client.pdb
+D:\GameCaro\Client\obj\Debug\Client.FormHistory.resources

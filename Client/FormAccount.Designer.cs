@@ -50,11 +50,11 @@ namespace Client
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.signInButton = new System.Windows.Forms.Button();
             this.signUpButton = new System.Windows.Forms.Button();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -65,7 +65,7 @@ namespace Client
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(405, 247);
             this.flowLayoutPanel1.TabIndex = 1;
@@ -89,7 +89,7 @@ namespace Client
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.36364F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.63636F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 86F));
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label3, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.userNameTextBox, 2, 0);
@@ -129,9 +129,9 @@ namespace Client
             // 
             this.userNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.userNameTextBox.Location = new System.Drawing.Point(169, 5);
-            this.userNameTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.userNameTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.userNameTextBox.Name = "userNameTextBox";
-            this.userNameTextBox.Size = new System.Drawing.Size(142, 22);
+            this.userNameTextBox.Size = new System.Drawing.Size(141, 22);
             this.userNameTextBox.TabIndex = 2;
             this.userNameTextBox.WordWrap = false;
             // 
@@ -139,9 +139,9 @@ namespace Client
             // 
             this.passwordTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.passwordTextBox.Location = new System.Drawing.Point(169, 38);
-            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.passwordTextBox.Name = "passwordTextBox";
-            this.passwordTextBox.Size = new System.Drawing.Size(142, 22);
+            this.passwordTextBox.Size = new System.Drawing.Size(141, 22);
             this.passwordTextBox.TabIndex = 3;
             this.passwordTextBox.UseSystemPasswordChar = true;
             this.passwordTextBox.WordWrap = false;
@@ -152,7 +152,7 @@ namespace Client
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 121F));
             this.tableLayoutPanel2.Controls.Add(this.signInButton, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.signUpButton, 2, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 155);
@@ -169,7 +169,7 @@ namespace Client
             this.signInButton.AutoSize = true;
             this.signInButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.signInButton.Location = new System.Drawing.Point(124, 6);
-            this.signInButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.signInButton.Margin = new System.Windows.Forms.Padding(4);
             this.signInButton.Name = "signInButton";
             this.signInButton.Size = new System.Drawing.Size(81, 32);
             this.signInButton.TabIndex = 0;
@@ -182,7 +182,7 @@ namespace Client
             this.signUpButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.signUpButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.signUpButton.Location = new System.Drawing.Point(213, 8);
-            this.signUpButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.signUpButton.Margin = new System.Windows.Forms.Padding(4);
             this.signUpButton.Name = "signUpButton";
             this.signUpButton.Size = new System.Drawing.Size(81, 28);
             this.signUpButton.TabIndex = 1;
@@ -190,9 +190,9 @@ namespace Client
             this.signUpButton.UseVisualStyleBackColor = true;
             this.signUpButton.Click += new System.EventHandler(this.signUpButton_Click);
             // 
-            // errorProvider1
+            // errorProvider
             // 
-            this.errorProvider1.ContainerControl = this;
+            this.errorProvider.ContainerControl = this;
             // 
             // FormAccount
             // 
@@ -202,7 +202,7 @@ namespace Client
             this.Controls.Add(this.flowLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "FormAccount";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -213,7 +213,7 @@ namespace Client
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -230,6 +230,6 @@ namespace Client
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button signInButton;
         private System.Windows.Forms.Button signUpButton;
-        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

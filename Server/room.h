@@ -1,16 +1,10 @@
 #pragma once
-#define _CRT_SECURE_NO_WARNINGS
-#include <iostream>
-#include <vector>
-#include <iostream>
-#include <WinSock2.h>
-#include <WS2tcpip.h>
 #include "constants.h"
 #pragma comment (lib,"ws2_32.lib")
 
 #define BOARD_HEIGHT 16
 #define BOARD_WIDTH 16
-#define BOARD_WIN_SCORE 7
+#define BOARD_WIN_SCORE 5
 
 #define TYPE_O 1
 #define TYPE_X 2
@@ -250,7 +244,7 @@ SOCKET Room::getPlayerOpponent(SOCKET socket) {
 /*
 @function setStartTime: Set match start time
 
-@param start: The string represent start time
+@param start: The std::string represent start time
 */
 void Room::setStartTime(std::string start) {
 	this->startTime = start;
@@ -258,7 +252,7 @@ void Room::setStartTime(std::string start) {
 /*
 @function setStartTime: Set match start time
 
-@param start: The string represent start time
+@param start: The std::string represent start time
 */
 std::string Room::getStartTime() {
 	return this->startTime;

@@ -55,7 +55,7 @@ namespace Client
         public void setPlayerName(string name)
         {
             this.userNameInfo.Text = name;
-            this.toolStripStatusLabel1.Text = "Welcome player " + name + "!";
+            this.toolStripStatusLabel.Text = "Welcome player " + name + "!";
         }
 
         ///<summary>
@@ -98,7 +98,7 @@ namespace Client
         /// </summary>
         public void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (MessageBox.Show("Confirm exit?", "Warning", MessageBoxButtons.OKCancel) != System.Windows.Forms.DialogResult.OK)
+            if (MessageBox.Show("Confirm exit?", "Exit", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != System.Windows.Forms.DialogResult.OK)
                 e.Cancel = true;
         }
 
@@ -123,7 +123,7 @@ namespace Client
         ///@param e: The events argument sent when the function is triggered
         /// </summary>
         private void signOutButton_Click(object sender, EventArgs e) {
-            DialogResult dialogResult = MessageBox.Show("Do you confirm to log out?", "Question", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Do you confirm to log out?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
                 this.listPlayer.Clear();
@@ -212,23 +212,23 @@ namespace Client
                 {
                     if (e.ReturnCode == Constants.OPCODE_CHALLENGE_REFUSE)
                     {
-                        MessageBox.Show("Your challenge is refused!");
+                        MessageBox.Show("Your challenge is refused!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else if (e.ReturnCode == Constants.OPCODE_CHALLENGE_INVALID_RANK)
                     {
-                        MessageBox.Show("Rank difference can't be more than 10 !");
+                        MessageBox.Show("Rank difference can't be more than 10 !", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else if (e.ReturnCode == Constants.OPCODE_CHALLENGE_BUSY)
                     {
-                        MessageBox.Show("The player is playing!");
+                        MessageBox.Show("The player is playing!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else if (e.ReturnCode == Constants.OPCODE_CHALLENGE_NOT_FOUND)
                     {
-                        MessageBox.Show("Sorry, we can't find that player!");
+                        MessageBox.Show("Sorry, we can't find that player!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                     else if (e.ReturnCode == Constants.OPCODE_CHALLENGE_DUPLICATED_USERNAME)
                     {
-                        MessageBox.Show("You can't challenge yourself");
+                        MessageBox.Show("You can't challenge yourself", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
                 }
             }));
@@ -360,11 +360,11 @@ namespace Client
                 }
                 else if (e.ReturnCode == Constants.OPCODE_SIGN_OUT_NOT_LOGGED_IN)
                 {
-                    MessageBox.Show("You didn't log in!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("You didn't log in!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else if (e.ReturnCode == Constants.OPCODE_SIGN_OUT_ERROR_UNKNOWN)
                 {
-                    MessageBox.Show("Sign out fail", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Sign out fail", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }));
         }
@@ -374,7 +374,7 @@ namespace Client
         /// </summary>
         public void changeStatus(string status)
         {
-            this.toolStripStatusLabel1.Text = status;
+            this.toolStripStatusLabel.Text = status;
         }
 
         

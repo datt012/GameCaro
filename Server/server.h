@@ -1,22 +1,11 @@
 #ifndef _SERVER_H_
 #define _SERVER_H_
-
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #pragma comment (lib,"ws2_32.lib")
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
-#include <string>
-#include <process.h>
-#include <windows.h>
-#include <conio.h>
-#include <vector>
-#include <iostream>
-#include <chrono>
-#include <ctime>    
+#include <chrono> 
 #include "constants.h"
 #include "connection.h"
 #include "database.h"
@@ -29,7 +18,7 @@
 
 /* START DEFINE VARIABLES */
 CLIENT clients[WSA_MAXIMUM_WAIT_EVENTS];
-vector<Room> rooms;
+std::vector<Room> rooms;
 WSAEVENT events[WSA_MAXIMUM_WAIT_EVENTS];
 DWORD nEvents = 0;
 DWORD index;
@@ -68,19 +57,19 @@ Room* findRoomBySocket(SOCKET socket);
 /*
 @function getCurrentTime: Get the server current date and time
 
-@return The string represent server's current time
+@return The std::string represent server's current time
 */
-string getCurrentTime();
+std::string getCurrentTime();
 
 /*
-@function getEndReason: Generate a string decribe end match reseaon
+@function getEndReason: Generate a std::string decribe end match reseaon
 
 @param endReasonType: Type of match end
 @param winner: The winner's username
 
-@return	The end match reseaon string
+@return	The end match reseaon std::string
 */
-string getEndReason(int endReasonType, string winner = "");
+std::string getEndReason(int endReasonType, std::string winner = "");
 
 /*
 @function findClientIndexBySocket: Find a client index based on socket
@@ -101,12 +90,20 @@ int findClientIndexBySocket(SOCKET socket);
 void prepareClientToSendFile(CLIENT* aClient, char* filename, int size);
 
 /*
-@function updateMatchPlayers: Update players info after a match to the database
+@function updateMatchPlayers: Update players rank,score after a match to the database
 
 @param winner: The winner of the match
 @param loser: The loser of the match
 */
 void updateMatchPlayers(CLIENT* winner, CLIENT* loser);
+
+/*
+@function updateStatusPlayers: Update players status after a match to the database
+
+@param aClient: Player 1
+@param opponentClient: Player 2
+*/
+void updateStatusPlayers(CLIENT* aClient, CLIENT* opponentClient);
 
 /*
 @function updateMatchLog: Create log file and prepare it to send to players
@@ -118,7 +115,7 @@ void updateMatchPlayers(CLIENT* winner, CLIENT* loser);
 @param endReasonType: The type of the match ending
 @param winner: The winner of the match
 */
-void updateMatchLog(Room* aRoom, CLIENT* client1, CLIENT* client2, int endType, string winner);
+void updateMatchLog(Room* aRoom, CLIENT* client1, CLIENT* client2, int endType, std::string winner);
 
 /*
 @function removeClient: Remove a client from the active clients array in server
@@ -227,6 +224,13 @@ void handleRecvPlay(CLIENT* aClient);
 void handleRecvSurrender(CLIENT* aClient);
 
 /*
+@function handleRecvTimerDraw: Handle a request that has opcode equals OPCODE_TIMER_DRAW
+
+@param aClient: The client that requested
+*/
+void handleRecvTimerDraw(CLIENT* aClient);
+
+/*
 @function handleSend: Assign client's reply to a suitable handle
 
 @param aClient: The client to reply
@@ -259,16 +263,16 @@ void removeClient(int index) {
 		updateFreeStatus(aClient->username, UPDATE_USER_NOT_BUSY);
 		updateOnlineStatus(aClient->username, UPDATE_USER_STATUS_OFFLINE);
 		updateUserCurrentChallenge(aClient->username, "");
-		string payload = getFreePlayerList(aClient->username);
+		std::string payload = getFreePlayerList(aClient->username);
 		if (!payload.empty()) {
-			string s = payload;
-			string delimiter = " ";
+			std::string s = payload;
+			std::string delimiter = " ";
 			size_t pos = 0;
-			string token;
+			std::string token;
 			while ((pos = s.find(delimiter)) != std::string::npos) {
 				token = s.substr(0, pos);
 				char* nameUser = (char*)token.c_str();
-				string childPayload = getFreePlayerList(nameUser);
+				std::string childPayload = getFreePlayerList(nameUser);
 				Send(findClientByUsername(nameUser), OPCODE_LIST_REPLY, (unsigned short)childPayload.size(), (char*)childPayload.c_str());
 				s.erase(0, pos + delimiter.length());
 			}
@@ -359,6 +363,9 @@ void handleRecv(CLIENT* aClient) {
 	case OPCODE_HISTORY:
 		handleRecvHistory(aClient);
 		break;
+	case OPCODE_TIMER_DRAW:
+		handleRecvTimerDraw(aClient);
+		break;
 	default:
 		break;
 	}
@@ -390,18 +397,18 @@ void handleRecvFile(CLIENT* aClient) {
 }
 
 void handleRecvSignUp(CLIENT* aClient) {
-	string payload(aClient->buff);
+	std::string payload(aClient->buff);
 
 	//Split username and password
-	string username = payload.substr(0, payload.find(" "));
-	string password = payload.substr(payload.find(" ") + 1);
+	std::string username = payload.substr(0, payload.find(" "));
+	std::string password = payload.substr(payload.find(" ") + 1);
 
 	//Check if username or password contain character " " or username contain more 20 character
-	if (username.find(' ') != string::npos || username.size() > 20 ) {
+	if (username.find(' ') != std::string::npos || username.size() > 20 ) {
 		Send(aClient, OPCODE_SIGN_IN_INVALID_USERNAME, 0, NULL);
 		return;
 	}
-	else if (password.find(' ') != string::npos) {
+	else if (password.find(' ') != std::string::npos) {
 		Send(aClient, OPCODE_SIGN_IN_INVALID_PASSWORD, 0, NULL);
 		return;
 	}
@@ -422,18 +429,18 @@ void handleRecvSignUp(CLIENT* aClient) {
 }
 
 void handleRecvSignIn(CLIENT* aClient) {
-	string payload(aClient->buff);
+	std::string payload(aClient->buff);
 	
 	//Split username and password
-	string username = payload.substr(0, payload.find(" "));
-	string password = payload.substr(payload.find(" ") + 1);
+	std::string username = payload.substr(0, payload.find(" "));
+	std::string password = payload.substr(payload.find(" ") + 1);
 
 	//Check if username or password contain character " " or username contain more 20 character
-	if (username.find(' ') != string::npos || username.size() > 20) {
+	if (username.find(' ') != std::string::npos || username.size() > 20) {
 		Send(aClient, OPCODE_SIGN_IN_INVALID_USERNAME, 0, NULL);
 		return;
 	}
-	else if (password.find(' ') != string::npos) {
+	else if (password.find(' ') != std::string::npos) {
 		Send(aClient, OPCODE_SIGN_IN_INVALID_PASSWORD, 0, NULL);
 		return;
 	}
@@ -476,17 +483,17 @@ void handleRecvSignOut(CLIENT* aClient) {
 }
 
 void handleRecvList(CLIENT* aClient) {
-	string payload = getFreePlayerList(aClient->username);
+	std::string payload = getFreePlayerList(aClient->username);
 	Send(aClient, OPCODE_LIST_REPLY, (unsigned short)payload.size(), (char*)payload.c_str());
 	if (!payload.empty()) {
-		string s = payload;
-		string delimiter = " ";
+		std::string s = payload;
+		std::string delimiter = " ";
 		size_t pos = 0;
-		string token;
+		std::string token;
 		while ((pos = s.find(delimiter)) != std::string::npos) {
 			token = s.substr(0, pos);
 			char* nameUser = (char*)token.c_str();
-			string childPayload = getFreePlayerList(nameUser);
+			std::string childPayload = getFreePlayerList(nameUser);
 			Send(findClientByUsername(nameUser), OPCODE_LIST_REPLY, (unsigned short)childPayload.size(), (char*)childPayload.c_str());
 			s.erase(0, pos + delimiter.length());
 		}
@@ -534,7 +541,7 @@ void handleRecvChallengeAccept(CLIENT* challengeReceiver) {
 		return;
 	}
 	//Check if challengeSender did indeed challenged this receiver
-	string senderChallenge = getUserCurrentChallenge(challengeSenderUsername);
+	std::string senderChallenge = getUserCurrentChallenge(challengeSenderUsername);
 	if (strcmp((char*)senderChallenge.c_str(), challengeReceiver->username) != 0) {
 		Send(challengeReceiver, OPCODE_CHALLENGE_NOT_FOUND, 0, NULL);
 		return;
@@ -560,7 +567,7 @@ void handleRecvChallengeRefuse(CLIENT* challengeReceiver) {
 		return;
 	}
 	//Check if challengeSender did indeed challenged this receiver
-	string senderChallenge = getUserCurrentChallenge(challengeSenderUsername);
+	std::string senderChallenge = getUserCurrentChallenge(challengeSenderUsername);
 	if (strcmp((char*)senderChallenge.c_str(), challengeReceiver->username) != 0) {
 		Send(challengeReceiver, OPCODE_CHALLENGE_NOT_FOUND, 0, NULL);
 		return;
@@ -578,20 +585,20 @@ void handleRecvInfo(CLIENT* aClient) {
 	//Get data from database
 	int score = getScore(aClient->username);
 	int rank = getRank(aClient->username);
-	string msg = to_string(score) + " " + to_string(rank);
+	std::string msg = std::to_string(score) + " " + std::to_string(rank);
 	Send(aClient, OPCODE_INFO_FOUND, (unsigned short) msg.size(), (char*)msg.c_str());
 	if (!aClient->recvBytes) {
-		string payload = getFreePlayerList(aClient->username);
-		string s = payload;
-		string delimiter = " ";
+		std::string payload = getFreePlayerList(aClient->username);
+		std::string s = payload;
+		std::string delimiter = " ";
 		size_t pos = 0;
-		string token;
+		std::string token;
 		while ((pos = s.find(delimiter)) != std::string::npos) {
 			token = s.substr(0, pos);
 			char* nameUser = (char*)token.c_str();
 			score = getScore(nameUser);
 			rank = getRank(nameUser);
-			msg = to_string(score) + " " + to_string(rank);
+			msg = std::to_string(score) + " " + std::to_string(rank);
 			Send(findClientByUsername(nameUser), OPCODE_INFO_FOUND, (unsigned short)msg.size(), (char*)msg.c_str());
 			s.erase(0, pos + delimiter.length());
 		}
@@ -603,8 +610,9 @@ void handleRecvHistory(CLIENT* aClient) {
 		Send(aClient, OPCODE_HISTORY_NOT_FOUND, 0, NULL);
 		return;
 	}
+
 	//Get data from database
-	string payload = getHistory(aClient->username);
+	std::string payload = getHistory(aClient->username);
 	Send(aClient, OPCODE_HISTORY_FOUND, (unsigned short)payload.size(), (char*)payload.c_str());
 }
 
@@ -639,6 +647,7 @@ void handleRecvPlay(CLIENT* aClient) {
 	case MATCH_END_BY_DRAW:
 		Send(aClient, OPCODE_RESULT, 0, NULL);
 		Send(opponentClient, OPCODE_RESULT, 0, NULL);
+		updateStatusPlayers(aClient, opponentClient);
 		updateMatchLog(aRoom, aClient, opponentClient, MATCH_END_BY_DRAW, "");
 		break;
 	case MATCH_END_BY_WIN:
@@ -646,6 +655,7 @@ void handleRecvPlay(CLIENT* aClient) {
 		Send(aClient, OPCODE_RESULT, (unsigned short)strlen(winnerUsername), winnerUsername);
 		Send(opponentClient, OPCODE_RESULT, (unsigned short)strlen(winnerUsername), winnerUsername);
 		updateMatchPlayers(aClient, opponentClient);
+		updateStatusPlayers(aClient, opponentClient);
 		updateMatchLog(aRoom, aClient, opponentClient, MATCH_END_BY_WIN, winnerUsername);
 		break;
 	default:
@@ -666,7 +676,25 @@ void handleRecvSurrender(CLIENT* aClient) {
 	CLIENT* opponentClient = findClientBySocket(opponentSocket);
 	Send(opponentClient, OPCODE_RESULT, (unsigned short)strlen(opponentClient->username), opponentClient->username);
 	updateMatchPlayers(opponentClient, aClient);
-	updateMatchLog(aRoom, aClient, opponentClient, MATCH_END_BY_SURRENDER, string(opponentClient->username));
+	updateStatusPlayers(aClient, opponentClient);
+	updateMatchLog(aRoom, aClient, opponentClient, MATCH_END_BY_SURRENDER, std::string(opponentClient->username));
+	removeRoom(aClient->socket);
+}
+
+void handleRecvTimerDraw(CLIENT* aClient) {
+	Room* aRoom = findRoomBySocket(aClient->socket);
+	if (aRoom == NULL) {
+		Send(aClient, OPCODE_SURRENDER_NO_ROOM, 0, NULL);
+		return;
+	}
+
+	// Send the opponent match result;
+	SOCKET opponentSocket = aRoom->getPlayerOpponent(aClient->socket);
+	CLIENT* opponentClient = findClientBySocket(opponentSocket);
+	Send(aClient, OPCODE_RESULT, 0, NULL);
+	Send(opponentClient, OPCODE_RESULT, 0, NULL);
+	updateStatusPlayers(aClient, opponentClient);
+	updateMatchLog(aRoom, aClient, opponentClient, MATCH_END_BY_DRAW, "");
 	removeRoom(aClient->socket);
 }
 
@@ -674,40 +702,44 @@ void updateMatchPlayers(CLIENT* winner, CLIENT* loser) {
 	//Update database
 	updateScore(winner->username, UPDATE_MATCH_WINNER);
 	updateScore(loser->username, UPDATE_MATCH_LOSER);
-	updateFreeStatus(winner->username, UPDATE_USER_NOT_BUSY);
-	updateFreeStatus(loser->username, UPDATE_USER_NOT_BUSY);
 	updateRank();
 }
 
-void updateMatchLog(Room* aRoom, CLIENT* client1, CLIENT* client2, int endReasonType, string winner) {
+void updateStatusPlayers(CLIENT* aClient, CLIENT* opponentClient) {
+	//Update database
+	updateFreeStatus(aClient->username, UPDATE_USER_NOT_BUSY);
+	updateFreeStatus(opponentClient->username, UPDATE_USER_NOT_BUSY);
+}
+
+void updateMatchLog(Room* aRoom, CLIENT* client1, CLIENT* client2, int endReasonType, std::string winner) {
 	std::vector<PlayerMove> movesList = aRoom->getMovesList();
 	// Create log string
-	string logString = getEndReason(endReasonType, winner) + "\n\n"
+	std::string logstring = getEndReason(endReasonType, winner) + "\n\n"
 		+ "Match start at " + aRoom->getStartTime()
 		+ "Match end at " + getCurrentTime() + "\n"
-		+ "IP Address: " + string(client1->address) + "\tPlayer 1: " + string(client1->username) + "\n"
-		+ "IP Address: " + string(client2->address) + "\tPlayer 2: " + string(client2->username) + "\n\n"
+		+ "IP Address: " + std::string(client1->address) + "\tPlayer 1: " + std::string(client1->username) + "\n"
+		+ "IP Address: " + std::string(client2->address) + "\tPlayer 2: " + std::string(client2->username) + "\n\n"
 		+ "Move Log\n";
 	switch (endReasonType)
 	{
 	case MATCH_END_BY_DRAW:
-		updateHistory(string(client1->username), string(client2->username), "Draw", winner, aRoom->getStartTime(), getCurrentTime());
+		updateHistory(std::string(client1->username), std::string(client2->username), "Draw", winner, aRoom->getStartTime(), getCurrentTime());
 		break;
 	case MATCH_END_BY_WIN:
-		updateHistory(string(client1->username), string(client2->username), "Win", winner, aRoom->getStartTime(), getCurrentTime());
+		updateHistory(std::string(client1->username), std::string(client2->username), "Win", winner, aRoom->getStartTime(), getCurrentTime());
 		break;
 	case MATCH_END_BY_SURRENDER:
-		updateHistory(string(client1->username), string(client2->username), "Surrender", winner, aRoom->getStartTime(), getCurrentTime());
+		updateHistory(std::string(client1->username), std::string(client2->username), "Surrender", winner, aRoom->getStartTime(), getCurrentTime());
 		break;
 	default:
 		break;
 	}
 	size_t movesCount = movesList.size();
 	for (unsigned int i = 0; i < movesCount; i++) {
-		string move = "{x: " + to_string(movesList[i].x)
-			+ ", y: " + to_string(movesList[i].y)
-			+ ", type: " + to_string(movesList[i].type) + "}\n";
-		logString.append(move);
+		std::string move = "{x: " + std::to_string(movesList[i].x)
+			+ ", y: " + std::to_string(movesList[i].y)
+			+ ", type: " + std::to_string(movesList[i].type) + "}\n";
+		logstring.append(move);
 	}
 
 	// Create temp file
@@ -719,23 +751,23 @@ void updateMatchLog(Room* aRoom, CLIENT* client1, CLIENT* client2, int endReason
 		Send(client2, OPCODE_FILE_ERROR, 0, NULL);
 		return;
 	}
-	// Write log string to temp file
-	fwrite(logString.c_str(), sizeof(char), logString.size(), logFile);
+	// Write log std::string to temp file
+	fwrite(logstring.c_str(), sizeof(char), logstring.size(), logFile);
 	fclose(logFile);
 
 	// Prepare file to send to players
-	prepareClientToSendFile(client1, filename, (int)logString.size());
-	prepareClientToSendFile(client2, filename, (int)logString.size());
+	prepareClientToSendFile(client1, filename, (int)logstring.size());
+	prepareClientToSendFile(client2, filename, (int)logstring.size());
 };
 
-string getCurrentTime() {
+std::string getCurrentTime() {
 	auto end = std::chrono::system_clock::now();
 	std::time_t end_time = std::chrono::system_clock::to_time_t(end);
-	return string(std::ctime(&end_time));
+	return std::string(std::ctime(&end_time));
 }
 
-string getEndReason(int endReasonType, string winner) {
-	string reason = "";
+std::string getEndReason(int endReasonType, std::string winner) {
+	std::string reason = "";
 	switch (endReasonType)
 	{
 	case MATCH_END_BY_DRAW:

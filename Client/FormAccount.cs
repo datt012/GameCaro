@@ -53,16 +53,16 @@ namespace Client
                         MessageBox.Show("Account has been created!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         break;
                     case Constants.OPCODE_SIGN_UP_INVALID_USERNAME:
-                        MessageBox.Show("Invalid username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Invalid username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case Constants.OPCODE_SIGN_UP_INVALID_PASSWORD:
-                        MessageBox.Show("Invalid password!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Invalid password!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case Constants.OPCODE_SIGN_UP_DUPLICATED_USERNAME:
-                        MessageBox.Show("Username is already used!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Username is already used!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     default:
-                        MessageBox.Show("Sign up failed!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Sign up failed!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                 }
             }));
@@ -95,22 +95,22 @@ namespace Client
                     switch (e.ReturnCode)
                     {
                         case Constants.OPCODE_SIGN_IN_ALREADY_LOGGED_IN:
-                            MessageBox.Show("Already login!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Already login!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                         case Constants.OPCODE_SIGN_IN_INVALID_USERNAME:
-                            MessageBox.Show("Invalid username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Invalid username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                         case Constants.OPCODE_SIGN_IN_INVALID_PASSWORD:
-                            MessageBox.Show("Invalid password!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Invalid password!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                         case Constants.OPCODE_SIGN_IN_USERNAME_NOT_FOUND:
-                            MessageBox.Show("Can't find username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Can't find username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                         case Constants.OPCODE_SIGN_IN_WRONG_PASSWORD:
-                            MessageBox.Show("Incorrect password!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Incorrect password!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                         default:
-                            MessageBox.Show("Sign in failed!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Sign in failed!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                     }
                 }
@@ -166,7 +166,7 @@ namespace Client
                 error = "Username contains invalid character!";
                 e.Cancel = true;
             }
-            errorProvider1.SetError((Control)sender, error);
+            errorProvider.SetError((Control)sender, error);
         }
 
         ///<summary>
@@ -189,7 +189,7 @@ namespace Client
                 error = "Password contains invalid character!";
                 e.Cancel = true;
             }
-            errorProvider1.SetError((Control)sender, error);
+            errorProvider.SetError((Control)sender, error);
         }
 
         ///<summary>

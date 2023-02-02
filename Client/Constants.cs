@@ -20,9 +20,9 @@
 
         public static string IP = "127.0.0.1";
         public static int port = 5500;
-        public static int BUFFER_SIZE = 2048;
+        public static int BUFFER_SIZE = 10240;
 
-        public static int COOL_DOWN_STEP = 1000;
+        public static int COOL_DOWN_STEP = 400;
         public static int COOL_DOWN_TIME = 10000;
         public static int COOL_DOWN_INTERVAL = 100;
 
@@ -36,8 +36,8 @@
 
         /// Opcode///
         public const byte OPCODE_FILE = 0;
-        public const byte OPCODE_FILE_DATA =  1;
-        public const byte OPCODE_FILE_ERROR =  2;
+        public const byte OPCODE_FILE_DATA = 1;
+        public const byte OPCODE_FILE_ERROR = 2;
 
         public const byte OPCODE_SIGN_UP = 10;
         public const byte OPCODE_SIGN_UP_SUCESS = 11;
@@ -79,10 +79,12 @@
         public const byte OPCODE_PLAY_OPPONENT = 71;
         public const byte OPCODE_PLAY_INVALID_CORDINATE = 72;
         public const byte OPCODE_PLAY_INVALID_TURN = 73;
+
         public const byte OPCODE_SURRENDER = 80;
         public const byte OPCODE_SURRENDER_NO_ROOM = 81;
 
         public const byte OPCODE_RESULT = 90;
+        public const byte OPCODE_TIMER_DRAW = 91;
 
         public const byte OPCODE_HISTORY = 100;
         public const byte OPCODE_HISTORY_FOUND = 101;

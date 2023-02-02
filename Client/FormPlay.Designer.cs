@@ -34,6 +34,7 @@ namespace Client
             this.pictureBoxO = new System.Windows.Forms.PictureBox();
             this.namePlayer1 = new System.Windows.Forms.Label();
             this.namePlayer2 = new System.Windows.Forms.Label();
+            this.labelTime = new System.Windows.Forms.Label();
             this.prcbCoolDown = new System.Windows.Forms.ProgressBar();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tmCoolDown = new System.Windows.Forms.Timer(this.components);
@@ -81,6 +82,7 @@ namespace Client
             this.tableLayoutPanel1.Controls.Add(this.pictureBoxO, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.namePlayer1, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.namePlayer2, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.labelTime, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.prcbCoolDown, 1, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 324);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -144,11 +146,23 @@ namespace Client
             this.namePlayer2.TabIndex = 7;
             this.namePlayer2.Text = "Player 2";
             // 
+            // labelTime
+            // 
+            this.labelTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTime.Location = new System.Drawing.Point(120, 68);
+            this.labelTime.Name = "labelTime";
+            this.labelTime.Size = new System.Drawing.Size(94, 23);
+            this.labelTime.TabIndex = 9;
+            this.labelTime.Text = "60:00";
+            this.labelTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // prcbCoolDown
             // 
-            this.prcbCoolDown.Location = new System.Drawing.Point(120, 19);
+            this.prcbCoolDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.prcbCoolDown.Location = new System.Drawing.Point(120, 31);
             this.prcbCoolDown.Name = "prcbCoolDown";
-            this.prcbCoolDown.Size = new System.Drawing.Size(94, 23);
+            this.prcbCoolDown.Size = new System.Drawing.Size(94, 18);
             this.prcbCoolDown.TabIndex = 8;
             // 
             // tableLayoutPanel2
@@ -169,14 +183,16 @@ namespace Client
             // 
             // tmCoolDown
             // 
-            this.tmCoolDown.Tick += new System.EventHandler(this.tmCoolDown_Tick);
+            this.tmCoolDown.Tick += new System.EventHandler(this.tmCoolDownTick);
             // 
             // FormPlay
             // 
             this.ClientSize = new System.Drawing.Size(344, 441);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.tableLayoutPanel2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormPlay";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Match";
@@ -203,5 +219,6 @@ namespace Client
         public Label namePlayer2;
         private ProgressBar prcbCoolDown;
         private Timer tmCoolDown;
+        private Label labelTime;
     }
 }

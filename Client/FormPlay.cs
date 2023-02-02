@@ -11,13 +11,16 @@ using System.Windows.Forms;
 
 namespace Client
 {
+    
     public partial class FormPlay : Form
     {
+        private int quick = 3600;
         private const int PLAYER_1 = 1;
         private const int PLAYER_2 = 2;
         public static string player1;
         public static string player2;
         private Board board;
+        private System.Windows.Forms.Timer timerCountdown;
 
         ///<summary>
         ///@funtion FormPlay: FormPlay constructor
@@ -45,16 +48,21 @@ namespace Client
             namePlayer2.Text = player2;
             board = new Board(this, namePlayer1, namePlayer2);
             board.clientTurn = clientGoFirst ? Constants.TURN_O : Constants.TURN_X;
+            board.playerMarked += playerMarked;
+            board.opponentMarked += opponentMarked;
             prcbCoolDown.Step = Constants.COOL_DOWN_STEP;
             prcbCoolDown.Maximum = Constants.COOL_DOWN_TIME;
             prcbCoolDown.Value = 0;
             tmCoolDown.Interval = Constants.COOL_DOWN_INTERVAL;
             board.drawBoard(panelBoard);
             this.changeActivePictureBox(Constants.TURN_O);
-            tmCoolDown.Start();
+            timerCountdown = new System.Windows.Forms.Timer();
+            timerCountdown.Interval = 1;
+            timerCountdown.Tick += new EventHandler(timerEvent);
+            timerCountdown.Enabled = true;
             EventManager.eventManager.Result += EventManager_Result;
             this.FormClosing += new FormClosingEventHandler(FormPlay_FormClosing);
-            this.FormClosed += new FormClosedEventHandler(FormPlay_FormClosed);
+            this.FormClosed += new FormClosedEventHandler(FormPlay_FormClosed);  
         }
 
         ///<summary>
@@ -68,19 +76,23 @@ namespace Client
         {
             FormMain.App.BeginInvoke((MethodInvoker)(() =>
             {
+                tmCoolDown.Stop();
+                timerCountdown.Stop();
+                EventManager.eventManager.Result -= EventManager_Result;
+                board.playerMarked -= playerMarked;
+                board.opponentMarked -= opponentMarked;
+                this.FormClosing -= FormPlay_FormClosing;
                 if (String.Compare(e.ReturnText, namePlayer1.Text) == 0) /// Player 1 wins///
                 {
-                    if (this.board.clientTurn == Constants.TURN_O) MessageBox.Show("Congrats " + namePlayer1.Text + ", you won!");
-                    else MessageBox.Show("Sorry " + namePlayer2.Text + ", you lost!");
+                    if (this.board.clientTurn == Constants.TURN_O) MessageBox.Show("Congrats " + namePlayer1.Text + ", you won!", "Winner", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    else MessageBox.Show("Sorry " + namePlayer2.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
                 else if (String.Compare(e.ReturnText, namePlayer2.Text) == 0) /// Player 2 wins///
                 {
-                    if (this.board.clientTurn == Constants.TURN_X) MessageBox.Show("Congrats " + namePlayer2.Text + ", you won!");
-                    else MessageBox.Show("Sorry " + namePlayer1.Text + ", you lost!");
+                    if (this.board.clientTurn == Constants.TURN_X) MessageBox.Show("Congrats " + namePlayer2.Text + ", you won!", "Winner", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    else MessageBox.Show("Sorry " + namePlayer1.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
-                else MessageBox.Show("It's a draw!"); /// Draw///
-                EventManager.eventManager.Result -= EventManager_Result;
-                this.FormClosing -= FormPlay_FormClosing;
+                else MessageBox.Show("It's a draw!", "Draw", MessageBoxButtons.OK, MessageBoxIcon.Asterisk); /// Draw///
                 this.Close();
             }));
         }
@@ -111,13 +123,21 @@ namespace Client
         private void FormPlay_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason != CloseReason.UserClosing) return;
-            if (MessageBox.Show("Are you sure about giving up?", "Question", MessageBoxButtons.OKCancel) != System.Windows.Forms.DialogResult.OK) e.Cancel = true;
+            tmCoolDown.Stop();
+            if (MessageBox.Show("Are you sure about giving up?", "Surrender", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.OK)
+            {
+                e.Cancel = true;
+                tmCoolDown.Start();
+            }
             else
             {
+                timerCountdown.Stop();
                 this.FormClosing -= FormPlay_FormClosing;
-                if (this.board.clientTurn == 1) MessageBox.Show("What a shame " + namePlayer1.Text + ", you lost!");
-                else MessageBox.Show("What a shame " + namePlayer2.Text + ", you lost!");
+                board.playerMarked -= playerMarked;
+                board.opponentMarked -= opponentMarked;
                 SocketManager.socketManager.sendData(new Message(Constants.OPCODE_SURRENDER));
+                if (this.board.clientTurn == 1) MessageBox.Show("What a shame " + namePlayer1.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                else MessageBox.Show("What a shame " + namePlayer2.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 
@@ -166,7 +186,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion changeStatus: Change the toolStripStatusLabel1 content
+        ///@funtion changeStatus: Change the toolStripStatusLabel content
         ///<para></para>
         ///@param status: The status content
         /// </summary>
@@ -174,9 +194,70 @@ namespace Client
         {
             this.toolStripStatusLabel.Text = status;
         }
-        private void tmCoolDown_Tick(object sender, EventArgs e)
+
+        ///<summary>
+        ///@funtion tmCoolDownTick: Time for processbar 
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
+
+        private void tmCoolDownTick(object sender, EventArgs e)
         {
             prcbCoolDown.PerformStep();
+            if(prcbCoolDown.Value >= prcbCoolDown.Maximum)
+            {
+                tmCoolDown.Stop();
+                timerCountdown.Stop();
+                this.FormClosing -= FormPlay_FormClosing;
+                board.playerMarked -= playerMarked;
+                board.opponentMarked -= opponentMarked;
+                SocketManager.socketManager.sendData(new Message(Constants.OPCODE_SURRENDER));
+                if (this.board.clientTurn == 1) MessageBox.Show("What a shame " + namePlayer1.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                else MessageBox.Show("What a shame " + namePlayer2.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                this.Close();
+            }
+        }
+
+        ///<summary>
+        ///@funtion timeEvent: Event timer count down
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
+        private void timerEvent(object sender, EventArgs e)
+        {
+            quick--;
+            labelTime.Text = (((quick / 60) >= 10) ? (quick / 60).ToString() : "0" + (quick / 60)) + ":" + ((quick % 60) >= 10 ? (quick % 60).ToString() : "0" + (quick % 60));
+            if (quick == 0 && this.board.clientTurn == Constants.TURN_X) SocketManager.socketManager.sendData(new Message(Constants.OPCODE_TIMER_DRAW));
+        }
+
+        ///<summary>
+        ///@funtion opponentMarked: Event process bar when opponent receive marked
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
+        private void opponentMarked(object sender, EventArgs e)
+        {
+            prcbCoolDown.Value = 0;
+            tmCoolDown.Start();
+        }
+
+        ///<summary>
+        ///@funtion playerMarked: Event processbar when player marked
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
+        private void playerMarked(object sender, EventArgs e)
+        {
+            tmCoolDown.Stop();
+            prcbCoolDown.Value = 0;
         }
     }
 }

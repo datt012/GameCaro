@@ -1,7 +1,5 @@
 #pragma once
 #include <time.h>
-#include <stdio.h>
-#include <conio.h>
 #include "constants.h"
 
 /*

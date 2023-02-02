@@ -6,7 +6,7 @@ Define sever variables
 #define SERVER_ADDR "127.0.0.1"
 #define SERVER_PORT 5500
 #define MAX_CLIENT 1024
-#define BUFF_SIZE 2048
+#define BUFF_SIZE 10240
 
 /*
 Define room variables
@@ -114,6 +114,7 @@ Opcode for receiving request and sending reply players surrender while in a matc
 Opcode for sending and receiving game result request and reply
 */
 #define OPCODE_RESULT 90
+#define OPCODE_TIMER_DRAW 91
 
 /*
 Opcode for sending and receiving querying history match request and reply

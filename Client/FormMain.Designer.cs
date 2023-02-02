@@ -29,7 +29,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.playerListStatus = new System.Windows.Forms.Label();
@@ -49,10 +49,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.challengedPlayerName = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.historyButton = new System.Windows.Forms.Button();
             this.signOutButton = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.historyButton = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -72,19 +72,19 @@
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 418);
+            this.toolStripStatusLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 417);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(344, 23);
+            this.statusStrip1.Size = new System.Drawing.Size(344, 24);
             this.statusStrip1.TabIndex = 16;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // toolStripStatusLabel
             // 
-            this.toolStripStatusLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(79, 17);
-            this.toolStripStatusLabel1.Text = "TicTacToe!";
+            this.toolStripStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(79, 18);
+            this.toolStripStatusLabel.Text = "TicTacToe!";
             // 
             // flowLayoutPanel1
             // 
@@ -96,7 +96,7 @@
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(8);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(344, 418);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(344, 417);
             this.flowLayoutPanel1.TabIndex = 6;
             // 
             // groupBox1
@@ -353,6 +353,20 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(321, 33);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
+            // historyButton
+            // 
+            this.historyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.historyButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.historyButton.Location = new System.Drawing.Point(3, 3);
+            this.historyButton.Name = "historyButton";
+            this.historyButton.Size = new System.Drawing.Size(74, 27);
+            this.historyButton.TabIndex = 7;
+            this.historyButton.Text = "History";
+            this.historyButton.UseVisualStyleBackColor = true;
+            this.historyButton.Click += new System.EventHandler(this.historyButton_Click);
+            // 
             // signOutButton
             // 
             this.signOutButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -370,20 +384,6 @@
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
-            // 
-            // historyButton
-            // 
-            this.historyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.historyButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.historyButton.Location = new System.Drawing.Point(3, 3);
-            this.historyButton.Name = "historyButton";
-            this.historyButton.Size = new System.Drawing.Size(74, 27);
-            this.historyButton.TabIndex = 7;
-            this.historyButton.Text = "History";
-            this.historyButton.UseVisualStyleBackColor = true;
-            this.historyButton.Click += new System.EventHandler(this.historyButton_Click);
             // 
             // FormMain
             // 
@@ -423,7 +423,7 @@
 
         #endregion
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.ListView listPlayer;
         private System.Windows.Forms.GroupBox groupBox1;

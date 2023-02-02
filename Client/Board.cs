@@ -64,6 +64,32 @@ namespace Client
             }
         }
 
+        private event EventHandler _playerMarked;
+        public event EventHandler playerMarked
+        {
+            add
+            {
+                _playerMarked += value;
+            }
+            remove
+            {
+                _playerMarked -= value;
+            }
+        }
+
+        private event EventHandler _opponentMarked;
+        public event EventHandler opponentMarked
+        {
+            add
+            {
+                _opponentMarked += value;
+            }
+            remove
+            {
+                _opponentMarked -= value;
+            }
+        }
+
         ///<summary>
         ///@function Board: Create a new Board
         ///<para></para>
@@ -207,6 +233,10 @@ namespace Client
                     return;
                 playerMakeMove(btn);
                 changePlayer();
+                if (_opponentMarked != null)
+                {
+                    _opponentMarked(this, new EventArgs());
+                }
             }));
         }
 
@@ -228,6 +258,11 @@ namespace Client
             SocketManager.socketManager.sendData(new Message(Constants.OPCODE_PLAY, (ushort)(2 * Constants.LOCATION_SIZE), (byte)point.X, (byte)point.Y));
             playerMakeMove(btn);
             changePlayer();
+            if (_playerMarked != null)
+            {
+                _playerMarked(this, new EventArgs());
+            }
+
         }
     }
 }

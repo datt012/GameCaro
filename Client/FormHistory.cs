@@ -28,7 +28,7 @@ namespace Client
             listHistory.AllowUserToAddRows = false;
             listHistory.AllowUserToDeleteRows = false;
             listHistory.ReadOnly = true;
-            listHistory.FirstDisplayedScrollingRowIndex = listHistory.RowCount - 1;
+            if (listHistory.RowCount > 0) listHistory.FirstDisplayedScrollingRowIndex = listHistory.RowCount - 1;
             FormManager.openForm(Constants.FORM_MAIN);
         }
 

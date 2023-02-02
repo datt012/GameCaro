@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Media;
 
 namespace Client
 {
@@ -16,6 +17,7 @@ namespace Client
         private int currentTurn;
         public int clientTurn;
         private FormPlay form;
+        private SoundPlayer audio;
 
         public Panel ChessBoard {
             get {
@@ -117,6 +119,7 @@ namespace Client
             CurrentTurn = Constants.TURN_O;
             //Change current player name label
             PlayerLabel[CurrentTurn - 1].Font = new Font(PlayerLabel[CurrentTurn - 1].Font, FontStyle.Bold);
+            audio = new SoundPlayer(Client.Properties.Resources.soundclick);
         }
 
         ///<summary>
@@ -247,6 +250,7 @@ namespace Client
         ///@param e: The event that was sent
         ///</summary>  
         private void Btn_Click(object sender, EventArgs e) {
+            audio.Play();
             Button btn = sender as Button;
             // Check this client move is valid
             if (btn.BackgroundImage != null || !isClientTurn())

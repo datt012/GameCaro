@@ -124,21 +124,13 @@ namespace Client
         {
             if (e.CloseReason != CloseReason.UserClosing) return;
             tmCoolDown.Stop();
-            if (MessageBox.Show("Are you sure about giving up?", "Surrender", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.OK)
-            {
-                e.Cancel = true;
-                tmCoolDown.Start();
-            }
-            else
-            {
-                timerCountdown.Stop();
-                this.FormClosing -= FormPlay_FormClosing;
-                board.playerMarked -= playerMarked;
-                board.opponentMarked -= opponentMarked;
-                SocketManager.socketManager.sendData(new Message(Constants.OPCODE_SURRENDER));
-                if (this.board.clientTurn == 1) MessageBox.Show("What a shame " + namePlayer1.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                else MessageBox.Show("What a shame " + namePlayer2.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            }
+            timerCountdown.Stop();
+            this.FormClosing -= FormPlay_FormClosing;
+            board.playerMarked -= playerMarked;
+            board.opponentMarked -= opponentMarked;
+            SocketManager.socketManager.sendData(new Message(Constants.OPCODE_SURRENDER));
+            if (this.board.clientTurn == 1) MessageBox.Show("What a shame " + namePlayer1.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            else MessageBox.Show("What a shame " + namePlayer2.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
         ///<summary>

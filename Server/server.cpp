@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
 	WSADATA wsaData;
 	WORD wVersion = MAKEWORD(2, 2);
 	if (WSAStartup(wVersion, &wsaData)) {
-		printf("Winsock 2.2 is not supported\n");
+		printf("Winsock is not supported\n");
 		return 0;
 	}
 

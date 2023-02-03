@@ -118,34 +118,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\imagine\o.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\imagine\x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icon_x.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\resource\o.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\resource\x.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Tic-Tac-Toe-Game-red.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Image1.bmp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\o.PNG" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\soundclick.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\x.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

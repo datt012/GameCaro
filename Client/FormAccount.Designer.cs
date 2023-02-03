@@ -75,12 +75,12 @@ namespace Client
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(67, 44);
+            this.label1.Location = new System.Drawing.Point(62, 44);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 44, 4, 10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(293, 31);
+            this.label1.Size = new System.Drawing.Size(302, 31);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Welcome to TicTacToe";
+            this.label1.Text = "Welcome to Caro Game";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel1
@@ -89,7 +89,7 @@ namespace Client
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.36364F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.63636F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 86F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 87F));
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label3, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.userNameTextBox, 2, 0);
@@ -131,7 +131,7 @@ namespace Client
             this.userNameTextBox.Location = new System.Drawing.Point(169, 5);
             this.userNameTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.userNameTextBox.Name = "userNameTextBox";
-            this.userNameTextBox.Size = new System.Drawing.Size(141, 22);
+            this.userNameTextBox.Size = new System.Drawing.Size(140, 22);
             this.userNameTextBox.TabIndex = 2;
             this.userNameTextBox.WordWrap = false;
             // 
@@ -141,7 +141,7 @@ namespace Client
             this.passwordTextBox.Location = new System.Drawing.Point(169, 38);
             this.passwordTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.passwordTextBox.Name = "passwordTextBox";
-            this.passwordTextBox.Size = new System.Drawing.Size(141, 22);
+            this.passwordTextBox.Size = new System.Drawing.Size(140, 22);
             this.passwordTextBox.TabIndex = 3;
             this.passwordTextBox.UseSystemPasswordChar = true;
             this.passwordTextBox.WordWrap = false;
@@ -206,7 +206,7 @@ namespace Client
             this.MaximizeBox = false;
             this.Name = "FormAccount";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "TicTacToe!";
+            this.Text = "Caro";
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);

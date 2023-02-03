@@ -129,7 +129,7 @@ namespace Client
         ///<para></para>
         ///@return: A Point object
         ///</summary>
-        public Point getButtonCoordinate(Button btn)
+        private Point getButtonCoordinate(Button btn)
         {
             string coordinate = btn.Tag.ToString();
             int x = Convert.ToInt32(coordinate.Substring(0, coordinate.Length/2));
@@ -145,7 +145,7 @@ namespace Client
         ///<para></para>
         ///@return: A Point object
         ///</summary>
-        public Point getButtonCoordinate(String btn)
+        private Point getButtonCoordinate(String btn)
         {
             int x = btn[0];
             int y = btn[1];
@@ -158,7 +158,7 @@ namespace Client
         ///<para></para>
         ///@return If it is this client's turn, return true. Else return false
         ///</summary>  
-        public bool isClientTurn()
+        private bool isClientTurn()
         {
             return this.clientTurn == this.currentTurn;
         }

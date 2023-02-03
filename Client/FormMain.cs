@@ -152,10 +152,9 @@ namespace Client
         }
         private void listPlayer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ListView lst = sender as ListView;
-            if(lst.SelectedItems.Count > 0)
+            if(listPlayer.SelectedItems.Count > 0)
             {
-                challengedPlayerName.Text = lst.SelectedItems[0].Text;
+                challengedPlayerName.Text = listPlayer.SelectedItems[0].Text;
             }
             else
             {
@@ -301,6 +300,7 @@ namespace Client
         {
             FormMain.App.BeginInvoke((MethodInvoker)(() =>
             {
+                challengedPlayerName.Text = "";
                 string listname = e.ReturnText;
                 listPlayer.Items.Clear();
                 string[] list = listname.Split(' ');
@@ -372,7 +372,7 @@ namespace Client
         ///<summary>
         ///@funtion changeStatus: Change the toolStripStatusLabel1 content
         /// </summary>
-        public void changeStatus(string status)
+        private void changeStatus(string status)
         {
             this.toolStripStatusLabel.Text = status;
         }

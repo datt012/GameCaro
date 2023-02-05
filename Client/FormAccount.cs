@@ -18,9 +18,7 @@ namespace Client
             InitializeComponent();
             EventManager.eventManager.SignIn += EventManager_SignIn;
             this.FormClosed += new FormClosedEventHandler(FormAccount_FormClosed);
-
-            this.userNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.userNameTextBox_Validating);
-            this.passwordTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.passwordTextBox_Validating);
+            this.AutoValidate = AutoValidate.EnableAllowFocusChange;
         }
 
         ///<summary>
@@ -51,6 +49,8 @@ namespace Client
                 {
                     case Constants.OPCODE_SIGN_UP_SUCESS:
                         MessageBox.Show("Account has been created!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        panelSignIn.Visible = true;
+                        panelSignUp.Visible = false;
                         break;
                     case Constants.OPCODE_SIGN_UP_INVALID_USERNAME:
                         MessageBox.Show("Invalid username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -85,8 +85,8 @@ namespace Client
                     this.FormClosed -= FormAccount_FormClosed;
                     this.Close();
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
-                    SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO, (ushort)userNameTextBox.Text.Length, userNameTextBox.Text));
-                    FormMain.App.setPlayerName(this.userNameTextBox.Text);
+                    SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO, (ushort)usernameTextBoxIn.Text.Length, usernameTextBoxIn.Text));
+                    FormMain.App.setPlayerName(this.usernameTextBoxIn.Text);
                     FormManager.openForm(Constants.FORM_MAIN);
                 }
                 else
@@ -126,13 +126,17 @@ namespace Client
         /// </summary>
         private void signInButton_Click(object sender, EventArgs e)
         {
-            string payload = userNameTextBox.Text + " " + hashPassword(passwordTextBox.Text);
-            Message sentMessage = new Message(Constants.OPCODE_SIGN_IN, (ushort)payload.Length, payload);
-            SocketManager.socketManager.sendData(sentMessage);
+            if(!string.IsNullOrEmpty(this.usernameTextBoxIn.Text) && !usernameTextBoxIn.Text.Contains(" ") && 
+               !string.IsNullOrEmpty(this.passwordTextBoxIn.Text) && !passwordTextBoxIn.Text.Contains(" "))
+            {
+                string payload = usernameTextBoxIn.Text + " " + hashPassword(passwordTextBoxIn.Text);
+                Message sentMessage = new Message(Constants.OPCODE_SIGN_IN, (ushort)payload.Length, payload);
+                SocketManager.socketManager.sendData(sentMessage);
+            }  
         }
 
         ///<summary>
-        ///@funtion signUpButton_Click: Triggered when the signUpButton is clicked
+        ///@funtion signUpButton_Click: Triggered when the button sign up is clicked
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>
@@ -140,28 +144,37 @@ namespace Client
         /// </summary>
         private void signUpButton_Click(object sender, EventArgs e)
         {
-            EventManager.eventManager.SignUp += EventManager_SignUp;
-            string payload = userNameTextBox.Text + " " + hashPassword(passwordTextBox.Text);
-            Message sentMessage = new Message(Constants.OPCODE_SIGN_UP, (ushort)payload.Length, payload);
-            SocketManager.socketManager.sendData(sentMessage);
+            if (!string.IsNullOrEmpty(this.usernameTextBoxUp.Text) && !usernameTextBoxUp.Text.Contains(" ") &&
+                !string.IsNullOrEmpty(this.passwordTextBoxUp.Text) && !passwordTextBoxUp.Text.Contains(" ") &&
+                !string.IsNullOrEmpty(this.repasswordTextBoxUp.Text) && !repasswordTextBoxUp.Text.Contains(" "))
+            {
+                string payload = usernameTextBoxUp.Text + " " + hashPassword(passwordTextBoxUp.Text);
+                if (!passwordTextBoxUp.Text.Equals(repasswordTextBoxUp.Text)) MessageBox.Show("Password and repassword are not the same", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    EventManager.eventManager.SignUp += EventManager_SignUp;
+                    Message sentMessage = new Message(Constants.OPCODE_SIGN_UP, (ushort)payload.Length, payload);
+                    SocketManager.socketManager.sendData(sentMessage);
+                }
+            }   
         }
 
         ///<summary>
-        ///@funtion userNameTextBox_Validating: Validate username when submitted
+        ///@funtion userNameTextBox_Validating: Validate username when sign in
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>
         ///@param e: The events argument sent when the function is triggered
         /// </summary>
-        private void userNameTextBox_Validating(object sender, CancelEventArgs e)
+        private void usernameTextBoxIn_Validating(object sender, CancelEventArgs e)
         {
             string error = null;
-            if (userNameTextBox.Text.Length == 0)
+            if (string.IsNullOrEmpty(this.usernameTextBoxIn.Text))
             {
                 error = "Please enter an username!";
                 e.Cancel = true;
             }
-            else if (userNameTextBox.Text.Contains(" "))
+            else if (usernameTextBoxIn.Text.Contains(" "))
             {
                 error = "Username contains invalid character!";
                 e.Cancel = true;
@@ -170,21 +183,44 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion passwordTextBox_Validating: Validate password when submitted
+        ///@funtion userNameTextBox_Validating: Validate username when sign up
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>
         ///@param e: The events argument sent when the function is triggered
         /// </summary>
-        private void passwordTextBox_Validating(object sender, CancelEventArgs e)
+        private void usernameTextBoxUp_Validating(object sender, CancelEventArgs e)
         {
             string error = null;
-            if (passwordTextBox.Text.Length == 0)
+            if (string.IsNullOrEmpty(this.usernameTextBoxUp.Text))
+            {
+                error = "Please enter an username!";
+                e.Cancel = true;
+            }
+            else if (usernameTextBoxUp.Text.Contains(" "))
+            {
+                error = "Username contains invalid character!";
+                e.Cancel = true;
+            }
+            errorProvider.SetError((Control)sender, error);
+        }
+
+        ///<summary>
+        ///@funtion passwordTextBox_Validating: Validate password when sign in
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
+        private void passwordTextBoxIn_Validating(object sender, CancelEventArgs e)
+        {
+            string error = null;
+            if (string.IsNullOrEmpty(this.passwordTextBoxIn.Text))
             {
                 error = "Please enter a password!";
                 e.Cancel = true;
             }
-            else if (passwordTextBox.Text.Contains(" "))
+            else if (passwordTextBoxIn.Text.Contains(" "))
             {
                 error = "Password contains invalid character!";
                 e.Cancel = true;
@@ -192,6 +228,28 @@ namespace Client
             errorProvider.SetError((Control)sender, error);
         }
 
+        ///<summary>
+        ///@funtion passwordTextBox_Validating: Validate password when sign up
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
+        private void passwordTextBoxUp_Validating(object sender, CancelEventArgs e)
+        {
+            string error = null;
+            if (string.IsNullOrEmpty(this.passwordTextBoxUp.Text) || string.IsNullOrEmpty(this.repasswordTextBoxUp.Text))
+            {
+                error = "Please enter a password!";
+                e.Cancel = true;
+            }
+            else if (passwordTextBoxUp.Text.Contains(" ") || repasswordTextBoxUp.Text.Contains(" "))
+            {
+                error = "Password contains invalid character!";
+                e.Cancel = true;
+            }
+            errorProvider.SetError((Control)sender, error);
+        }
         ///<summary>
         ///@funtion hashPassword: Hasing password before send to server
         ///<para></para>
@@ -205,6 +263,46 @@ namespace Client
             var asByteArray = Encoding.Default.GetBytes(password);
             var hashedPassword = sha.ComputeHash(asByteArray);
             return Convert.ToBase64String(hashedPassword);
+        }
+
+        ///<summary>
+        ///@funtion backButton_Click: Triggered when the button back is clicked
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
+        private void backButton_Click(object sender, EventArgs e)
+        {
+
+            panelSignIn.Visible = true;
+            panelSignUp.Visible = false;
+        }
+
+        ///<summary>
+        ///@funtion FormAccount_Load: Triggered when the form account is loading
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        private void FormAccount_Load(object sender, EventArgs e)
+        {
+            panelSignIn.Visible = true;
+            panelSignUp.Visible = false;
+        }
+
+        ///<summary>
+        ///@funtion linkLabel_Click: Triggered when the link label is clicked
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
+        private void linkLabel_Click(object sender, EventArgs e)
+        {
+            this.linkLabelSignUp.LinkVisited = true;
+            panelSignIn.Visible = false;
+            panelSignUp.Visible = true;
         }
     }
 }

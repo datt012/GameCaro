@@ -24,6 +24,7 @@
     <ClInclude Include="database.h" />
     <ClInclude Include="file.h" />
     <ClInclude Include="room.h" />
+    <ClInclude Include="roomWithServer.h" />
     <ClInclude Include="server.h" />
   </ItemGroup>
   <ItemGroup>

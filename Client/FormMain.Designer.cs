@@ -53,6 +53,7 @@
             this.signOutButton = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.buttonPlayWithPC = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -343,8 +344,9 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.Controls.Add(this.historyButton, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.signOutButton, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.historyButton, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonPlayWithPC, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(11, 376);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -359,7 +361,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.historyButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.historyButton.Location = new System.Drawing.Point(3, 3);
+            this.historyButton.Location = new System.Drawing.Point(83, 3);
             this.historyButton.Name = "historyButton";
             this.historyButton.Size = new System.Drawing.Size(74, 27);
             this.historyButton.TabIndex = 7;
@@ -384,6 +386,20 @@
             // errorProvider
             // 
             this.errorProvider.ContainerControl = this;
+            // 
+            // buttonPlayWithPC
+            // 
+            this.buttonPlayWithPC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonPlayWithPC.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonPlayWithPC.Location = new System.Drawing.Point(3, 3);
+            this.buttonPlayWithPC.Name = "buttonPlayWithPC";
+            this.buttonPlayWithPC.Size = new System.Drawing.Size(74, 27);
+            this.buttonPlayWithPC.TabIndex = 8;
+            this.buttonPlayWithPC.Text = "Play PC";
+            this.buttonPlayWithPC.UseVisualStyleBackColor = true;
+            this.buttonPlayWithPC.Click += new System.EventHandler(this.buttonPlayWithPC_Click);
             // 
             // FormMain
             // 
@@ -447,5 +463,6 @@
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.Label challengedPlayerName;
         private System.Windows.Forms.Button historyButton;
+        private System.Windows.Forms.Button buttonPlayWithPC;
     }
 }

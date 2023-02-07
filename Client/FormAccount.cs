@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using System.Runtime.Remoting.Contexts;
+using System.Text.RegularExpressions;
 
 namespace Client
 {
@@ -49,8 +51,12 @@ namespace Client
                 {
                     case Constants.OPCODE_SIGN_UP_SUCESS:
                         MessageBox.Show("Account has been created!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.linkLabelSignUp.LinkVisited = true;
                         panelSignIn.Visible = true;
                         panelSignUp.Visible = false;
+                        break;
+                    case Constants.OPCODE_SIGN_UP_DIFFERENT_REPASSWORD:
+                        MessageBox.Show("Password and repassword are different!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case Constants.OPCODE_SIGN_UP_INVALID_USERNAME:
                         MessageBox.Show("Invalid username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -126,13 +132,9 @@ namespace Client
         /// </summary>
         private void signInButton_Click(object sender, EventArgs e)
         {
-            if(!string.IsNullOrEmpty(this.usernameTextBoxIn.Text) && !usernameTextBoxIn.Text.Contains(" ") && 
-               !string.IsNullOrEmpty(this.passwordTextBoxIn.Text) && !passwordTextBoxIn.Text.Contains(" "))
-            {
-                string payload = usernameTextBoxIn.Text + " " + hashPassword(passwordTextBoxIn.Text);
-                Message sentMessage = new Message(Constants.OPCODE_SIGN_IN, (ushort)payload.Length, payload);
-                SocketManager.socketManager.sendData(sentMessage);
-            }  
+            string payload = usernameTextBoxIn.Text + "|" + hashPassword(passwordTextBoxIn.Text);
+            Message sentMessage = new Message(Constants.OPCODE_SIGN_IN, (ushort)payload.Length, payload);
+            SocketManager.socketManager.sendData(sentMessage); 
         }
 
         ///<summary>
@@ -144,23 +146,14 @@ namespace Client
         /// </summary>
         private void signUpButton_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(this.usernameTextBoxUp.Text) && !usernameTextBoxUp.Text.Contains(" ") &&
-                !string.IsNullOrEmpty(this.passwordTextBoxUp.Text) && !passwordTextBoxUp.Text.Contains(" ") &&
-                !string.IsNullOrEmpty(this.repasswordTextBoxUp.Text) && !repasswordTextBoxUp.Text.Contains(" "))
-            {
-                string payload = usernameTextBoxUp.Text + " " + hashPassword(passwordTextBoxUp.Text);
-                if (!passwordTextBoxUp.Text.Equals(repasswordTextBoxUp.Text)) MessageBox.Show("Password and repassword are not the same", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                else
-                {
-                    EventManager.eventManager.SignUp += EventManager_SignUp;
-                    Message sentMessage = new Message(Constants.OPCODE_SIGN_UP, (ushort)payload.Length, payload);
-                    SocketManager.socketManager.sendData(sentMessage);
-                }
-            }   
+            string payload = usernameTextBoxUp.Text + "|" + hashPassword(passwordTextBoxUp.Text) + " " + hashPassword(repasswordTextBoxUp.Text);
+            EventManager.eventManager.SignUp += EventManager_SignUp;
+            Message sentMessage = new Message(Constants.OPCODE_SIGN_UP, (ushort)payload.Length, payload);
+            SocketManager.socketManager.sendData(sentMessage);
         }
 
         ///<summary>
-        ///@funtion userNameTextBox_Validating: Validate username when sign in
+        ///@funtion userNameTextBoxIn_Validating: Validate username when sign in
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>
@@ -174,16 +167,21 @@ namespace Client
                 error = "Please enter an username!";
                 e.Cancel = true;
             }
-            else if (usernameTextBoxIn.Text.Contains(" "))
+            else if (!Regex.IsMatch(usernameTextBoxIn.Text, "^[a-zA-Z0-9]+$"))
             {
                 error = "Username contains invalid character!";
+                e.Cancel = true;
+            }
+            else if (usernameTextBoxIn.Text.Length > 20)
+            {
+                error = "Username cannot have more than 20 characters";
                 e.Cancel = true;
             }
             errorProvider.SetError((Control)sender, error);
         }
 
         ///<summary>
-        ///@funtion userNameTextBox_Validating: Validate username when sign up
+        ///@funtion userNameTextBoxUp_Validating: Validate username when sign up
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>
@@ -197,16 +195,21 @@ namespace Client
                 error = "Please enter an username!";
                 e.Cancel = true;
             }
-            else if (usernameTextBoxUp.Text.Contains(" "))
+            else if (!Regex.IsMatch(usernameTextBoxUp.Text, "^[a-zA-Z0-9]+$"))
             {
                 error = "Username contains invalid character!";
+                e.Cancel = true;
+            }
+            else if (usernameTextBoxUp.Text.Length > 20)
+            {
+                error = "Username cannot have more than 20 characters";
                 e.Cancel = true;
             }
             errorProvider.SetError((Control)sender, error);
         }
 
         ///<summary>
-        ///@funtion passwordTextBox_Validating: Validate password when sign in
+        ///@funtion passwordTextBoxIn_Validating: Validate password when sign in
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>
@@ -229,7 +232,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion passwordTextBox_Validating: Validate password when sign up
+        ///@funtion passwordTextBoxUp_Validating: Validate password when sign up
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>
@@ -238,16 +241,26 @@ namespace Client
         private void passwordTextBoxUp_Validating(object sender, CancelEventArgs e)
         {
             string error = null;
-            if (string.IsNullOrEmpty(this.passwordTextBoxUp.Text) || string.IsNullOrEmpty(this.repasswordTextBoxUp.Text))
+            if (string.IsNullOrEmpty(this.passwordTextBoxUp.Text))
             {
                 error = "Please enter a password!";
                 e.Cancel = true;
             }
-            else if (passwordTextBoxUp.Text.Contains(" ") || repasswordTextBoxUp.Text.Contains(" "))
+            else if (string.IsNullOrEmpty(this.repasswordTextBoxUp.Text))
+            {
+                error = "Please enter a repassword!";
+                e.Cancel = true;
+            }    
+            else if (passwordTextBoxUp.Text.Contains(" "))
             {
                 error = "Password contains invalid character!";
                 e.Cancel = true;
             }
+            else if (repasswordTextBoxUp.Text.Contains(" "))
+            {
+                error = "Repassword contains invalid character!";
+                e.Cancel = true;
+            }    
             errorProvider.SetError((Control)sender, error);
         }
         ///<summary>
@@ -274,7 +287,7 @@ namespace Client
         /// </summary>
         private void backButton_Click(object sender, EventArgs e)
         {
-
+            this.linkLabelSignUp.LinkVisited = true;
             panelSignIn.Visible = true;
             panelSignUp.Visible = false;
         }
@@ -287,6 +300,7 @@ namespace Client
         ///@param e: The events argument sent when the function is triggered
         private void FormAccount_Load(object sender, EventArgs e)
         {
+            this.linkLabelSignUp.LinkVisited = true;
             panelSignIn.Visible = true;
             panelSignUp.Visible = false;
         }
@@ -300,7 +314,7 @@ namespace Client
         /// </summary>
         private void linkLabel_Click(object sender, EventArgs e)
         {
-            this.linkLabelSignUp.LinkVisited = true;
+            this.linkLabelSignUp.LinkVisited = false;
             panelSignIn.Visible = false;
             panelSignUp.Visible = true;
         }

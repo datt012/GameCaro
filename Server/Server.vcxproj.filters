@@ -33,6 +33,9 @@
     <ClInclude Include="server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="roomWithServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="server.cpp">

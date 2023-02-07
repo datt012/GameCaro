@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -155,7 +156,7 @@ namespace Client
                 if (aMessage.Length == 0)
                 {
                     FileManager.saveFile();
-                    MessageBox.Show("Your match log is ready.", "Download completed");
+                    MessageBox.Show("Your match log is ready.", "Download completed", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO, (ushort)FormMain.App.getPlayerName().Length, FormMain.App.getPlayerName()));
                 }
@@ -177,6 +178,9 @@ namespace Client
                     break;
                 case Constants.FORM_ACCOUNT:
                     processRecvAccount(aMessage);
+                    break;
+                case Constants.FORM_PLAY_WITH_SERVER:
+                    processRecvPlayWithServer(aMessage);
                     break;
                 default:
                     break;
@@ -209,16 +213,17 @@ namespace Client
                 case Constants.OPCODE_CHALLENGE_INVALID_RANK:
                 case Constants.OPCODE_CHALLENGE_BUSY:
                 case Constants.OPCODE_CHALLENGE_NOT_FOUND:
-                case Constants.OPCODE_CHALLENGE_DUPLICATED_USERNAME:
                     EventManager.eventManager.notifyChallenge(opcode, payload);
                     break;
-                case Constants.OPCODE_INFO_FOUND:
-                case Constants.OPCODE_INFO_NOT_FOUND:
-                    EventManager.eventManager.notifyInfo(opcode, payload);
+                case Constants.OPCODE_INFO_REPLY:
+                    EventManager.eventManager.notifyInfo(payload);
                     break;
-                case Constants.OPCODE_HISTORY_FOUND:
-                case Constants.OPCODE_HISTORY_NOT_FOUND:
-                    EventManager.eventManager.notifyHistory(opcode, payload);
+                case Constants.OPCODE_HISTORY_REPLY:
+                    EventManager.eventManager.notifyHistory(payload);
+                    break;
+                case Constants.OPCODE_CHALLENGE_WITH_SERVER_PLAY:
+                case Constants.OPCODE_CHALLENGE_WITH_SERVER_OVERLOAD:
+                    EventManager.eventManager.notifyServer(opcode);
                     break;
                 default:
                     break;
@@ -247,6 +252,7 @@ namespace Client
                     break;
                 case Constants.OPCODE_SIGN_UP_SUCESS:
                 case Constants.OPCODE_SIGN_UP_DUPLICATED_USERNAME:
+                case Constants.OPCODE_SIGN_UP_DIFFERENT_REPASSWORD:
                 case Constants.OPCODE_SIGN_UP_INVALID_USERNAME:
                 case Constants.OPCODE_SIGN_UP_INVALID_PASSWORD:
                 case Constants.OPCODE_SIGN_UP_UNKNOWN_ERROR:
@@ -270,6 +276,24 @@ namespace Client
             switch (opcode)
             {
                 case Constants.OPCODE_PLAY_OPPONENT:
+                    EventManager.eventManager.notifyMove(payload);
+                    break;
+                case Constants.OPCODE_RESULT:
+                    EventManager.eventManager.notifyResult(payload);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void processRecvPlayWithServer(Message aMessage)
+        {
+            byte opcode = aMessage.Opcode;
+            string payload = System.Text.Encoding.Default.GetString(aMessage.Payload, 0, aMessage.Length);
+
+            switch (opcode)
+            {
+                case Constants.OPCODE_PLAY_REPLY_SERVER:
                     EventManager.eventManager.notifyMove(payload);
                     break;
                 case Constants.OPCODE_RESULT:

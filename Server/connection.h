@@ -23,6 +23,12 @@ struct CLIENT {
 	unsigned short bytesRead{};
 };
 
+struct PlayerMove {
+	int x;
+	int y;
+	int type;
+};
+
 void initClient(CLIENT* aClient) {
 	aClient->address[0] = 0;
 	aClient->buff[0] = 0;

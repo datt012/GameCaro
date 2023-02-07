@@ -56,6 +56,12 @@ namespace Client
                     FormHistory formHistory = new FormHistory(e.ReturnText);
                     formHistory.Show();
                     break;
+                case Constants.FORM_PLAY_WITH_SERVER:
+                    _currentForm = Constants.FORM_PLAY_WITH_SERVER;
+                    clientName = FormMain.App.getPlayerName();
+                    FormPlayWithServer formPlayWithServer = new FormPlayWithServer(clientName);
+                    formPlayWithServer.ShowDialog();
+                    break;
                 default:
                     break;
             }

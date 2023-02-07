@@ -76,9 +76,9 @@ namespace Client
             // 
             this.tableLayoutPanel1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel1.Controls.Add(this.pictureBoxX, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.pictureBoxO, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.namePlayer1, 0, 2);
@@ -101,7 +101,7 @@ namespace Client
             this.pictureBoxX.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.pictureBoxX.Enabled = false;
             this.pictureBoxX.Image = global::Client.Properties.Resources.x;
-            this.pictureBoxX.Location = new System.Drawing.Point(255, 22);
+            this.pictureBoxX.Location = new System.Drawing.Point(247, 22);
             this.pictureBoxX.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.pictureBoxX.Name = "pictureBoxX";
             this.tableLayoutPanel1.SetRowSpan(this.pictureBoxX, 2);
@@ -116,7 +116,7 @@ namespace Client
             this.pictureBoxO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBoxO.Enabled = false;
             this.pictureBoxO.Image = global::Client.Properties.Resources.o;
-            this.pictureBoxO.Location = new System.Drawing.Point(37, 22);
+            this.pictureBoxO.Location = new System.Drawing.Point(46, 22);
             this.pictureBoxO.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.pictureBoxO.Name = "pictureBoxO";
             this.tableLayoutPanel1.SetRowSpan(this.pictureBoxO, 2);
@@ -130,7 +130,7 @@ namespace Client
             this.namePlayer1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.namePlayer1.AutoSize = true;
             this.namePlayer1.BackColor = System.Drawing.Color.Transparent;
-            this.namePlayer1.Location = new System.Drawing.Point(30, 71);
+            this.namePlayer1.Location = new System.Drawing.Point(39, 71);
             this.namePlayer1.Name = "namePlayer1";
             this.namePlayer1.Size = new System.Drawing.Size(56, 16);
             this.namePlayer1.TabIndex = 6;
@@ -141,7 +141,7 @@ namespace Client
             this.namePlayer2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.namePlayer2.AutoSize = true;
             this.namePlayer2.BackColor = System.Drawing.Color.Transparent;
-            this.namePlayer2.Location = new System.Drawing.Point(248, 71);
+            this.namePlayer2.Location = new System.Drawing.Point(240, 71);
             this.namePlayer2.Name = "namePlayer2";
             this.namePlayer2.Size = new System.Drawing.Size(56, 16);
             this.namePlayer2.TabIndex = 7;
@@ -151,9 +151,9 @@ namespace Client
             // 
             this.labelTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTime.Location = new System.Drawing.Point(120, 68);
+            this.labelTime.Location = new System.Drawing.Point(137, 68);
             this.labelTime.Name = "labelTime";
-            this.labelTime.Size = new System.Drawing.Size(94, 23);
+            this.labelTime.Size = new System.Drawing.Size(61, 23);
             this.labelTime.TabIndex = 9;
             this.labelTime.Text = "60:00";
             this.labelTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -161,9 +161,9 @@ namespace Client
             // prcbCoolDown
             // 
             this.prcbCoolDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.prcbCoolDown.Location = new System.Drawing.Point(120, 31);
+            this.prcbCoolDown.Location = new System.Drawing.Point(137, 31);
             this.prcbCoolDown.Name = "prcbCoolDown";
-            this.prcbCoolDown.Size = new System.Drawing.Size(94, 18);
+            this.prcbCoolDown.Size = new System.Drawing.Size(61, 18);
             this.prcbCoolDown.TabIndex = 8;
             // 
             // tableLayoutPanel2

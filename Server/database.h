@@ -10,15 +10,15 @@
 #include <sql.h>
 #include "constants.h"
 
-
+/* match */
 #define UPDATE_MATCH_LOSER 0
 #define UPDATE_MATCH_WINNER 1
 
-/* freeStatus */
+/* free */
 #define UPDATE_USER_BUSY 0
 #define UPDATE_USER_NOT_BUSY 1
 
-/* onlineStatus */
+/* online */
 #define UPDATE_USER_STATUS_OFFLINE 0
 #define UPDATE_USER_STATUS_ONLINE 1
 
@@ -49,14 +49,14 @@ void showSQLError(unsigned int handleType, const SQLHANDLE& handle);
 /*
 @Function getUserCurrentChallenge: Get challenged person of user
 @Param username: Username of user
-@Return : Username of challenged person
+@Return: Username of challenged person
 */
 std::string getUserCurrentChallenge(char *username);
 
 /*
 @Function getFreePlayerList: Get all user signed in and is free state
 @Param username: Username of user
-@Return: std::string list username of user signed in and is free state
+@Return: List username of user signed in and is free state
 */
 std::string getFreePlayerList(char *username);
 
@@ -169,24 +169,20 @@ bool connectDatabase() {
 		//Allocates the environment
 		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &SQLEnvHandle))
 			break;
-
 		//Sets attributes that govern aspects of environments
 		if (SQL_SUCCESS != SQLSetEnvAttr(SQLEnvHandle, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0))
 			break;
-
 		//Allocates the connection
 		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_DBC, SQLEnvHandle, &SQLConnectionHandle))
 			break;
-
 		//Sets attributes that govern aspects of connections
 		if (SQL_SUCCESS != SQLSetConnectAttr(SQLConnectionHandle, SQL_LOGIN_TIMEOUT, (SQLPOINTER)5, 0))
 			break;
-
 		SQLCHAR retConstring[SQL_RETURN_CODE_LEN];
 		switch (SQLDriverConnect(SQLConnectionHandle, NULL,
 			(SQLCHAR*)"DRIVER={SQL Server}; SERVER=DATTT, 1433; DATABASE=GameCaro; UID=sa; PWD=tiendat2101;",
 			SQL_NTS, retConstring, 1024, NULL, SQL_DRIVER_NOPROMPT)) {
-			//Connect to a data source using a connection std::string
+			//Connect to a data source using a connection string
 		case SQL_SUCCESS:
 			val = true;
 			break;
@@ -208,10 +204,8 @@ bool connectDatabase() {
 		default:
 			break;
 		}
-
 		if (retCode == -1)
 			break;
-
 		//Allocates the statement
 		if (SQL_SUCCESS != SQLAllocHandle(SQL_HANDLE_STMT, SQLConnectionHandle, &SQLStatementHandle))
 			break;
@@ -219,7 +213,6 @@ bool connectDatabase() {
 	} while (FALSE);
 	return val;
 }
-
 
 void disconnectDatabase() {
 	SQLFreeHandle(SQL_HANDLE_STMT, SQLStatementHandle);
@@ -231,27 +224,32 @@ void disconnectDatabase() {
 	SQLStatementHandle = NULL;
 }
 
-
-void showSQLError(unsigned int handleType, const SQLHANDLE& handle)
-{
+void showSQLError(unsigned int handleType, const SQLHANDLE& handle) {
 	SQLCHAR SQLState[1024];
 	SQLCHAR message[1024];
-	if (SQL_SUCCESS == SQLGetDiagRec(handleType, handle, 1, SQLState, NULL, message, 1024, NULL))
+	if (SQL_SUCCESS == SQLGetDiagRec(handleType, handle, 1, SQLState, NULL, message, 1024, NULL)) {
 		std::cout << "SQL driver message: " << message << "\nSQL state: " << SQLState << "." << std::endl;
+	}
 }
 
-
 int updateSignUp(char *username, char *password) {
-	std::string SQLQuery = "INSERT INTO information VALUES('" + std::string(username) + "', '" + std::string(password) + "', 0, 0, 1, 0, NULL);";
+	std::string SQLQuery = "INSERT INTO account VALUES('" + std::string(username) + "', '" + std::string(password) + "');";
 	if (connectDatabase()) {
 		//Executes a preparable statement
-		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
-		{
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			disconnectDatabase();
 			return OPCODE_SIGN_UP_DUPLICATED_USERNAME;
 		}
 		else {
+			SQLQuery = "INSERT INTO result VALUES('" + std::string(username) + "', 0, 0);";
+			if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
+				showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+			}
+			SQLQuery = "INSERT INTO status VALUES('" + std::string(username) + "', 1, 0, NULL);";
+			if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
+				showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+			}
 			disconnectDatabase();
 			return OPCODE_SIGN_UP_SUCESS;
 		}
@@ -259,18 +257,15 @@ int updateSignUp(char *username, char *password) {
 	else return OPCODE_SIGN_UP_UNKNOWN_ERROR;
 }
 
-
 int updateSignIn(char *username, char *password) {
-	std::string SQLQuery = "SELECT password, onlineStatus FROM information WHERE username='" + std::string(username) + "'";
+	std::string SQLQuery = "SELECT password, online FROM account join status on account.username=status.username where account.username='" + std::string(username) + "'";
 	if (connectDatabase()) {
-		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
-		{
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			disconnectDatabase();
 			return OPCODE_SIGN_IN_UNKNOWN_ERROR;
 		}
-		else
-		{
+		else {
 			char pass[PASSWORD_SIZE] = "";
 			int onlineStatus = 0;
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS) {
@@ -304,9 +299,8 @@ int updateSignIn(char *username, char *password) {
 	else return OPCODE_SIGN_IN_UNKNOWN_ERROR;
 }
 
-
 void updateFreeStatus(char *username, int freeStatus) {
-	std::string SQLQuery = "UPDATE information SET freeStatus=" + std::to_string(freeStatus) + " WHERE username='" + std::string(username) + "'";
+	std::string SQLQuery = "UPDATE status SET free=" + std::to_string(freeStatus) + " WHERE username='" + std::string(username) + "'";
 	if (connectDatabase()) {
 		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
 		{
@@ -319,11 +313,10 @@ void updateFreeStatus(char *username, int freeStatus) {
 void updateUserCurrentChallenge(char *username, char *usernameChallenge) {
 	std::string SQLQuery;
 	if (strlen(usernameChallenge) > 0) {
-		SQLQuery = "UPDATE information SET currentChallenge='" + std::string(usernameChallenge) + "' WHERE username='" + std::string(username) + "'";
+		SQLQuery = "UPDATE status SET currentChallenge ='" + std::string(usernameChallenge) + "' WHERE username='" + std::string(username) + "'";
 	}
-	else
-	{
-		SQLQuery = "UPDATE information SET currentChallenge=NULL WHERE username='" + std::string(username) + "'";
+	else {
+		SQLQuery = "UPDATE status SET currentChallenge = NULL WHERE username ='" + std::string(username) + "'";
 	}
 	if (connectDatabase()) {
 		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
@@ -336,15 +329,13 @@ void updateUserCurrentChallenge(char *username, char *usernameChallenge) {
 
 std::string getUserCurrentChallenge(char *username) {
 	char userChallenge[USERNAME_SIZE] = { 0 };
-	std::string SQLQuery = "SELECT currentChallenge FROM information WHERE username='" + std::string(username) + "'";
+	std::string SQLQuery = "SELECT currentChallenge FROM status WHERE username ='" + std::string(username) + "'";
 	if (connectDatabase()) {
-		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
-		{
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			disconnectDatabase();
 		}
-		else
-		{
+		else {
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS) {
 				SQLGetData(SQLStatementHandle, 1, SQL_C_DEFAULT, &userChallenge, sizeof(userChallenge), NULL);
 			}
@@ -356,16 +347,14 @@ std::string getUserCurrentChallenge(char *username) {
 
 int getRank(char *username) {
 	int rank = 0;
-	std::string SQLQuery = "SELECT rank FROM information WHERE username='" + std::string(username) + "'";
+	std::string SQLQuery = "SELECT rank FROM result WHERE username='" + std::string(username) + "'";
 	if (connectDatabase()) {
-		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
-		{
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			disconnectDatabase();
 			return 0;
 		}
-		else
-		{
+		else {
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS) {
 				SQLGetData(SQLStatementHandle, 1, SQL_C_ULONG, &rank, 0, NULL);
 			}
@@ -375,19 +364,16 @@ int getRank(char *username) {
 	return rank;
 }
 
-
 int getFreeStatus(char *username) {
 	unsigned int freeStatus = 0, onlineStatus = 0;
-	std::string SQLQuery = "SELECT freeStatus, onlineStatus FROM information WHERE username='" + std::string(username) + "'";
+	std::string SQLQuery = "SELECT free, online FROM status WHERE username='" + std::string(username) + "'";
 	if (connectDatabase()) {
-		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
-		{
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			disconnectDatabase();
 			return 0;
 		}
-		else
-		{
+		else {
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS) {
 				SQLGetData(SQLStatementHandle, 1, SQL_C_ULONG, &freeStatus, 0, NULL);
 				SQLGetData(SQLStatementHandle, 2, SQL_C_ULONG, &onlineStatus, 0, NULL);
@@ -400,16 +386,14 @@ int getFreeStatus(char *username) {
 
 int getScore(char *username) {
 	int score = 0;
-	std::string SQLQuery = "SELECT score FROM information WHERE username='" + std::string(username) + "'";
+	std::string SQLQuery = "SELECT score FROM result WHERE username ='" + std::string(username) + "'";
 	if (connectDatabase()) {
-		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
-		{
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			disconnectDatabase();
 			return 0;
 		}
-		else
-		{
+		else {
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS) {
 				SQLGetData(SQLStatementHandle, 1, SQL_C_ULONG, &score, 0, NULL);
 			}
@@ -419,18 +403,15 @@ int getScore(char *username) {
 	return score;
 }
 
-
 void updateOnlineStatus(char *username, int onlineStatus) {
-	std::string SQLQuery = "UPDATE information SET onlineStatus=" + std::to_string(onlineStatus) + " WHERE username='" + std::string(username) + "'";
+	std::string SQLQuery = "UPDATE status SET online =" + std::to_string(onlineStatus) + " WHERE username ='" + std::string(username) + "'";
 	if (connectDatabase()) {
-		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
-		{
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 		}
 		disconnectDatabase();
 	}
 }
-
 
 void updateScore(char *username, int win) {
 	int score = getScore(username);
@@ -438,16 +419,13 @@ void updateScore(char *username, int win) {
 		if (win) {
 			score += SCORE;
 		}
-		else
-		{
+		else {
 			score -= SCORE;
 			if (score < 0) score = 0;
 		}
-
-		std::string SQLQuery = "UPDATE information SET score=" + std::to_string(score) + " WHERE username='" + username + "'";
+		std::string SQLQuery = "UPDATE result SET score =" + std::to_string(score) + " WHERE username ='" + username + "'";
 		if (connectDatabase()) {
-			if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
-			{
+			if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
 				showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 			}
 			disconnectDatabase();
@@ -459,7 +437,6 @@ void updateRank() {
 	struct userScore {
 		char username[USERNAME_SIZE];
 		int score;
-
 		userScore(char name[USERNAME_SIZE], int scoreUser) {
 			strcpy_s(username, name);
 			score = scoreUser;
@@ -469,15 +446,12 @@ void updateRank() {
 	char username[USERNAME_SIZE];
 	int score;
 	std::vector<userScore> listScore;
-	std::string SQLQuery1 = "SELECT username, score FROM information ORDER BY score DESC";
-
+	std::string SQLQuery = "SELECT username, score FROM result ORDER BY score DESC";
 	if (connectDatabase()) {
-		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery1.c_str(), SQL_NTS))
-		{
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 		}
-		else
-		{
+		else {
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS) {
 				SQLGetData(SQLStatementHandle, 1, SQL_C_DEFAULT, &username, sizeof(username), NULL);
 				SQLGetData(SQLStatementHandle, 2, SQL_C_ULONG, &score, 0, NULL);
@@ -488,10 +462,8 @@ void updateRank() {
 	}
 	if (connectDatabase()) {
 		scoreUser = listScore[0].score;
-		std::string SQLQuery2 = "UPDATE information SET rank=" + std::to_string(rankUser) + " WHERE username='" + std::string(listScore[0].username) + "'";
-
-		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery2.c_str(), SQL_NTS))
-		{
+		SQLQuery = "UPDATE result SET rank =" + std::to_string(rankUser) + " WHERE username ='" + std::string(listScore[0].username) + "'";
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 		}
 		else {
@@ -500,10 +472,8 @@ void updateRank() {
 					rankUser++;
 					scoreUser = listScore[i].score;
 				}
-				SQLQuery2 = "UPDATE information SET rank=" + std::to_string(rankUser) + " WHERE username='" + std::string(listScore[i].username) + "'";
-
-				if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery2.c_str(), SQL_NTS))
-				{
+				SQLQuery = "UPDATE result SET rank=" + std::to_string(rankUser) + " WHERE username='" + std::string(listScore[i].username) + "'";
+				if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
 					showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 				}
 			}
@@ -514,15 +484,13 @@ void updateRank() {
 
 std::string getFreePlayerList(char *username) {
 	std::string listFreePlayer = "";
-	std::string SQLQuery = "SELECT username FROM information WHERE onlineStatus=1 AND freeStatus=1 AND username != '" + std::string(username) + "'";
+	std::string SQLQuery = "SELECT username FROM status WHERE online = 1 AND free = 1 AND username != '" + std::string(username) + "'";
 	if (connectDatabase()) {
 		char userFree[USERNAME_SIZE] = { 0 };
-		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
-		{
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 		}
-		else
-		{
+		else {
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS) {
 				SQLGetData(SQLStatementHandle, 1, SQL_C_DEFAULT, &userFree, sizeof(userFree), NULL);
 				listFreePlayer = listFreePlayer + userFree + " "; //Each username space delimiter " "
@@ -537,8 +505,7 @@ void updateHistory(std::string player1, std::string player2, std::string matchEn
 	std::string SQLQuery = "INSERT INTO history VALUES ('" + player1 + "','" + player2 + "','" + matchEndBy + "','" + winner + "','" + timeStart + "','" + timeEnd + "');";
 	if (connectDatabase()) {
 		//Executes a preparable statement
-		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
-		{
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 		}
 		disconnectDatabase();
@@ -555,12 +522,10 @@ std::string getHistory(char* username) {
 		char winner[USERNAME_SIZE] = { 0 };
 		char timeStart[27] = { 0 };
 		char timeEnd[27] = { 0 };
-		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS))
-		{
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
 			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
 		}
-		else
-		{
+		else {
 			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS) {
 				SQLGetData(SQLStatementHandle, 1, SQL_C_DEFAULT, &player1, sizeof(player1), NULL);
 				SQLGetData(SQLStatementHandle, 2, SQL_C_DEFAULT, &player2, sizeof(player2), NULL);
@@ -568,7 +533,7 @@ std::string getHistory(char* username) {
 				SQLGetData(SQLStatementHandle, 4, SQL_C_DEFAULT, &winner, sizeof(winner), NULL);
 				SQLGetData(SQLStatementHandle, 5, SQL_C_DEFAULT, &timeStart, sizeof(timeStart), NULL);
 				SQLGetData(SQLStatementHandle, 6, SQL_C_DEFAULT, &timeEnd, sizeof(timeEnd), NULL);
-				listHistory = listHistory + player1 + " " + player2 + " " + matchEndBy + " " + winner + " " + timeStart + " " + timeEnd + ","; //Each space delimiter " " and "," each row
+				listHistory = listHistory + player1 + "," + player2 + "," + matchEndBy + "," + winner + "," + timeStart + "," + timeEnd + "|"; //Each space delimiter " " and "," each row
 			}
 		}
 		disconnectDatabase();

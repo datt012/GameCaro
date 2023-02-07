@@ -36,6 +36,7 @@ namespace Client
         public FormMain() {
             InitializeComponent();
             EventManager.eventManager.Challenge += EventManager_Challenge;
+            EventManager.eventManager.Server += EventManager_Server;
             EventManager.eventManager.Invite += EventManager_Invite;
             EventManager.eventManager.List += EventManager_List;
             EventManager.eventManager.SignOut += EventManager_SignOut;
@@ -225,10 +226,6 @@ namespace Client
                     {
                         MessageBox.Show("Sorry, we can't find that player!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     }
-                    else if (e.ReturnCode == Constants.OPCODE_CHALLENGE_DUPLICATED_USERNAME)
-                    {
-                        MessageBox.Show("You can't challenge yourself", "Information", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                    }
                 }
             }));
         }
@@ -241,22 +238,12 @@ namespace Client
         /// </summary>
         private void EventManager_Info(object sender, SuperEventArgs e)
         {
-            if (e.ReturnCode == Constants.OPCODE_INFO_FOUND)
+            FormMain.App.BeginInvoke((MethodInvoker)(() =>
             {
-                FormMain.App.BeginInvoke((MethodInvoker)(() =>
-                {
-                    string[] words = e.ReturnText.Split(' ');
-                    userRankInfo.Text = words[1];
-                    userScoreInfo.Text = words[0];
-                }));
-            } 
-            else
-            {
-                if (e.ReturnCode == Constants.OPCODE_INFO_NOT_FOUND)
-                {
-                    MessageBox.Show("Sorry, we can't find that player info!");
-                }
-            }
+                string[] words = e.ReturnText.Split(' ');
+                userRankInfo.Text = words[1];
+                userScoreInfo.Text = words[0];
+            }));
         }
 
         ///<summary>
@@ -312,7 +299,6 @@ namespace Client
                     {
                         listPlayer.Items.Add(list[i]);
                     }
-
                 }
                 else
                 {
@@ -324,21 +310,40 @@ namespace Client
 
         private void EventManager_History(object sender, SuperEventArgs e)
         {
-            if (e.ReturnCode == Constants.OPCODE_HISTORY_FOUND)
+            FormMain.App.BeginInvoke((MethodInvoker)(() =>
             {
-                FormMain.App.BeginInvoke((MethodInvoker)(() =>
-                {
-                    FormManager.openForm(Constants.FORM_HISTORY, e);
-                    historyButton.Enabled = true;
-                }));
-            }
-            else
+                FormManager.openForm(Constants.FORM_HISTORY, e);
+                historyButton.Enabled = true;
+            }));
+        }
+
+        private void EventManager_Server(object sender, SuperEventArgs e)
+        {
+            FormMain.App.BeginInvoke((MethodInvoker)(() =>
             {
-                if (e.ReturnCode == Constants.OPCODE_HISTORY_NOT_FOUND)
+                if (e.ReturnCode == Constants.OPCODE_CHALLENGE_WITH_SERVER_PLAY)
                 {
-                    MessageBox.Show("Sorry, we can't find that history match!");
+                    this.Hide();
+                    bool formHistoryAlready = false;
+                    if (Application.OpenForms.OfType<FormHistory>().FirstOrDefault() != null)
+                    {
+                        Application.OpenForms.OfType<FormHistory>().FirstOrDefault().Close();
+                        formHistoryAlready = true;
+                    }
+                    SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
+                    FormManager.openForm(Constants.FORM_PLAY_WITH_SERVER);
+                    this.Show();
+                    SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
+                    if (formHistoryAlready == true)
+                    {
+                        SocketManager.socketManager.sendData(new Message(Constants.OPCODE_HISTORY));
+                    }
                 }
-            }
+                else
+                {
+                    MessageBox.Show("Sorry, server is overload", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }));
         }
 
         ///<summary>
@@ -377,7 +382,15 @@ namespace Client
             this.toolStripStatusLabel.Text = status;
         }
 
-        
+        private void buttonPlayWithPC_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Do you want to play with Server?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                Message sentMessage = new Message(Constants.OPCODE_CHALLENGE_WITH_SERVER);
+                SocketManager.socketManager.sendData(sentMessage);  
+            }
+        }
     }
 }
 

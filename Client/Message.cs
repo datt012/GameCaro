@@ -104,7 +104,6 @@ namespace Client
             this.Opcode = opcode;
             this.Length = length;
             this.Payload = new byte[] { locationX, locationY }; 
-
         }
     }
 }

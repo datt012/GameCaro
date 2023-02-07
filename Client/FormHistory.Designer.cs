@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.listHistory = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.player1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,14 +43,15 @@
             // listHistory
             // 
             this.listHistory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.listHistory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.listHistory.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.listHistory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.listHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.listHistory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
@@ -60,12 +61,13 @@
             this.winner,
             this.timeStart,
             this.timeEnd});
-            this.listHistory.Location = new System.Drawing.Point(0, 101);
+            this.listHistory.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listHistory.Location = new System.Drawing.Point(0, 0);
             this.listHistory.Name = "listHistory";
             this.listHistory.RowHeadersVisible = false;
             this.listHistory.RowHeadersWidth = 51;
             this.listHistory.RowTemplate.Height = 24;
-            this.listHistory.Size = new System.Drawing.Size(1159, 395);
+            this.listHistory.Size = new System.Drawing.Size(1171, 384);
             this.listHistory.TabIndex = 0;
             this.listHistory.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.listHistory_RowPostPaint);
             // 
@@ -127,7 +129,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1171, 533);
+            this.ClientSize = new System.Drawing.Size(1171, 384);
             this.Controls.Add(this.listHistory);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;

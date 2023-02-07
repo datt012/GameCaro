@@ -13,6 +13,13 @@ Define room variables
 */
 #define NO_ROOM -1
 
+#define BOARD_HEIGHT 16
+#define BOARD_WIDTH 16
+#define BOARD_WIN_SCORE 5
+
+#define TYPE_O 1
+#define TYPE_X 2
+
 /*
 Define message variables
 */
@@ -47,12 +54,13 @@ Opcode for sending and receiving sign up request and reply
 #define OPCODE_SIGN_UP 10
 #define OPCODE_SIGN_UP_SUCESS 11
 #define OPCODE_SIGN_UP_DUPLICATED_USERNAME 12
-#define OPCODE_SIGN_UP_INVALID_USERNAME 13
-#define OPCODE_SIGN_UP_INVALID_PASSWORD 14
+#define OPCODE_SIGN_UP_DIFFERENT_REPASSWORD 13
+#define OPCODE_SIGN_UP_INVALID_USERNAME 14
+#define OPCODE_SIGN_UP_INVALID_PASSWORD 15
 #define OPCODE_SIGN_UP_UNKNOWN_ERROR 19
 
 /*
-Opcode for sending and receiving sign up request and reply
+Opcode for sending and receiving sign in request and reply
 */
 #define OPCODE_SIGN_IN 20
 #define OPCODE_SIGN_IN_SUCESS 21
@@ -86,15 +94,12 @@ Opcode for sending and receiving challenge player request and reply
 #define OPCODE_CHALLENGE_INVALID_RANK 53
 #define OPCODE_CHALLENGE_BUSY 54
 #define OPCODE_CHALLENGE_NOT_FOUND 55
-#define OPCODE_CHALLENGE_DUPLICATED_USERNAME 56
 
 /*
 Opcode for sending and receiving querying player's info request and reply
 */
 #define OPCODE_INFO 60
-#define OPCODE_INFO_FOUND 61
-#define OPCODE_INFO_NOT_FOUND 62
-
+#define OPCODE_INFO_REPLY 61
 
 /*
 Opcode for  receiving request and sending reply of players' move in a match 
@@ -108,7 +113,8 @@ Opcode for  receiving request and sending reply of players' move in a match
 Opcode for receiving request and sending reply players surrender while in a match 
 */
 #define OPCODE_SURRENDER 80
-#define OPCODE_SURRENDER_NO_ROOM 81
+#define OPCODE_SURRENDER_WITH_SERVER 81
+#define OPCODE_SURRENDER_NO_ROOM 82
 
 /*
 Opcode for sending and receiving game result request and reply
@@ -120,7 +126,15 @@ Opcode for sending and receiving game result request and reply
 Opcode for sending and receiving querying history match request and reply
 */
 #define OPCODE_HISTORY 100
-#define OPCODE_HISTORY_FOUND 101
-#define OPCODE_HISTORY_NOT_FOUND 102
+#define OPCODE_HISTORY_REPLY 101
+
+#define OPCODE_CHALLENGE_WITH_SERVER 110
+#define OPCODE_CHALLENGE_WITH_SERVER_PLAY 111
+#define OPCODE_CHALLENGE_WITH_SERVER_OVERLOAD 112
+
+#define OPCODE_PLAY_WITH_SERVER 120
+#define OPCODE_PLAY_REPLY_SERVER 121
+#define OPCODE_PLAY_INVALID_CORDINATE_SERVER 122
+#define OPCODE_PLAY_INVALID_TURN_SERVER 123
 /* END OPCODE */
 

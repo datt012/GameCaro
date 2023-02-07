@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Client
-{
-    
+{ 
     public partial class FormPlay : Form
     {
         private int quick = 3600;
@@ -206,7 +205,7 @@ namespace Client
                 board.playerMarked -= playerMarked;
                 board.opponentMarked -= opponentMarked;
                 SocketManager.socketManager.sendData(new Message(Constants.OPCODE_SURRENDER));
-                if (this.board.clientTurn == 1) MessageBox.Show("What a shame " + namePlayer1.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                if (this.board.clientTurn == Constants.TURN_O) MessageBox.Show("What a shame " + namePlayer1.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 else MessageBox.Show("What a shame " + namePlayer2.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 this.Close();
             }

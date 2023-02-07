@@ -16,13 +16,11 @@ namespace Client
         {
             this.ControlBox = false;
             InitializeComponent();
-            string[] historyList = list.Split(',');
+            string[] historyList = list.Split('|');
             for (int i = 0; i < historyList.Length - 1; i++)
             {
-                string[] childList = historyList[i].Split(' ');
-                string timeStart = childList[4] + " " + childList[5] + " " + childList[6] + " " + childList[7] + " " + childList[8];
-                string timeEnd = childList[9] + " " + childList[10] + " " + childList[11] + " " + childList[12] + " " + childList[13];
-                string[] row = { "", childList[0], childList[1], childList[2], childList[3], timeStart, timeEnd };
+                string[] childList = historyList[i].Split(',');
+                string[] row = { "", childList[0], childList[1], childList[2], childList[3], childList[4], childList[5] };
                 listHistory.Rows.Add(row);
             }
             listHistory.AllowUserToAddRows = false;

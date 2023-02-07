@@ -2,19 +2,6 @@
 #include "constants.h"
 #pragma comment (lib,"ws2_32.lib")
 
-#define BOARD_HEIGHT 16
-#define BOARD_WIDTH 16
-#define BOARD_WIN_SCORE 5
-
-#define TYPE_O 1
-#define TYPE_X 2
-
-struct PlayerMove {
-	int x;
-	int y;
-	int type;
-};
-
 class Room {
 private:
 	SOCKET firstPlayerSocket;
@@ -140,7 +127,7 @@ bool Room::isMatchEndByWin() {
 	int x = curMove.x;
 	int y = curMove.y;
 
-	// Print current board
+	//Print current board
 	for (int i = 0; i < BOARD_HEIGHT; i++) {
 		for (int j = 0; j < BOARD_WIDTH; j++) {
 			std::cout << this->board[i][j] << " ";
@@ -148,7 +135,7 @@ bool Room::isMatchEndByWin() {
 		std::cout << std::endl;
 	}
 
-	// Check row, column, diagonal and back diagonal for winning line
+	//Check row, column, diagonal and back diagonal for winning line
 	int score;
 	for (int lineType = 0; lineType < 4; lineType++) {
 		score = 0;
@@ -244,15 +231,13 @@ SOCKET Room::getPlayerOpponent(SOCKET socket) {
 /*
 @function setStartTime: Set match start time
 
-@param start: The std::string represent start time
+@param start: The string represent start time
 */
 void Room::setStartTime(std::string start) {
 	this->startTime = start;
 }
 /*
-@function setStartTime: Set match start time
-
-@param start: The std::string represent start time
+@function setStartTime: Get match start time
 */
 std::string Room::getStartTime() {
 	return this->startTime;

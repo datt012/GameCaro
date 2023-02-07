@@ -15,6 +15,7 @@ namespace Client
         private event EventHandler<SuperEventArgs> _list;
         private event EventHandler<SuperEventArgs> _signout;
         private event EventHandler<SuperEventArgs> _history;
+        private event EventHandler<SuperEventArgs> _server;
 
         public static EventManager eventManager {
             get
@@ -123,6 +124,18 @@ namespace Client
                 _history -= value;
             }
         }
+
+        public event EventHandler<SuperEventArgs> Server
+        {
+            add
+            {
+                _server += value;
+            }
+            remove
+            {
+                _server -= value;
+            }
+        }
         public void notifySignUp(int result)
         {
             if (_signup != null)
@@ -160,10 +173,10 @@ namespace Client
         ///@param code: opcode of the meassage 
         ///@param name: name of the other player
         /// </summary>
-        public void notifyInfo(int code, string info)
+        public void notifyInfo(string info)
         {
             if (_info != null)
-                _info(this, new SuperEventArgs(code, info));
+                _info(this, new SuperEventArgs(info));
         }
 
         ///<summary>
@@ -213,12 +226,17 @@ namespace Client
         ///<para></para>
         ///@param listHistory: string containing the list 
         /// </summary>
-        public void notifyHistory(int code, string listHistory)
+        public void notifyHistory(string listHistory)
         {
             if (_history != null)
-                _history(this, new SuperEventArgs(code, listHistory));
+                _history(this, new SuperEventArgs(listHistory));
         }
 
+        public void notifyServer(int code)
+        {
+            if (_server != null)
+                _server(this, new SuperEventArgs(code));
+        }
     }
 
     public class SuperEventArgs : EventArgs

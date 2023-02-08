@@ -56,7 +56,6 @@ Opcode for sending and receiving sign up request and reply
 #define OPCODE_SIGN_UP_DUPLICATED_USERNAME 12
 #define OPCODE_SIGN_UP_DIFFERENT_REPASSWORD 13
 #define OPCODE_SIGN_UP_INVALID_USERNAME 14
-#define OPCODE_SIGN_UP_INVALID_PASSWORD 15
 #define OPCODE_SIGN_UP_UNKNOWN_ERROR 19
 
 /*
@@ -67,8 +66,7 @@ Opcode for sending and receiving sign in request and reply
 #define OPCODE_SIGN_IN_ALREADY_LOGGED_IN 22
 #define OPCODE_SIGN_IN_USERNAME_NOT_FOUND 23
 #define OPCODE_SIGN_IN_INVALID_USERNAME 24
-#define OPCODE_SIGN_IN_INVALID_PASSWORD 25
-#define OPCODE_SIGN_IN_WRONG_PASSWORD 26
+#define OPCODE_SIGN_IN_WRONG_PASSWORD 25
 #define OPCODE_SIGN_IN_UNKNOWN_ERROR 29
 
 /*
@@ -77,7 +75,6 @@ Opcode for sending and receiving sign out request and reply
 #define OPCODE_SIGN_OUT 30
 #define OPCODE_SIGN_OUT_SUCCESS 31
 #define OPCODE_SIGN_OUT_NOT_LOGGED_IN 32
-#define OPCODE_SIGN_OUT_ERROR_UNKNOWN 39
 
 /*
 Opcode for sending and receiving list of online player request and reply
@@ -114,13 +111,13 @@ Opcode for receiving request and sending reply players surrender while in a matc
 */
 #define OPCODE_SURRENDER 80
 #define OPCODE_SURRENDER_WITH_SERVER 81
-#define OPCODE_SURRENDER_NO_ROOM 82
 
 /*
 Opcode for sending and receiving game result request and reply
 */
 #define OPCODE_RESULT 90
 #define OPCODE_TIMER_DRAW 91
+#define OPCODE_TIMER_DRAW_WITH_SERVER 92
 
 /*
 Opcode for sending and receiving querying history match request and reply

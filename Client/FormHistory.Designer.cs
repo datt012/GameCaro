@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormHistory));
             this.listHistory = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.player1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -67,7 +68,7 @@
             this.listHistory.RowHeadersVisible = false;
             this.listHistory.RowHeadersWidth = 51;
             this.listHistory.RowTemplate.Height = 24;
-            this.listHistory.Size = new System.Drawing.Size(1171, 384);
+            this.listHistory.Size = new System.Drawing.Size(1171, 360);
             this.listHistory.TabIndex = 0;
             this.listHistory.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.listHistory_RowPostPaint);
             // 
@@ -129,9 +130,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1171, 384);
+            this.ClientSize = new System.Drawing.Size(1171, 360);
             this.Controls.Add(this.listHistory);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FormHistory";
             this.Text = "History Match";

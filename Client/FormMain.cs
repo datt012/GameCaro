@@ -17,6 +17,7 @@ namespace Client
         public string playerName;
         public string opponentName;
         private bool isFree;
+        private Dictionary<string, KeyValuePair<string, string>> dictionary = new Dictionary<string, KeyValuePair<string, string>>();
 
         /// <summary>
         /// Store one instance of FormMain
@@ -156,6 +157,10 @@ namespace Client
             if(listPlayer.SelectedItems.Count > 0)
             {
                 challengedPlayerName.Text = listPlayer.SelectedItems[0].Text;
+                var valuePair = dictionary[challengedPlayerName.Text];
+                string score = valuePair.Key;
+                string rank = valuePair.Value;
+                listPlayer.SelectedItems[0].ToolTipText = "Score: " + score + "\nRank: " + rank;
             }
             else
             {
@@ -164,7 +169,6 @@ namespace Client
         }
         private void challengeBtn_Click(object sender, EventArgs e)
         {
-            challengeBtn.Enabled = false;
             string challengedUsername = challengedPlayerName.Text;
             opponentName = challengedUsername;
             Message sentMessage = new Message(Constants.OPCODE_CHALLENGE, (ushort) challengedUsername.Length, challengedUsername);
@@ -181,7 +185,6 @@ namespace Client
         {
             FormMain.App.BeginInvoke((MethodInvoker)(() =>
             {
-                challengeBtn.Enabled = true;
                 if (e.ReturnCode == Constants.OPCODE_CHALLENGE_ACCEPT)
                 {
                     this.Hide();
@@ -263,7 +266,7 @@ namespace Client
                 return;
             }
             string msg = opponentName.Substring(0,opponentName.Length-1) + " sent a challenged. Accept?";
-            DialogResult dialogResult = MessageBox.Show(msg, "Challenge incoming!", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);   
+            DialogResult dialogResult = MessageBox.Show(msg, "Challenge incoming!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);   
             if (dialogResult == DialogResult.Yes)
             {
                 Message sentMessage = new Message(Constants.OPCODE_CHALLENGE_ACCEPT, (ushort) opponentName.Length, opponentName);
@@ -288,16 +291,18 @@ namespace Client
             FormMain.App.BeginInvoke((MethodInvoker)(() =>
             {
                 challengedPlayerName.Text = "";
-                string listname = e.ReturnText;
+                string listInfos = e.ReturnText;
                 listPlayer.Items.Clear();
-                string[] list = listname.Split(' ');
-                if(list.Length > 1)
+                dictionary.Clear();
+                string[] listInfo = listInfos.Split('|');
+                if(listInfo.Length > 1)
                 {
                     this.playerListStatus.Hide();
-
-                    for (int i = 0; i< list.Length; i++)
+                    for (int i = 0; i < listInfo.Length - 1; i++)
                     {
-                        listPlayer.Items.Add(list[i]);
+                        string[] listItem = listInfo[i].Split(',');
+                        listPlayer.Items.Add(listItem[0]);
+                        dictionary.Add(listItem[0], new KeyValuePair<string, string>(listItem[1], listItem[2]));
                     }
                 }
                 else
@@ -367,10 +372,6 @@ namespace Client
                 {
                     MessageBox.Show("You didn't log in!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else if (e.ReturnCode == Constants.OPCODE_SIGN_OUT_ERROR_UNKNOWN)
-                {
-                    MessageBox.Show("Sign out fail", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
             }));
         }
 
@@ -382,7 +383,7 @@ namespace Client
             this.toolStripStatusLabel.Text = status;
         }
 
-        private void buttonPlayWithPC_Click(object sender, EventArgs e)
+        private void buttonPlayWithServer_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Do you want to play with Server?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)

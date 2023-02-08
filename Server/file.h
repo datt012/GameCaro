@@ -22,8 +22,6 @@ void createTempFileName(char* player1, char* player2, char* filename);
 */
 int countBytesLeftInFile(FILE* file);
 
-
-
 void createTempFileName(char* player1, char* player2, char* filename) {
 	time_t rawtime;
 	struct tm * timeinfo;

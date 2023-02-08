@@ -61,9 +61,6 @@ namespace Client
                     case Constants.OPCODE_SIGN_UP_INVALID_USERNAME:
                         MessageBox.Show("Invalid username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
-                    case Constants.OPCODE_SIGN_UP_INVALID_PASSWORD:
-                        MessageBox.Show("Invalid password!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        break;
                     case Constants.OPCODE_SIGN_UP_DUPLICATED_USERNAME:
                         MessageBox.Show("Username is already used!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
@@ -105,9 +102,6 @@ namespace Client
                             break;
                         case Constants.OPCODE_SIGN_IN_INVALID_USERNAME:
                             MessageBox.Show("Invalid username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                        case Constants.OPCODE_SIGN_IN_INVALID_PASSWORD:
-                            MessageBox.Show("Invalid password!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                         case Constants.OPCODE_SIGN_IN_USERNAME_NOT_FOUND:
                             MessageBox.Show("Can't find username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -223,11 +217,6 @@ namespace Client
                 error = "Please enter a password!";
                 e.Cancel = true;
             }
-            else if (passwordTextBoxIn.Text.Contains(" "))
-            {
-                error = "Password contains invalid character!";
-                e.Cancel = true;
-            }
             errorProvider.SetError((Control)sender, error);
         }
 
@@ -245,22 +234,25 @@ namespace Client
             {
                 error = "Please enter a password!";
                 e.Cancel = true;
-            }
-            else if (string.IsNullOrEmpty(this.repasswordTextBoxUp.Text))
+            } 
+            errorProvider.SetError((Control)sender, error);
+        }
+
+        ///<summary>
+        ///@funtion repasswordTextBoxUp_Validating: Validate repassword when sign up
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
+        private void repasswordTextBoxUp_Validating(object sender, CancelEventArgs e)
+        {
+            string error = null;
+            if (string.IsNullOrEmpty(this.repasswordTextBoxUp.Text))
             {
                 error = "Please enter a repassword!";
                 e.Cancel = true;
-            }    
-            else if (passwordTextBoxUp.Text.Contains(" "))
-            {
-                error = "Password contains invalid character!";
-                e.Cancel = true;
             }
-            else if (repasswordTextBoxUp.Text.Contains(" "))
-            {
-                error = "Repassword contains invalid character!";
-                e.Cancel = true;
-            }    
             errorProvider.SetError((Control)sender, error);
         }
         ///<summary>

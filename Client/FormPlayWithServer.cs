@@ -13,7 +13,10 @@ namespace Client
 {
     public partial class FormPlayWithServer : Form
     {
+        private int quick = 600;
         private BoardWithServer boardWithServer;
+        private System.Windows.Forms.Timer timerCountdown;
+
         ///<summary>
         ///@funtion FormPlayWithServer: FormPlayWithServer constructor
         ///<para></para>
@@ -26,8 +29,18 @@ namespace Client
             nameServer.Text = "Server";
             boardWithServer = new BoardWithServer(this, namePlayer, nameServer);
             boardWithServer.clientTurn = Constants.TURN_O;
+            boardWithServer.playerMarked += playerMarked;
+            boardWithServer.serverMarked += serverMarked;
+            prcbCoolDown.Step = Constants.COOL_DOWN_STEP;
+            prcbCoolDown.Maximum = Constants.COOL_DOWN_TIME;
+            prcbCoolDown.Value = 0;
+            tmCoolDown.Interval = Constants.COOL_DOWN_INTERVAL;
             boardWithServer.drawBoard(panelBoard);
             this.changeActivePictureBox(Constants.TURN_O);
+            timerCountdown = new System.Windows.Forms.Timer();
+            timerCountdown.Interval = 1;
+            timerCountdown.Tick += new EventHandler(timerEvent);
+            timerCountdown.Enabled = true;
             EventManager.eventManager.Result += EventManager_Result;
             this.FormClosing += new FormClosingEventHandler(FormPlay_FormClosing);
             this.FormClosed += new FormClosedEventHandler(FormPlay_FormClosed);
@@ -44,7 +57,11 @@ namespace Client
         {
             FormMain.App.BeginInvoke((MethodInvoker)(() =>
             {
+                tmCoolDown.Stop();
+                timerCountdown.Stop();
                 EventManager.eventManager.Result -= EventManager_Result;
+                boardWithServer.playerMarked -= playerMarked;
+                boardWithServer.serverMarked -= serverMarked;
                 this.FormClosing -= FormPlay_FormClosing;
                 if (String.Compare(e.ReturnText, namePlayer.Text) == 0) /// Player wins///
                 {
@@ -85,7 +102,11 @@ namespace Client
         private void FormPlay_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason != CloseReason.UserClosing) return;
+            tmCoolDown.Stop();
+            timerCountdown.Stop();
             this.FormClosing -= FormPlay_FormClosing;
+            boardWithServer.playerMarked -= playerMarked;
+            boardWithServer.serverMarked -= serverMarked;
             SocketManager.socketManager.sendData(new Message(Constants.OPCODE_SURRENDER_WITH_SERVER));
             MessageBox.Show("What a shame " + namePlayer.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
@@ -99,7 +120,6 @@ namespace Client
         /// </summary>
         private void FormPlay_FormClosed(object sender, FormClosedEventArgs e)
         {
-            SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO));
             EventManager.eventManager.Result -= EventManager_Result;
             FormManager.openForm(Constants.FORM_MAIN);
             openSaveFileDialog();
@@ -143,6 +163,71 @@ namespace Client
         {
             this.toolStripStatusLabel.Text = status;
         }
+
+        ///<summary>
+        ///@funtion tmCoolDownTick: Time for processbar 
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
+        private void tmCoolDownTick(object sender, EventArgs e)
+        {
+            prcbCoolDown.PerformStep();
+            if (prcbCoolDown.Value >= prcbCoolDown.Maximum)
+            {
+                tmCoolDown.Stop();
+                timerCountdown.Stop();
+                this.FormClosing -= FormPlay_FormClosing;
+                boardWithServer.playerMarked -= playerMarked;
+                boardWithServer.serverMarked -= serverMarked;
+                SocketManager.socketManager.sendData(new Message(Constants.OPCODE_SURRENDER_WITH_SERVER));
+                MessageBox.Show("What a shame " + namePlayer.Text + ", you lost!", "Loser", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                this.Close();
+            }
+        }
+
+        ///<summary>
+        ///@funtion timeEvent: Event timer count down
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
+        private void timerEvent(object sender, EventArgs e)
+        {
+            quick--;
+            labelTime.Text = (((quick / 60) >= 10) ? (quick / 60).ToString() : "0" + (quick / 60)) + ":" + ((quick % 60) >= 10 ? (quick % 60).ToString() : "0" + (quick % 60));
+            if (quick == 0) SocketManager.socketManager.sendData(new Message(Constants.OPCODE_TIMER_DRAW_WITH_SERVER));
+        }
+
+        ///<summary>
+        ///@funtion serverMarked: Event process bar when server receive marked
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
+        private void serverMarked(object sender, EventArgs e)
+        {
+            prcbCoolDown.Value = 0;
+            tmCoolDown.Start();
+        }
+
+        ///<summary>
+        ///@funtion playerMarked: Event process bar when player marked
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
+        private void playerMarked(object sender, EventArgs e)
+        {
+            tmCoolDown.Stop();
+            prcbCoolDown.Value = 0;
+        }
     }
-        
+
+    
+
 }

@@ -22,7 +22,7 @@
         public static int port = 5500;
         public static int BUFFER_SIZE = 10240;
 
-        public static int COOL_DOWN_STEP = 400;
+        public static int COOL_DOWN_STEP = 100;
         public static int COOL_DOWN_TIME = 10000;
         public static int COOL_DOWN_INTERVAL = 100;
 
@@ -45,7 +45,6 @@
         public const byte OPCODE_SIGN_UP_DUPLICATED_USERNAME = 12;
         public const byte OPCODE_SIGN_UP_DIFFERENT_REPASSWORD = 13;
         public const byte OPCODE_SIGN_UP_INVALID_USERNAME = 14;
-        public const byte OPCODE_SIGN_UP_INVALID_PASSWORD = 15;
         public const byte OPCODE_SIGN_UP_UNKNOWN_ERROR = 19;
 
         public const byte OPCODE_SIGN_IN = 20;
@@ -53,14 +52,12 @@
         public const byte OPCODE_SIGN_IN_ALREADY_LOGGED_IN = 22;
         public const byte OPCODE_SIGN_IN_USERNAME_NOT_FOUND = 23;
         public const byte OPCODE_SIGN_IN_INVALID_USERNAME = 24;
-        public const byte OPCODE_SIGN_IN_INVALID_PASSWORD = 25;
-        public const byte OPCODE_SIGN_IN_WRONG_PASSWORD = 26;
+        public const byte OPCODE_SIGN_IN_WRONG_PASSWORD = 25;
         public const byte OPCODE_SIGN_IN_UNKNOWN_ERROR = 29;
 
         public const byte OPCODE_SIGN_OUT = 30;
         public const byte OPCODE_SIGN_OUT_SUCCESS = 31;
         public const byte OPCODE_SIGN_OUT_NOT_LOGGED_IN = 32;
-        public const byte OPCODE_SIGN_OUT_ERROR_UNKNOWN = 39;
 
         public const byte OPCODE_LIST = 40;
         public const byte OPCODE_LIST_REPLY = 41;
@@ -82,10 +79,10 @@
 
         public const byte OPCODE_SURRENDER = 80;
         public const byte OPCODE_SURRENDER_WITH_SERVER = 81;
-        public const byte OPCODE_SURRENDER_NO_ROOM = 82;
 
         public const byte OPCODE_RESULT = 90;
         public const byte OPCODE_TIMER_DRAW = 91;
+        public const byte OPCODE_TIMER_DRAW_WITH_SERVER = 92;
 
         public const byte OPCODE_HISTORY = 100;
         public const byte OPCODE_HISTORY_REPLY = 101;

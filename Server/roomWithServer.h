@@ -1,12 +1,13 @@
 #pragma once
 #include "constants.h"
 #pragma comment (lib,"WS2_32.lib")
+#pragma warning (disable:6385)
 
 class RoomWithServer {
 private:
 	SOCKET playerSocket;
 	std::vector<PlayerMove> movesList;
-    int board[BOARD_HEIGHT][BOARD_WIDTH];
+    int board[BOARD_HEIGHT + 2][BOARD_WIDTH + 2];
 	std::string startTime;
 public:
 	RoomWithServer(SOCKET playerSocket);
@@ -22,8 +23,7 @@ public:
 	std::vector<PlayerMove> getMovesList();
 	void setStartTime(std::string start);
 	std::string getStartTime();
-    void findChess(int *coordinateServer);
-    long caculateChess(int x, int y);
+    void caculateChess(int *coordinateServer);
     long serverChess(int x, int y);
     long clientChess(int x, int y); 
 };
@@ -80,7 +80,6 @@ bool RoomWithServer::isPlayerTurn(SOCKET socket) {
 	else {
 		nextMoveType = this->movesList.back().type == TYPE_O ? TYPE_X : TYPE_O;
 	}
-
 	if (socket == this->playerSocket) {
 		return nextMoveType == TYPE_O;
 	}
@@ -122,13 +121,11 @@ bool RoomWithServer::isMatchEndByWin() {
 	int dx[] = { 0, 1, 1, 1 };
 	int dy[] = { 1, 0, 1, -1 };
 	int startX, startY, currentX, currentY;
-
 	PlayerMove curMove = this->movesList.back();
 	int type = curMove.type;
 	int x = curMove.x;
 	int y = curMove.y;
-
-	// Print current board
+	//Print current board
 	for (int i = 0; i < BOARD_HEIGHT; i++) {
 		for (int j = 0; j < BOARD_WIDTH; j++) {
 			std::cout << this->board[i][j] << " ";
@@ -227,18 +224,18 @@ void RoomWithServer::setStartTime(std::string start) {
 std::string RoomWithServer::getStartTime() {
 	return this->startTime;
 }
+
 /* Region AI */
 int Attack[] = { 0, 9, 54, 162, 1458, 13112, 118008 };
 int Defense[] = { 0, 3, 27, 99, 729, 6561, 59049 };
 
-void RoomWithServer::findChess(int* coordinateServer) {
+void RoomWithServer::caculateChess(int* coordinateServer) {
     long max = 0;
     int imax = 1, jmax = 1;
-    for (int i = 1; i < BOARD_HEIGHT; i++)
-    {
-        for (int j = 1; j < BOARD_WIDTH; j++) {
+    for (int i = 0; i < BOARD_HEIGHT; i++) {
+        for (int j = 0; j < BOARD_WIDTH; j++) {
             if (this->board[i][j] == 0) {
-                long temp = caculateChess(i, j);
+                long temp = clientChess(i, j) + serverChess(i, j);
                 if (temp > max) {
                     max = temp;
                     imax = i;
@@ -250,9 +247,7 @@ void RoomWithServer::findChess(int* coordinateServer) {
     coordinateServer[0] = jmax;
     coordinateServer[1] = imax;
 }
-long RoomWithServer::caculateChess(int x, int y) {
-    return clientChess(x, y) + serverChess(x, y);
-}
+
 long RoomWithServer::serverChess(int x, int y) {
     int i = x - 1, j = y;
     int column = 0, row = 0, mdiagonal = 0, ediagonal = 0;

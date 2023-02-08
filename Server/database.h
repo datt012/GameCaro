@@ -61,6 +61,13 @@ std::string getUserCurrentChallenge(char *username);
 std::string getFreePlayerList(char *username);
 
 /*
+@Function getFreePlayerListInfo: Get all info of user signed in and is free state
+@Param username: Username of user
+@Return: List info of user signed in and is free state
+*/
+std::string getFreePlayerListInfo(char* username);
+
+/*
 @Function getRank: Get rank of user
 @Param username: Username of user
 @Return: Rank of user
@@ -178,7 +185,7 @@ bool connectDatabase() {
 		//Sets attributes that govern aspects of connections
 		if (SQL_SUCCESS != SQLSetConnectAttr(SQLConnectionHandle, SQL_LOGIN_TIMEOUT, (SQLPOINTER)5, 0))
 			break;
-		SQLCHAR retConstring[SQL_RETURN_CODE_LEN];
+		SQLCHAR retConstring[SQL_RETURN_CODE_LEN] = { 0 };
 		switch (SQLDriverConnect(SQLConnectionHandle, NULL,
 			(SQLCHAR*)"DRIVER={SQL Server}; SERVER=DATTT, 1433; DATABASE=GameCaro; UID=sa; PWD=tiendat2101;",
 			SQL_NTS, retConstring, 1024, NULL, SQL_DRIVER_NOPROMPT)) {
@@ -443,8 +450,8 @@ void updateRank() {
 		}
 	};
 	int rankUser = 1, scoreUser = -1;
-	char username[USERNAME_SIZE];
-	int score;
+	char username[USERNAME_SIZE] = {0};
+	int score = 0;
 	std::vector<userScore> listScore;
 	std::string SQLQuery = "SELECT username, score FROM result ORDER BY score DESC";
 	if (connectDatabase()) {
@@ -482,7 +489,29 @@ void updateRank() {
 	}
 }
 
-std::string getFreePlayerList(char *username) {
+std::string getFreePlayerListInfo(char *username) {
+	std::string listFreePlayerInfo = "";
+	std::string SQLQuery = "SELECT result.username, score, rank FROM result join status on result.username = status.username WHERE online = 1 AND free = 1 AND status.username != '" + std::string(username) + "'";
+	if (connectDatabase()) {
+		char userFree[USERNAME_SIZE] = { 0 };
+		int scoreUser = 0, rankUser = 0;
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
+			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+		}
+		else {
+			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS) {
+				SQLGetData(SQLStatementHandle, 1, SQL_C_DEFAULT, &userFree, sizeof(userFree), NULL);
+				SQLGetData(SQLStatementHandle, 2, SQL_C_ULONG, &scoreUser, 0, NULL);
+				SQLGetData(SQLStatementHandle, 3, SQL_C_ULONG, &rankUser, 0, NULL);
+				listFreePlayerInfo = listFreePlayerInfo + userFree + "," + std::to_string(scoreUser) + "," + std::to_string(rankUser) + "|"; //Each info space delimiter "|"
+			}
+		}
+		disconnectDatabase();
+	}
+	return listFreePlayerInfo;
+}
+
+std::string getFreePlayerList(char* username) {
 	std::string listFreePlayer = "";
 	std::string SQLQuery = "SELECT username FROM status WHERE online = 1 AND free = 1 AND username != '" + std::string(username) + "'";
 	if (connectDatabase()) {

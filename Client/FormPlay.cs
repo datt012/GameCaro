@@ -239,7 +239,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion playerMarked: Event processbar when player marked
+        ///@funtion playerMarked: Event process bar when player marked
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>

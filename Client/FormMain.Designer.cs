@@ -49,11 +49,11 @@
             this.label4 = new System.Windows.Forms.Label();
             this.challengedPlayerName = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.historyButton = new System.Windows.Forms.Button();
             this.signOutButton = new System.Windows.Forms.Button();
+            this.historyButton = new System.Windows.Forms.Button();
+            this.buttonPlayWithPC = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.buttonPlayWithPC = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -144,6 +144,7 @@
             this.listPlayer.Margin = new System.Windows.Forms.Padding(6);
             this.listPlayer.MultiSelect = false;
             this.listPlayer.Name = "listPlayer";
+            this.listPlayer.ShowItemToolTips = true;
             this.listPlayer.Size = new System.Drawing.Size(302, 203);
             this.listPlayer.TabIndex = 4;
             this.listPlayer.UseCompatibleStateImageBehavior = false;
@@ -355,20 +356,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(321, 33);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
-            // historyButton
-            // 
-            this.historyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.historyButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.historyButton.Location = new System.Drawing.Point(83, 3);
-            this.historyButton.Name = "historyButton";
-            this.historyButton.Size = new System.Drawing.Size(74, 27);
-            this.historyButton.TabIndex = 7;
-            this.historyButton.Text = "History";
-            this.historyButton.UseVisualStyleBackColor = true;
-            this.historyButton.Click += new System.EventHandler(this.historyButton_Click);
-            // 
             // signOutButton
             // 
             this.signOutButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -383,9 +370,19 @@
             this.signOutButton.UseVisualStyleBackColor = true;
             this.signOutButton.Click += new System.EventHandler(this.signOutButton_Click);
             // 
-            // errorProvider
+            // historyButton
             // 
-            this.errorProvider.ContainerControl = this;
+            this.historyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.historyButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.historyButton.Location = new System.Drawing.Point(83, 3);
+            this.historyButton.Name = "historyButton";
+            this.historyButton.Size = new System.Drawing.Size(74, 27);
+            this.historyButton.TabIndex = 7;
+            this.historyButton.Text = "History";
+            this.historyButton.UseVisualStyleBackColor = true;
+            this.historyButton.Click += new System.EventHandler(this.historyButton_Click);
             // 
             // buttonPlayWithPC
             // 
@@ -397,9 +394,13 @@
             this.buttonPlayWithPC.Name = "buttonPlayWithPC";
             this.buttonPlayWithPC.Size = new System.Drawing.Size(74, 27);
             this.buttonPlayWithPC.TabIndex = 8;
-            this.buttonPlayWithPC.Text = "Play PC";
+            this.buttonPlayWithPC.Text = "Server";
             this.buttonPlayWithPC.UseVisualStyleBackColor = true;
-            this.buttonPlayWithPC.Click += new System.EventHandler(this.buttonPlayWithPC_Click);
+            this.buttonPlayWithPC.Click += new System.EventHandler(this.buttonPlayWithServer_Click);
+            // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
             // 
             // FormMain
             // 

@@ -30,7 +30,7 @@ namespace Client
             set { mark = value; }
         }
         ///<summary>
-        ///@funtion :Constructor for Player
+        ///@funtion Player: Constructor for Player
         ///<para></para>
         ///@param name: Player username
         ///<para></para>

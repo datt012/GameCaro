@@ -303,10 +303,10 @@ long RoomWithServer::serverChess(int x, int y) {
         j--;
     }
     if (this->board[i][j] == 0) se = 1;
-    if (column == 4) column = 5;
-    if (row == 4) row = 5;
-    if (mdiagonal == 4) mdiagonal = 5;
-    if (ediagonal == 4) ediagonal = 5;
+    if (column == 4) column = BOARD_WIN_SCORE;
+    if (row == 4) row = BOARD_WIN_SCORE;
+    if (mdiagonal == 4) mdiagonal = BOARD_WIN_SCORE;
+    if (ediagonal == 4) ediagonal = BOARD_WIN_SCORE;
     if (column == 3 && sc == 1 && sc_ == 1) column = 4;
     if (row == 3 && sr == 1 && sr_ == 1) row = 4;
     if (mdiagonal == 3 && sm == 1 && sm_ == 1) mdiagonal = 4;
@@ -376,10 +376,10 @@ long RoomWithServer::clientChess(int x, int y) {
         j--;
     }
     if (this->board[i][j] == 0) se = 1;
-    if (column == 4) column = 5;
-    if (row == 4) row = 5;
-    if (mdiagonal == 4) mdiagonal = 5;
-    if (ediagonal == 4) ediagonal = 5;
+    if (column == 4) column = BOARD_WIN_SCORE;
+    if (row == 4) row = BOARD_WIN_SCORE;
+    if (mdiagonal == 4) mdiagonal = BOARD_WIN_SCORE;
+    if (ediagonal == 4) ediagonal = BOARD_WIN_SCORE;
     if (column == 3 && sc == 1 && sc_ == 1) column = 4;
     if (row == 3 && sr == 1 && sr_ == 1) row = 4;
     if (mdiagonal == 3 && sm == 1 && sm_ == 1) mdiagonal = 4;

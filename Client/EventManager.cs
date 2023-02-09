@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 namespace Client
 {
     public class EventManager
@@ -136,42 +135,54 @@ namespace Client
                 _server -= value;
             }
         }
+
+        ///<summary>
+        ///@funtion notifySignUp: Notify the sign up result to the event object when receiving a message
+        ///<para></para>
+        ///@param code: Opcode of the meassage
+        ///</summary>
         public void notifySignUp(int result)
         {
             if (_signup != null)
                 _signup(this, new SuperEventArgs(result));
         }
 
-        /// <summary>
-        /// @funtion notifyLogin: notify the login result to the event object when receiving a message
-        /// </summary>
-        public void notifySignIn(int result) {
+        ///<summary>
+        ///@funtion notifySignIn: Notify the sign in result to the event object when receiving a message
+        ///<para></para>
+        ///@param code: Opcode of the meassage
+        ///</summary>
+        public void notifySignIn(int code) {
             if (_signin != null)
-                _signin(this, new SuperEventArgs(result));
+                _signin(this, new SuperEventArgs(code));
         }
 
-        public void notifySignout(int result)
+        ///<summary>
+        ///@funtion notifySignOut: Notify the sign out result to the event object when receiving a message
+        ///<para></para>
+        ///@param code: Opcode of the meassage
+        ///</summary>
+        public void notifySignout(int code)
         {
             if (_signout != null)
-                _signout(this, new SuperEventArgs(result));
+                _signout(this, new SuperEventArgs(code));
         }
 
-        /// <summary>
-        /// @funtion notifyChallenge: notify the respond of other player to the event objecct when receiving a message
-        /// <para></para>
-        /// @param code: opcode of the meassage
-        /// @param name: name of the other player
-        /// </summary>
+        ///<summary>
+        ///@funtion notifyChallenge: Notify the respond of other player to the event objecct when receiving a message
+        ///<para></para>
+        ///@param code: Opcode of the meassage
+        ///@param name: Name of the other player
+        ///</summary>
         public void notifyChallenge(int code, string name) {
             if (_challenge != null)
                 _challenge(this, new SuperEventArgs(code, name));
         }
 
         /// <summary>
-        ///@funtion notifyInfo: notify the info player to the event object
+        ///@funtion notifyInfo: Notify the info player to the event object
         ///<para></para>
-        ///@param code: opcode of the meassage 
-        ///@param name: name of the other player
+        ///@param code: Opcode of the meassage 
         /// </summary>
         public void notifyInfo(string info)
         {
@@ -180,9 +191,9 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion notifyMove: notify the move of opponent to the event object when receiving a message
+        ///@funtion notifyMove: Notify the move of opponent to the event object when receiving a message
         ///<para></para>
-        ///@param move: string containing position of the move
+        ///@param move: String containing position of the move
         /// </summary>
         public void notifyMove(string move) {
             if (_move != null)
@@ -192,9 +203,9 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion notifyResult: notify the result of the game to the event object
-        /// 
-        ///@param name: name of the winner 
+        ///@funtion notifyResult: Notify the result of the game to the event object
+        ///<para></para>
+        ///@param name: Name of the winner 
         ///</summary>
         public void notifyResult(string name) {
             if (_result != null)
@@ -202,9 +213,9 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion notifyInvite: notify the challenger received 
+        ///@funtion notifyInvite: Notify the challenger received 
         ///<para></para>
-        ///@param name: name of player who is sending challenge
+        ///@param name: Name of player who is sending challenge
         ///</summary>
         public void notifyInvite(string name) {
             if (_invite != null)
@@ -212,19 +223,19 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion notifyList: notify the list player to the event object
+        ///@funtion notifyList: Notify the list player to the event object
         ///<para></para>
-        ///@param listname: string containing the list 
+        ///@param listInfo: String containing the list info
         /// </summary>
-        public void notifyList(string listName) {
+        public void notifyList(string listInfo) {
             if (_list != null)
-                _list(this, new SuperEventArgs(listName));
+                _list(this, new SuperEventArgs(listInfo));
         }
 
         ///<summary>
-        ///@funtion notifyHistory: notify the list history match to the event object
+        ///@funtion notifyHistory: Notify the list history match to the event object
         ///<para></para>
-        ///@param listHistory: string containing the list 
+        ///@param listHistory: String containing the list history
         /// </summary>
         public void notifyHistory(string listHistory)
         {
@@ -232,6 +243,11 @@ namespace Client
                 _history(this, new SuperEventArgs(listHistory));
         }
 
+        ///<summary>
+        ///@funtion notifyServer: Notify the respond of server to the event objecct when receiving a message
+        ///<para></para>
+        ///@param code: Opcode of the meassage
+        ///</summary>
         public void notifyServer(int code)
         {
             if (_server != null)
@@ -243,6 +259,12 @@ namespace Client
     {
         private int returnCode;
         private string returnText;
+
+        ///<summary>
+        ///@funtion SuperEventArgs: 
+        ///<para></para>
+        ///@param returnCode: string containing the return code 
+        /// </summary>
         public SuperEventArgs(int returnCode) {
 
             this.ReturnCode = returnCode;

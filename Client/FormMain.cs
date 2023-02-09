@@ -174,6 +174,7 @@ namespace Client
             Message sentMessage = new Message(Constants.OPCODE_CHALLENGE, (ushort) challengedUsername.Length, challengedUsername);
             SocketManager.socketManager.sendData(sentMessage);
         }
+
         ///<summary>
         ///@funtion EventManager_Challenge: Triggered when there is a reply from server after a player sent or received a challenge
         ///<para></para>

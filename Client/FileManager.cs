@@ -41,7 +41,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion saveFile:Get the file stream from saveFileDialog and transfer data from buff to file
+        ///@funtion saveFile: Get the file stream from saveFileDialog and transfer data from buff to file
         /// </summary>
         public static void saveFile()
         {

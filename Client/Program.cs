@@ -15,7 +15,7 @@ namespace Client
         static void Main()
         {
             var respond = DialogResult.OK;
-            // try to connect with the server before starting the application
+            //Try to connect with the server before starting the application
             while (respond == DialogResult.OK)
             {
                 try

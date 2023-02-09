@@ -1,12 +1,5 @@
 ﻿namespace Client
 {
-    ///<summary>
-    ///@funtion : 
-    ///<para></para>
-    ///@param : 
-    ///<para></para>
-    ///@return: 
-    /// </summary>
     public class Constants
     {
         public const string APP_NAME = "Game Caro";

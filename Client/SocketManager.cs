@@ -16,9 +16,6 @@ namespace Client
     {
         private static SocketManager _socketManager;
         private static Socket client;
-        ///
-        ///
-        ///
         public static SocketManager socketManager
         {
             get
@@ -32,9 +29,9 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion connectServer: connect to server
+        ///@funtion connectServer: Connect to server
         ///<para></para>
-        ///@return true if success, false if false
+        ///@return: True if success, false if false
         /// </summary>
         public void connectServer() {
             IPEndPoint iep = new IPEndPoint(IPAddress.Parse(Constants.IP), Constants.port);
@@ -141,11 +138,11 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion processData: process data received
+        ///@funtion processData: Process data received
         ///<para></para>
-        ///@param mess: message received
+        ///@param mess: Message received
         ///<para></para>
-        ///@param eventManager: event object that will notify to system when received a message
+        ///@param eventManager: Event object that will notify to system when received a message
         /// </summary>
         private void processRecv(Message aMessage) {
             byte opcode = aMessage.Opcode;
@@ -166,7 +163,6 @@ namespace Client
                 }
                 return;
             }
-
             //Handle to foregound
             switch (FormManager.currentForm)
             {
@@ -188,7 +184,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion processRecvMain: process data received while in MainForm
+        ///@funtion processRecvMain: Process data received while in MainForm
         ///<para></para>
         ///@param mess: The message received
         /// </summary>
@@ -230,7 +226,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion processRecvAccount: process data received while in FormAccount
+        ///@funtion processRecvAccount: Process data received while in FormAccount
         ///<para></para>
         ///@param mess: The message received
         /// </summary>
@@ -263,7 +259,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion processRecvPlay: process data received while in FormPlay
+        ///@funtion processRecvPlay: Process data received while in FormPlay
         ///<para></para>
         ///@param mess: The message received
         /// </summary>
@@ -285,6 +281,11 @@ namespace Client
             }
         }
 
+        ///<summary>
+        ///@funtion processRecvPlayWithServer: Process data received while in FormPlayWithServer
+        ///<para></para>
+        ///@param mess: The message received
+        /// </summary>
         private void processRecvPlayWithServer(Message aMessage)
         {
             byte opcode = aMessage.Opcode;

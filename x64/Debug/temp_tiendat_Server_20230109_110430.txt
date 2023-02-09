@@ -1,9 +1,0 @@
-Match end by draw. No winner
-
-Match start at Thu Feb  9 11:04:20 2023
-Match end at Thu Feb  9 11:04:30 2023
-
-IP Address: 127.0.0.1	Player 1: tiendat
-IP Address: 127.0.0.1	Player 2: Server
-
-Move Log

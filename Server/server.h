@@ -721,7 +721,9 @@ void handleRecvPlay(CLIENT* aClient) {
 	Send(opponentClient, OPCODE_PLAY_OPPONENT, 2, coordinateReply);
 	//Check for match result then send the result if the match ends
 	int matchResult = aRoom->getMatchResult();
-	if (matchResult == MATCH_CONTINUE) { return; }
+	if (matchResult == MATCH_CONTINUE) { 
+		return; 
+	}
 	switch (matchResult) {
 	case MATCH_END_BY_DRAW:
 		Send(aClient, OPCODE_RESULT, 0, NULL);
@@ -761,19 +763,18 @@ void handleRecvPlayWithServer(CLIENT* aClient) {
 	std::cout << aClient->username << " move [" << aMoveClient.x << ", " << aMoveClient.y << "]" << std::endl;
 	//Check for match result then send the result if the match ends
 	int matchResult = aRoomWithServer->getMatchResult();
-	if (matchResult != MATCH_CONTINUE) 
-	{
+	if (matchResult != MATCH_CONTINUE) {
 		switch (matchResult) {
 		case MATCH_END_BY_DRAW:
 			Send(aClient, OPCODE_RESULT, 0, NULL);
-			updateMatchLogWithServer(aRoomWithServer, aClient, MATCH_END_BY_DRAW, "No one");
 			updateFreeStatus(aClient->username, UPDATE_USER_NOT_BUSY);
+			updateMatchLogWithServer(aRoomWithServer, aClient, MATCH_END_BY_DRAW, "No one");
 			break;
 		case MATCH_END_BY_WIN:
 			winnerName = aClient->username;
 			Send(aClient, OPCODE_RESULT, (unsigned short)strlen(winnerName), winnerName);
-			updateMatchLogWithServer(aRoomWithServer, aClient, MATCH_END_BY_WIN, winnerName);
 			updateFreeStatus(aClient->username, UPDATE_USER_NOT_BUSY);
+			updateMatchLogWithServer(aRoomWithServer, aClient, MATCH_END_BY_WIN, winnerName);
 			break;
 		default:
 			break;
@@ -797,7 +798,9 @@ void handleRecvPlayWithServer(CLIENT* aClient) {
 	Send(aClient, OPCODE_PLAY_REPLY_SERVER, 2, coordinateReply);
 	//Check for match result then send the result if the match ends
 	matchResult = aRoomWithServer->getMatchResult();
-	if (matchResult == MATCH_CONTINUE) { return; }
+	if (matchResult == MATCH_CONTINUE) {
+		return; 
+	}
 	switch (matchResult) {
 	case MATCH_END_BY_DRAW:
 		Send(aClient, OPCODE_RESULT, 0, NULL);

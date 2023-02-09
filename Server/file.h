@@ -12,7 +12,6 @@
 */
 void createTempFileName(char* player1, char* player2, char* filename);
 
-
 /*
 @function countBytesLeftInFile: Count number of bytes left in file, starting from the current position
 

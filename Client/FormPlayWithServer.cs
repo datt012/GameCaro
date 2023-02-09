@@ -13,7 +13,7 @@ namespace Client
 {
     public partial class FormPlayWithServer : Form
     {
-        private int quick = 600;
+        private int quick = 3600;
         private BoardWithServer boardWithServer;
         private System.Windows.Forms.Timer timerCountdown;
 

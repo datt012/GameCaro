@@ -45,6 +45,7 @@
         public const byte OPCODE_SIGN_UP_DUPLICATED_USERNAME = 12;
         public const byte OPCODE_SIGN_UP_DIFFERENT_REPASSWORD = 13;
         public const byte OPCODE_SIGN_UP_INVALID_USERNAME = 14;
+        public const byte OPCODE_SIGN_UP_INVALID_PASSWORD = 15;
         public const byte OPCODE_SIGN_UP_UNKNOWN_ERROR = 19;
 
         public const byte OPCODE_SIGN_IN = 20;
@@ -52,7 +53,8 @@
         public const byte OPCODE_SIGN_IN_ALREADY_LOGGED_IN = 22;
         public const byte OPCODE_SIGN_IN_USERNAME_NOT_FOUND = 23;
         public const byte OPCODE_SIGN_IN_INVALID_USERNAME = 24;
-        public const byte OPCODE_SIGN_IN_WRONG_PASSWORD = 25;
+        public const byte OPCODE_SIGN_IN_INVALID_PASSWORD = 25;
+        public const byte OPCODE_SIGN_IN_WRONG_PASSWORD = 26;
         public const byte OPCODE_SIGN_IN_UNKNOWN_ERROR = 29;
 
         public const byte OPCODE_SIGN_OUT = 30;

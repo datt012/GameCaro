@@ -244,6 +244,7 @@ namespace Client
                 case Constants.OPCODE_SIGN_IN_ALREADY_LOGGED_IN:
                 case Constants.OPCODE_SIGN_IN_USERNAME_NOT_FOUND:
                 case Constants.OPCODE_SIGN_IN_INVALID_USERNAME:
+                case Constants.OPCODE_SIGN_IN_INVALID_PASSWORD:
                 case Constants.OPCODE_SIGN_IN_WRONG_PASSWORD:
                 case Constants.OPCODE_SIGN_IN_UNKNOWN_ERROR:
                     EventManager.eventManager.notifySignIn(opcode);
@@ -252,6 +253,7 @@ namespace Client
                 case Constants.OPCODE_SIGN_UP_DUPLICATED_USERNAME:
                 case Constants.OPCODE_SIGN_UP_DIFFERENT_REPASSWORD:
                 case Constants.OPCODE_SIGN_UP_INVALID_USERNAME:
+                case Constants.OPCODE_SIGN_UP_INVALID_PASSWORD:
                 case Constants.OPCODE_SIGN_UP_UNKNOWN_ERROR:
                     EventManager.eventManager.notifySignUp(opcode);
                     break; 

@@ -7,7 +7,7 @@ class RoomWithServer {
 private:
 	SOCKET playerSocket;
 	std::vector<PlayerMove> movesList;
-    int board[BOARD_HEIGHT + 2][BOARD_WIDTH + 2];
+    int board[BOARD_HEIGHT][BOARD_WIDTH];
 	std::string startTime;
 public:
 	RoomWithServer(SOCKET playerSocket);

@@ -61,6 +61,9 @@ namespace Client
                     case Constants.OPCODE_SIGN_UP_INVALID_USERNAME:
                         MessageBox.Show("Invalid username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
+                    case Constants.OPCODE_SIGN_UP_INVALID_PASSWORD:
+                        MessageBox.Show("Invalid password or repassword!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
                     case Constants.OPCODE_SIGN_UP_DUPLICATED_USERNAME:
                         MessageBox.Show("Username is already used!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
@@ -102,6 +105,9 @@ namespace Client
                             break;
                         case Constants.OPCODE_SIGN_IN_INVALID_USERNAME:
                             MessageBox.Show("Invalid username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                        case Constants.OPCODE_SIGN_IN_INVALID_PASSWORD:
+                            MessageBox.Show("Invalid password!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             break;
                         case Constants.OPCODE_SIGN_IN_USERNAME_NOT_FOUND:
                             MessageBox.Show("Can't find username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

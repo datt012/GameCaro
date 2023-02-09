@@ -14,10 +14,6 @@
 #include "roomWithServer.h"
 #include "regex"
 
-/* START DEFINE CONSTANTS */
-#define NO_CLIENT -1
-/* END DEFINE CONSTANTS */
-
 /* START DEFINE VARIABLES */
 CLIENT clients[WSA_MAXIMUM_WAIT_EVENTS];
 std::vector<Room> rooms;
@@ -488,9 +484,13 @@ void handleRecvSignUp(CLIENT* aClient) {
 	std::string username = payload.substr(0, payload.find("|"));
 	std::string password = payload.substr(payload.find("|") + 1, payload.find(" ") - size(username) - 1);
 	std::string repassword = payload.substr(payload.find(" ") + 1);
-	//Check if username is invalid
+	//Check if username or password is invalid
 	if (!std::regex_search(username, reg) || username.size() > 20) {
 		Send(aClient, OPCODE_SIGN_UP_INVALID_USERNAME, 0, NULL);
+		return;
+	}
+	else if (password.compare("47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=") == 0 || repassword.compare("47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=") == 0) {
+		Send(aClient, OPCODE_SIGN_UP_INVALID_PASSWORD, 0, NULL);
 		return;
 	}
 	//Check if password and repassword are different
@@ -519,9 +519,13 @@ void handleRecvSignIn(CLIENT* aClient) {
 	//Split username and password
 	std::string username = payload.substr(0, payload.find("|"));
 	std::string password = payload.substr(payload.find("|") + 1);
-	//Check if username is invalid
+	//Check if username or password is invalid
 	if (!std::regex_search(username, reg) || username.size() > 20) {
 		Send(aClient, OPCODE_SIGN_IN_INVALID_USERNAME, 0, NULL);
+		return;
+	}
+	else if (password.compare("47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=") == 0) {
+		Send(aClient, OPCODE_SIGN_IN_INVALID_PASSWORD, 0, NULL);
 		return;
 	}
 	//Check for signed in user
@@ -797,14 +801,14 @@ void handleRecvPlayWithServer(CLIENT* aClient) {
 	switch (matchResult) {
 	case MATCH_END_BY_DRAW:
 		Send(aClient, OPCODE_RESULT, 0, NULL);
-		updateMatchLogWithServer(aRoomWithServer, aClient, MATCH_END_BY_DRAW, "No one");
 		updateFreeStatus(aClient->username, UPDATE_USER_NOT_BUSY);
+		updateMatchLogWithServer(aRoomWithServer, aClient, MATCH_END_BY_DRAW, "No one");
 		break;
 	case MATCH_END_BY_WIN:
 		winnerName = "Server";
 		Send(aClient, OPCODE_RESULT, (unsigned short)strlen(winnerName), winnerName);
-		updateMatchLogWithServer(aRoomWithServer, aClient, MATCH_END_BY_WIN, winnerName);
 		updateFreeStatus(aClient->username, UPDATE_USER_NOT_BUSY);
+		updateMatchLogWithServer(aRoomWithServer, aClient, MATCH_END_BY_WIN, winnerName);
 		break;
 	default:
 		break;
@@ -920,7 +924,7 @@ void updateMatchLogWithServer(RoomWithServer* aRoomWithServer, CLIENT* aClient, 
 		+ "Match start at " + aRoomWithServer->getStartTime()
 		+ "Match end at " + getCurrentTime() + "\n"
 		+ "IP Address: " + std::string(aClient->address) + "\tPlayer 1: " + std::string(aClient->username) + "\n"
-		+ "IP Address: " + "IP of Server" + "\tPlayer 2: " + "Server" + "\n\n"
+		+ "IP Address: " + SERVER_ADDR + "\tPlayer 2: " + "Server" + "\n\n"
 		+ "Move Log\n";
 	switch (endReasonType) {
 	case MATCH_END_BY_DRAW:

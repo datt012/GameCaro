@@ -8,9 +8,7 @@ Define sever variables
 #define MAX_CLIENT 1024
 #define BUFF_SIZE 10240
 
-/*
-Define room variables
-*/
+#define NO_CLIENT -1
 #define NO_ROOM -1
 
 #define BOARD_HEIGHT 16
@@ -56,6 +54,7 @@ Opcode for sending and receiving sign up request and reply
 #define OPCODE_SIGN_UP_DUPLICATED_USERNAME 12
 #define OPCODE_SIGN_UP_DIFFERENT_REPASSWORD 13
 #define OPCODE_SIGN_UP_INVALID_USERNAME 14
+#define OPCODE_SIGN_UP_INVALID_PASSWORD 15
 #define OPCODE_SIGN_UP_UNKNOWN_ERROR 19
 
 /*
@@ -66,7 +65,8 @@ Opcode for sending and receiving sign in request and reply
 #define OPCODE_SIGN_IN_ALREADY_LOGGED_IN 22
 #define OPCODE_SIGN_IN_USERNAME_NOT_FOUND 23
 #define OPCODE_SIGN_IN_INVALID_USERNAME 24
-#define OPCODE_SIGN_IN_WRONG_PASSWORD 25
+#define OPCODE_SIGN_IN_INVALID_PASSWORD 25
+#define OPCODE_SIGN_IN_WRONG_PASSWORD 26
 #define OPCODE_SIGN_IN_UNKNOWN_ERROR 29
 
 /*
@@ -99,7 +99,7 @@ Opcode for sending and receiving querying player's info request and reply
 #define OPCODE_INFO_REPLY 61
 
 /*
-Opcode for  receiving request and sending reply of players' move in a match 
+Opcode for receiving request and sending reply of players' move in a match 
 */
 #define OPCODE_PLAY 70
 #define OPCODE_PLAY_OPPONENT 71
@@ -125,10 +125,16 @@ Opcode for sending and receiving querying history match request and reply
 #define OPCODE_HISTORY 100
 #define OPCODE_HISTORY_REPLY 101
 
+/*
+Opcode for sending and receiving challenge player request and reply to server
+*/
 #define OPCODE_CHALLENGE_WITH_SERVER 110
 #define OPCODE_CHALLENGE_WITH_SERVER_PLAY 111
 #define OPCODE_CHALLENGE_WITH_SERVER_OVERLOAD 112
 
+/*
+Opcode for receiving request and sending reply of players' move in a match to server
+*/
 #define OPCODE_PLAY_WITH_SERVER 120
 #define OPCODE_PLAY_REPLY_SERVER 121
 #define OPCODE_PLAY_INVALID_CORDINATE_SERVER 122

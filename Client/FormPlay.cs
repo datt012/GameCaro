@@ -97,22 +97,6 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion openSaveFileDialog: Open the saveFileDialog
-        /// </summary>
-        private void openSaveFileDialog()
-        {
-            System.Windows.Forms.SaveFileDialog saveFileDialog = FormMain.App.getSaveFileDialog();
-            saveFileDialog.Filter = "Text File|*.txt";
-            saveFileDialog.Title = "Choose a place to save match log";
-            saveFileDialog.ShowDialog();
-            if (saveFileDialog.FileName != "")
-            {
-                FileManager.startSaveFile(saveFileDialog);
-                SocketManager.socketManager.sendData(new Message(Constants.OPCODE_FILE));
-            }
-        }
-
-        ///<summary>
         ///@funtion FormPlay_FormClosing: Triggered when form is closing
         ///<para></para>
         ///@param sender: The object that trigger the event
@@ -144,7 +128,6 @@ namespace Client
             SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO));
             EventManager.eventManager.Result -= EventManager_Result;
             FormManager.openForm(Constants.FORM_MAIN);
-            openSaveFileDialog();
             this.Close();
         }
 

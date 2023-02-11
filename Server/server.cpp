@@ -86,7 +86,6 @@ int main(int argc, char* argv[]) {
 				printf("FD_READ failed with error %d\n", sockEvent.iErrorCode[FD_READ_BIT]);
 				break;
 			}
-
 			ret = Recv(&clients[index]);
 			//Release socket and event if an error occurs
 			if (ret <= 0) {

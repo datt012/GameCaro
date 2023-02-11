@@ -74,9 +74,9 @@
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 418);
+            this.statusStrip.Location = new System.Drawing.Point(0, 417);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(344, 23);
+            this.statusStrip.Size = new System.Drawing.Size(344, 24);
             this.statusStrip.TabIndex = 16;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -84,8 +84,8 @@
             // 
             this.toolStripStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(79, 17);
-            this.toolStripStatusLabel.Text = "TicTacToe!";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(83, 18);
+            this.toolStripStatusLabel.Text = "Game Caro!";
             // 
             // flowLayoutPanel1
             // 
@@ -97,7 +97,7 @@
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(8);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(344, 418);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(344, 417);
             this.flowLayoutPanel1.TabIndex = 6;
             // 
             // groupBox1
@@ -352,7 +352,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(321, 33);
             this.tableLayoutPanel1.TabIndex = 4;
             // 

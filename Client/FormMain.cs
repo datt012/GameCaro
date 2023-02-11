@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Client
 {
@@ -20,7 +21,7 @@ namespace Client
         private Dictionary<string, KeyValuePair<string, string>> dictionary = new Dictionary<string, KeyValuePair<string, string>>();
 
         /// <summary>
-        /// Store one instance of FormMain
+        /// Store one instance of Form Main
         /// </summary>
         public static FormMain App
         {
@@ -61,7 +62,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion getSaveFileDialog: Get the form SaveFileDialog instance
+        ///@funtion getSaveFileDialog: Get the form dialog save file instance
         ///<para></para>
         ///@return The form's SaveFileDialog
         /// </summary>
@@ -79,7 +80,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion FormMain_Shown: Triggered when the FormMain instance is shown the first time
+        ///@funtion FormMain_Shown: Triggered when the form main instance is shown the first time
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>
@@ -92,7 +93,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion FormMain_FormClosing: Triggered when the FormMain instance is closing
+        ///@funtion FormMain_FormClosing: Triggered when the form main instance is closing
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>
@@ -105,7 +106,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion FormMain_FormClosed: Triggered when the FormMain instance is closed
+        ///@funtion FormMain_FormClosed: Triggered when the form main instance is closed
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>
@@ -118,7 +119,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion signOutButton_Click: Triggered when the signOutButton is clicked
+        ///@funtion signOutButton_Click: Triggered when the button sign out is clicked
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>
@@ -135,7 +136,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion historyButton_Click: Triggered when the historyButton is clicked
+        ///@funtion historyButton_Click: Triggered when the button history is clicked
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>
@@ -152,6 +153,14 @@ namespace Client
                 SocketManager.socketManager.sendData(new Message(Constants.OPCODE_HISTORY));
             }
         }
+
+        ///<summary>
+        ///@funtion listPlayer_SelectedIndexChanged: Triggered when the mouse select item username in list free player 
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
         private void listPlayer_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(listPlayer.SelectedItems.Count > 0)
@@ -167,6 +176,14 @@ namespace Client
                 challengedPlayerName.Text = "";
             }
         }
+
+        ///<summary>
+        ///@funtion signOutButton_Click: Triggered when the button send challenge is clicked
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
         private void challengeBtn_Click(object sender, EventArgs e)
         {
             string challengedUsername = challengedPlayerName.Text;
@@ -205,6 +222,7 @@ namespace Client
                         opponentName = e.ReturnText;
                         FormManager.openForm(Constants.FORM_PLAY, e);
                     }
+                    openSaveFileDialog();
                     this.Show();
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
                     if(formHistoryAlready == true)
@@ -314,6 +332,13 @@ namespace Client
             
         }
 
+        ///<summary>
+        ///@funtion EventManager_History: Triggered when there is a reply from server after player wants to see history match
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
         private void EventManager_History(object sender, SuperEventArgs e)
         {
             FormMain.App.BeginInvoke((MethodInvoker)(() =>
@@ -323,6 +348,13 @@ namespace Client
             }));
         }
 
+        ///<summary>
+        ///@funtion EventManager_Server: Triggered when there is a reply from server after player wants to challenge server
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
         private void EventManager_Server(object sender, SuperEventArgs e)
         {
             FormMain.App.BeginInvoke((MethodInvoker)(() =>
@@ -338,6 +370,7 @@ namespace Client
                     }
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
                     FormManager.openForm(Constants.FORM_PLAY_WITH_SERVER);
+                    openSaveFileDialog();
                     this.Show();
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
                     if (formHistoryAlready == true)
@@ -367,6 +400,7 @@ namespace Client
                 if (e.ReturnCode == Constants.OPCODE_SIGN_OUT_SUCCESS)
                 {
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
+                    this.toolStripStatusLabel.Text = "Game caro!";
                     FormManager.openForm(Constants.FORM_ACCOUNT, e);
                 }
                 else if (e.ReturnCode == Constants.OPCODE_SIGN_OUT_NOT_LOGGED_IN)
@@ -377,6 +411,22 @@ namespace Client
         }
 
         ///<summary>
+        ///@funtion openSaveFileDialog: Open the dialog to save file
+        /// </summary>
+        private void openSaveFileDialog()
+        {
+            System.Windows.Forms.SaveFileDialog saveFileDialog = FormMain.App.getSaveFileDialog();
+            saveFileDialog.Filter = "Text File|*.txt";
+            saveFileDialog.Title = "Choose a place to save match log";
+            saveFileDialog.ShowDialog();
+            if (saveFileDialog.FileName != "")
+            {
+                FileManager.startSaveFile(saveFileDialog);
+                SocketManager.socketManager.sendData(new Message(Constants.OPCODE_FILE));
+            }
+        }
+
+        ///<summary>
         ///@funtion changeStatus: Change the toolStripStatusLabel1 content
         /// </summary>
         private void changeStatus(string status)
@@ -384,6 +434,13 @@ namespace Client
             this.toolStripStatusLabel.Text = status;
         }
 
+        ///<summary>
+        ///@funtion signOutButton_Click: Triggered when the button server is clicked
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
         private void buttonPlayWithServer_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Do you want to play with Server?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);

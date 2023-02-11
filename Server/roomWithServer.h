@@ -235,7 +235,7 @@ void RoomWithServer::caculateChess(int* coordinateServer) {
     for (int i = 0; i < BOARD_HEIGHT; i++) {
         for (int j = 0; j < BOARD_WIDTH; j++) {
             if (this->board[i][j] == 0) {
-                long temp = clientChess(i, j) + serverChess(i, j);
+                long temp = serverChess(i, j) + clientChess(i, j);
                 if (temp > max) {
                     max = temp;
                     imax = i;

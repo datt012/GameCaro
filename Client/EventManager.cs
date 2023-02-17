@@ -15,6 +15,7 @@ namespace Client
         private event EventHandler<SuperEventArgs> _signout;
         private event EventHandler<SuperEventArgs> _history;
         private event EventHandler<SuperEventArgs> _server;
+        private event EventHandler<SuperEventArgs> _password;
 
         public static EventManager eventManager {
             get
@@ -136,6 +137,18 @@ namespace Client
             }
         }
 
+        public event EventHandler<SuperEventArgs> Password
+        {
+            add
+            {
+                _password += value;
+            }
+            remove
+            {
+                _password -= value;
+            }
+        }
+
         ///<summary>
         ///@funtion notifySignUp: Notify the sign up result to the event object when receiving a message
         ///<para></para>
@@ -244,7 +257,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion notifyServer: Notify the respond of server to the event objecct when receiving a message
+        ///@funtion notifyServer: Notify the respond of server to the event object when receiving a message
         ///<para></para>
         ///@param code: Opcode of the meassage
         ///</summary>
@@ -252,6 +265,17 @@ namespace Client
         {
             if (_server != null)
                 _server(this, new SuperEventArgs(code));
+        }
+
+        ///<summary>
+        ///@funtion notifyPassword: Notify the result change password to the event object when receiving a message
+        ///<para></para>
+        ///@param code: Opcode of the meassage
+        ///</summary>
+        public void notifyPassword(int code)
+        {
+            if (_password != null)
+                _password(this, new SuperEventArgs(code));
         }
     }
 

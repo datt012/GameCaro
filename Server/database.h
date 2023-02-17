@@ -89,6 +89,13 @@ int getFreeStatus(char *username);
 int getScore(char *username);
 
 /*
+@Function getPassword: Get password of user
+@Param username: Username of user
+@Return: Password of user
+*/
+std::string getPassword(char* username);
+
+/*
 @Function updateSignIn: Update sign in status in database
 @Param username: Username of user
 @Param password: Password of user
@@ -132,6 +139,14 @@ void updateFreeStatus(char *username, int freeStatus);
 @Return: None
 */
 void updateScore(char *username, int win);
+
+/*
+@Function updatePassword: Update password of user
+@Param username: Username of user
+@Param newPassword: New password of user
+@Return: None
+*/
+void updatePassword(char* username, std::string newPassword);
 
 /*
 @Function updateUserCurrentChallenge: Update challenged person of user
@@ -528,6 +543,34 @@ std::string getFreePlayerList(char* username) {
 		disconnectDatabase();
 	}
 	return listFreePlayer;
+}
+
+std::string getPassword(char* username) {
+	char pass[PASSWORD_SIZE] = "";
+	std::string SQLQuery = "SELECT password FROM account WHERE username = '" + std::string(username) + "'";
+	if (connectDatabase()) {
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
+			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+		}
+		else {
+			
+			while (SQLFetch(SQLStatementHandle) == SQL_SUCCESS) {
+				SQLGetData(SQLStatementHandle, 1, SQL_C_DEFAULT, &pass, sizeof(pass), NULL);
+			}
+		}
+		disconnectDatabase();
+	}
+	return std::string(pass);
+}
+
+void updatePassword(char* username, std::string newPassword) {
+	std::string SQLQuery = "UPDATE account SET password = '" + newPassword + "' WHERE username = '" + std::string(username) + "'";
+	if (connectDatabase()) {
+		if (SQL_SUCCESS != SQLExecDirect(SQLStatementHandle, (SQLCHAR*)SQLQuery.c_str(), SQL_NTS)) {
+			showSQLError(SQL_HANDLE_STMT, SQLStatementHandle);
+		}
+		disconnectDatabase();
+	}
 }
 
 void updateHistory(std::string player1, std::string player2, std::string matchEndBy, std::string winner, std::string timeStart, std::string timeEnd) {

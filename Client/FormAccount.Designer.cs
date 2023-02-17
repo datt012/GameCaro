@@ -104,7 +104,7 @@ namespace Client
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.36364F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.63636F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 97F));
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label3, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.usernameTextBoxIn, 2, 0);
@@ -143,10 +143,10 @@ namespace Client
             // usernameTextBoxIn
             // 
             this.usernameTextBoxIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.usernameTextBoxIn.Location = new System.Drawing.Point(166, 5);
+            this.usernameTextBoxIn.Location = new System.Drawing.Point(165, 5);
             this.usernameTextBoxIn.Margin = new System.Windows.Forms.Padding(4);
             this.usernameTextBoxIn.Name = "usernameTextBoxIn";
-            this.usernameTextBoxIn.Size = new System.Drawing.Size(135, 22);
+            this.usernameTextBoxIn.Size = new System.Drawing.Size(134, 22);
             this.usernameTextBoxIn.TabIndex = 2;
             this.usernameTextBoxIn.WordWrap = false;
             this.usernameTextBoxIn.Validating += new System.ComponentModel.CancelEventHandler(this.usernameTextBoxIn_Validating);
@@ -154,10 +154,10 @@ namespace Client
             // passwordTextBoxIn
             // 
             this.passwordTextBoxIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.passwordTextBoxIn.Location = new System.Drawing.Point(166, 38);
+            this.passwordTextBoxIn.Location = new System.Drawing.Point(165, 38);
             this.passwordTextBoxIn.Margin = new System.Windows.Forms.Padding(4);
             this.passwordTextBoxIn.Name = "passwordTextBoxIn";
-            this.passwordTextBoxIn.Size = new System.Drawing.Size(135, 22);
+            this.passwordTextBoxIn.Size = new System.Drawing.Size(134, 22);
             this.passwordTextBoxIn.TabIndex = 3;
             this.passwordTextBoxIn.UseSystemPasswordChar = true;
             this.passwordTextBoxIn.WordWrap = false;
@@ -216,9 +216,9 @@ namespace Client
             // 
             this.tableLayoutPanel3.ColumnCount = 4;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.36364F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.63636F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 95F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 81F));
             this.tableLayoutPanel3.Controls.Add(this.label5, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.label6, 1, 1);
             this.tableLayoutPanel3.Controls.Add(this.usernameTextBoxUp, 2, 0);
@@ -260,10 +260,10 @@ namespace Client
             // usernameTextBoxUp
             // 
             this.usernameTextBoxUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.usernameTextBoxUp.Location = new System.Drawing.Point(166, 5);
+            this.usernameTextBoxUp.Location = new System.Drawing.Point(180, 5);
             this.usernameTextBoxUp.Margin = new System.Windows.Forms.Padding(4);
             this.usernameTextBoxUp.Name = "usernameTextBoxUp";
-            this.usernameTextBoxUp.Size = new System.Drawing.Size(135, 22);
+            this.usernameTextBoxUp.Size = new System.Drawing.Size(136, 22);
             this.usernameTextBoxUp.TabIndex = 2;
             this.usernameTextBoxUp.WordWrap = false;
             this.usernameTextBoxUp.Validating += new System.ComponentModel.CancelEventHandler(this.usernameTextBoxUp_Validating);
@@ -271,10 +271,10 @@ namespace Client
             // passwordTextBoxUp
             // 
             this.passwordTextBoxUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.passwordTextBoxUp.Location = new System.Drawing.Point(166, 38);
+            this.passwordTextBoxUp.Location = new System.Drawing.Point(180, 38);
             this.passwordTextBoxUp.Margin = new System.Windows.Forms.Padding(4);
             this.passwordTextBoxUp.Name = "passwordTextBoxUp";
-            this.passwordTextBoxUp.Size = new System.Drawing.Size(135, 22);
+            this.passwordTextBoxUp.Size = new System.Drawing.Size(136, 22);
             this.passwordTextBoxUp.TabIndex = 3;
             this.passwordTextBoxUp.UseSystemPasswordChar = true;
             this.passwordTextBoxUp.WordWrap = false;
@@ -287,17 +287,17 @@ namespace Client
             this.label7.Location = new System.Drawing.Point(84, 74);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(55, 16);
+            this.label7.Size = new System.Drawing.Size(84, 16);
             this.label7.TabIndex = 4;
-            this.label7.Text = "Repass";
+            this.label7.Text = "Repassword";
             // 
             // repasswordTextBoxUp
             // 
             this.repasswordTextBoxUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.repasswordTextBoxUp.Location = new System.Drawing.Point(166, 71);
+            this.repasswordTextBoxUp.Location = new System.Drawing.Point(180, 71);
             this.repasswordTextBoxUp.Margin = new System.Windows.Forms.Padding(4);
             this.repasswordTextBoxUp.Name = "repasswordTextBoxUp";
-            this.repasswordTextBoxUp.Size = new System.Drawing.Size(135, 22);
+            this.repasswordTextBoxUp.Size = new System.Drawing.Size(136, 22);
             this.repasswordTextBoxUp.TabIndex = 5;
             this.repasswordTextBoxUp.UseSystemPasswordChar = true;
             this.repasswordTextBoxUp.WordWrap = false;
@@ -376,7 +376,7 @@ namespace Client
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(409, 251);
+            this.ClientSize = new System.Drawing.Size(408, 252);
             this.Controls.Add(this.panelSignIn);
             this.Controls.Add(this.panelSignUp);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

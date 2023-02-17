@@ -24,7 +24,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion FormAccount_FormClosed: Triggered when form is closed
+        ///@funtion FormAccount_FormClosed: Triggered when form account instance is closed
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>
@@ -32,6 +32,7 @@ namespace Client
         /// </summary>
         private void FormAccount_FormClosed(object sender, FormClosedEventArgs e)
         {
+            SocketManager.socketManager.closeSocket();
             Application.Exit();
         }
 
@@ -62,7 +63,7 @@ namespace Client
                         MessageBox.Show("Invalid username!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case Constants.OPCODE_SIGN_UP_INVALID_PASSWORD:
-                        MessageBox.Show("Invalid password or repassword!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Invalid password!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     case Constants.OPCODE_SIGN_UP_DUPLICATED_USERNAME:
                         MessageBox.Show("Username is already used!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

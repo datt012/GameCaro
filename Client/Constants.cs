@@ -24,6 +24,7 @@
         public const int FORM_ACCOUNT = 2;
         public const int FORM_HISTORY = 3;
         public const int FORM_PLAY_WITH_SERVER = 4;
+        public const int FORM_PASSWORD = 5;
 
         public const int TURN_O = 1;
         public const int TURN_X = 2;
@@ -54,41 +55,47 @@
         public const byte OPCODE_SIGN_OUT_SUCCESS = 31;
         public const byte OPCODE_SIGN_OUT_NOT_LOGGED_IN = 32;
 
-        public const byte OPCODE_LIST = 40;
-        public const byte OPCODE_LIST_REPLY = 41;
+        public const byte OPCODE_INFO = 40;
+        public const byte OPCODE_INFO_REPLY = 41;
 
-        public const byte OPCODE_CHALLENGE = 50;
-        public const byte OPCODE_CHALLENGE_ACCEPT = 51;
-        public const byte OPCODE_CHALLENGE_REFUSE = 52;
-        public const byte OPCODE_CHALLENGE_INVALID_RANK = 53;
-        public const byte OPCODE_CHALLENGE_BUSY = 54;
-        public const byte OPCODE_CHALLENGE_NOT_FOUND = 55;
+        public const byte OPCODE_LIST = 50;
+        public const byte OPCODE_LIST_REPLY = 51;
 
-        public const byte OPCODE_INFO = 60;
-        public const byte OPCODE_INFO_REPLY = 61;
+        public const byte OPCODE_CHALLENGE = 60;
+        public const byte OPCODE_CHALLENGE_ACCEPT = 61;
+        public const byte OPCODE_CHALLENGE_REFUSE = 62;
+        public const byte OPCODE_CHALLENGE_INVALID_RANK = 63;
+        public const byte OPCODE_CHALLENGE_BUSY = 64;
+        public const byte OPCODE_CHALLENGE_NOT_FOUND = 65;
 
-        public const byte OPCODE_PLAY = 70;
-        public const byte OPCODE_PLAY_OPPONENT = 71;
-        public const byte OPCODE_PLAY_INVALID_CORDINATE = 72;
-        public const byte OPCODE_PLAY_INVALID_TURN = 73;
+        public const byte OPCODE_CHALLENGE_WITH_SERVER = 70;
+        public const byte OPCODE_CHALLENGE_WITH_SERVER_PLAY = 71;
+        public const byte OPCODE_CHALLENGE_WITH_SERVER_OVERLOAD = 72;
 
-        public const byte OPCODE_SURRENDER = 80;
-        public const byte OPCODE_SURRENDER_WITH_SERVER = 81;
+        public const byte OPCODE_PLAY = 80;
+        public const byte OPCODE_PLAY_OPPONENT = 81;
+        public const byte OPCODE_PLAY_INVALID_CORDINATE = 82;
+        public const byte OPCODE_PLAY_INVALID_TURN = 83;
 
-        public const byte OPCODE_RESULT = 90;
-        public const byte OPCODE_TIMER_DRAW = 91;
-        public const byte OPCODE_TIMER_DRAW_WITH_SERVER = 92;
+        public const byte OPCODE_PLAY_WITH_SERVER = 90;
+        public const byte OPCODE_PLAY_REPLY_SERVER = 91;
+        public const byte OPCODE_PLAY_INVALID_CORDINATE_SERVER = 92;
+        public const byte OPCODE_PLAY_INVALID_TURN_SERVER = 93;
 
-        public const byte OPCODE_HISTORY = 100;
-        public const byte OPCODE_HISTORY_REPLY = 101;
+        public const byte OPCODE_RESULT = 100;
+        public const byte OPCODE_SURRENDER = 101;
+        public const byte OPCODE_SURRENDER_WITH_SERVER = 102;
+        public const byte OPCODE_TIMER_DRAW = 103;
+        public const byte OPCODE_TIMER_DRAW_WITH_SERVER = 104;
 
-        public const byte OPCODE_CHALLENGE_WITH_SERVER = 110;
-        public const byte OPCODE_CHALLENGE_WITH_SERVER_PLAY = 111;
-        public const byte OPCODE_CHALLENGE_WITH_SERVER_OVERLOAD = 112;
+        public const byte OPCODE_HISTORY = 110;
+        public const byte OPCODE_HISTORY_REPLY = 111;
 
-        public const byte OPCODE_PLAY_WITH_SERVER = 120;
-        public const byte OPCODE_PLAY_REPLY_SERVER = 121;
-        public const byte OPCODE_PLAY_INVALID_CORDINATE_SERVER = 122;
-        public const byte OPCODE_PLAY_INVALID_TURN_SERVER = 123;
+        public const byte OPCODE_CHANGE_PASSWORD = 120;
+        public const byte OPCODE_CHANGE_PASSWORD_SUCCESS = 121;
+        public const byte OPCODE_CHANGE_PASSWORD_WRONG = 122;
+        public const byte OPCODE_CHANGE_DIFFERENT_NEWPASSWORD = 123;
+        public const byte OPCODE_CHANGE_PASSWORD_INVALID = 124;
+        public const byte OPCODE_CHANGE_PASSWORD_OLDNEW = 125;
     }
 }

@@ -6,7 +6,7 @@ struct CLIENT {
 	SOCKET socket{};
 	char address[INET_ADDRSTRLEN]{};
 	int port{};
-	int opcode{};
+	unsigned int opcode{};
 	unsigned short buffLen{};
 	unsigned short recvBytes{};
 	unsigned short sentBytes{};
@@ -67,7 +67,7 @@ If client disconnect, return 0
 */
 int Recv(CLIENT* aClient) {
 	int ret;
-	// recv header
+	//Recv header
 	aClient->recvBytes = OPCODE_SIZE + LENGTH_SIZE;
 	aClient->buffLen = 0;
 	while (aClient->buffLen < aClient->recvBytes) {
@@ -82,15 +82,13 @@ int Recv(CLIENT* aClient) {
 		}
 	    aClient->buffLen += ret;
 	}
-	// recv payload
+	//Recv payload
 	aClient->opcode = aClient->buff[0];
 	memcpy(&aClient->recvBytes, aClient->buff + OPCODE_SIZE, LENGTH_SIZE);
 	aClient->buffLen = 0;
-
 	if (aClient->recvBytes == 0) {
 		return OPCODE_SIZE + LENGTH_SIZE;
 	}
-
 	while (aClient->buffLen < aClient->recvBytes) {
 		ret = recv(aClient->socket, aClient->buff + aClient->buffLen, aClient->recvBytes - aClient->buffLen, 0);
 		if (ret == SOCKET_ERROR) {
@@ -103,7 +101,6 @@ int Recv(CLIENT* aClient) {
 		}
 		aClient->buffLen += ret;
 	}
-
 	aClient->buff[aClient->buffLen] = 0;
 	return OPCODE_SIZE + LENGTH_SIZE + aClient->recvBytes;
 }
@@ -128,7 +125,6 @@ int Send(CLIENT* aClient, char opcode, unsigned short length, char* payload) {
 	aClient->buffLen = OPCODE_SIZE + LENGTH_SIZE + length;
 	aClient->sentBytes = 0;
 	aClient->buff[aClient->buffLen] = 0;
-
 	while (aClient->sentBytes < aClient->buffLen) {
 		ret = send(aClient->socket, aClient->buff + aClient->sentBytes, aClient->buffLen - aClient->sentBytes, 0);
 		if (ret == SOCKET_ERROR) {
@@ -137,6 +133,5 @@ int Send(CLIENT* aClient, char opcode, unsigned short length, char* payload) {
 		}
 		aClient->sentBytes += ret;
 	}
-
 	return aClient->sentBytes;
 }

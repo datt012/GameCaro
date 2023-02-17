@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -10,7 +13,7 @@ namespace Client
     {
         public static byte[] _buff;
         private static int _length;
-        private static System.Windows.Forms.SaveFileDialog _saveFileDialog;
+        public static string nameFile;
 
         ///<summary>
         ///@funtion appendToBuff: Append a buff data to the main buff
@@ -31,21 +34,13 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion startSaveFile: Save the saveFileDialog instance that user interacted for later use
-        ///<para></para>
-        ///@param saveFileDialog: The saveFileDialog
-        /// </summary>
-        public static void startSaveFile(System.Windows.Forms.SaveFileDialog saveFileDialog)
-        {
-            _saveFileDialog = saveFileDialog;
-        }
-
-        ///<summary>
-        ///@funtion saveFile: Get the file stream from saveFileDialog and transfer data from buff to file
+        ///@funtion saveFile: Get the file stream and transfer data from buff to file
         /// </summary>
         public static void saveFile()
         {
-            System.IO.FileStream fs = (System.IO.FileStream)_saveFileDialog.OpenFile();
+            System.IO.FileStream fs = new FileStream(nameFile,
+                                          FileMode.OpenOrCreate,
+                                          FileAccess.Write);
             fs.Write(_buff, 0, _length);
             fs.Close();
         }

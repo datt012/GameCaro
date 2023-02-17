@@ -222,7 +222,6 @@ namespace Client
                         opponentName = e.ReturnText;
                         FormManager.openForm(Constants.FORM_PLAY, e);
                     }
-                    openSaveFileDialog();
                     this.Show();
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
                     if(formHistoryAlready == true)
@@ -370,7 +369,6 @@ namespace Client
                     }
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
                     FormManager.openForm(Constants.FORM_PLAY_WITH_SERVER);
-                    openSaveFileDialog();
                     this.Show();
                     SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
                     if (formHistoryAlready == true)
@@ -410,22 +408,7 @@ namespace Client
             }));
         }
 
-        ///<summary>
-        ///@funtion openSaveFileDialog: Open the dialog to save file
-        /// </summary>
-        private void openSaveFileDialog()
-        {
-            System.Windows.Forms.SaveFileDialog saveFileDialog = FormMain.App.getSaveFileDialog();
-            saveFileDialog.Filter = "Text File|*.txt";
-            saveFileDialog.Title = "Choose a place to save match log";
-            saveFileDialog.ShowDialog();
-            if (saveFileDialog.FileName != "")
-            {
-                FileManager.startSaveFile(saveFileDialog);
-                SocketManager.socketManager.sendData(new Message(Constants.OPCODE_FILE));
-            }
-        }
-
+        
         ///<summary>
         ///@funtion changeStatus: Change the toolStripStatusLabel1 content
         /// </summary>
@@ -449,6 +432,11 @@ namespace Client
                 Message sentMessage = new Message(Constants.OPCODE_CHALLENGE_WITH_SERVER);
                 SocketManager.socketManager.sendData(sentMessage);  
             }
+        }
+
+        private void buttonChangePassword_Click(object sender, EventArgs e)
+        {
+            FormManager.openForm(Constants.FORM_PASSWORD);
         }
     }
 }

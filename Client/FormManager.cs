@@ -62,6 +62,11 @@ namespace Client
                     FormPlayWithServer formPlayWithServer = new FormPlayWithServer(clientName);
                     formPlayWithServer.ShowDialog();
                     break;
+                case Constants.FORM_PASSWORD:
+                    _currentForm = Constants.FORM_PASSWORD;
+                    FormPassword formPassword = new FormPassword();
+                    formPassword.ShowDialog();
+                    break;
                 default:
                     break;
             }

@@ -7,12 +7,12 @@ class RoomWithServer {
 private:
 	SOCKET playerSocket;
 	std::vector<PlayerMove> movesList;
-    int board[BOARD_HEIGHT][BOARD_WIDTH];
+    int boardWithServerWithServer[boardWithServer_HEIGHT][boardWithServer_WIDTH];
 	std::string startTime;
 public:
 	RoomWithServer(SOCKET playerSocket);
 	bool isPlayerTurn(SOCKET socket);
-	bool isBoardCellEmpty(int x, int y);
+	bool isboardCellEmpty(int x, int y);
 	bool isMoveInBoard(int x, int y);
 	bool isMatchEndByDraw();
 	bool isMatchEndByWin();
@@ -36,9 +36,9 @@ public:
 RoomWithServer::RoomWithServer(SOCKET playerSocket) {
 	this->playerSocket = playerSocket;
 	this->movesList.clear();
-	for (int i = 0; i < BOARD_HEIGHT; i++) {
-		for (int j = 0; j < BOARD_WIDTH; j++) {
-			this->board[i][j] = 0;
+	for (int i = 0; i < boardWithServer_HEIGHT; i++) {
+		for (int j = 0; j < boardWithServer_WIDTH; j++) {
+			this->boardWithServer[i][j] = 0;
 		}
 	}
 }
@@ -88,7 +88,7 @@ bool RoomWithServer::isPlayerTurn(SOCKET socket) {
 	}
 }
 /*
-@function isMoveInBoard: Check if the move coordinates is inside the board.
+@function isMoveInboardWithServer: Check if the move coordinates is inside the boardWithServer.
 
 @param x: The x-axis coordinate
 @param y: The y-axis coordinate
@@ -96,11 +96,11 @@ bool RoomWithServer::isPlayerTurn(SOCKET socket) {
 @return true if it is indside.
 false if not
 */
-bool RoomWithServer::isMoveInBoard(int x, int y) {
-	return x < BOARD_WIDTH&& x >= 0 && y < BOARD_HEIGHT&& y >= 0;
+bool RoomWithServer::isMoveInboardWithServer(int x, int y) {
+	return x < boardWithServer_WIDTH&& x >= 0 && y < boardWithServer_HEIGHT&& y >= 0;
 }
 /*
-@function isBoardCellEmpty: check if the cell at move coordinates is empty.
+@function isboardWithServerCellEmpty: check if the cell at move coordinates is empty.
 
 @param x: The x-axis coordinate
 @param y: The y-axis coordinate
@@ -108,8 +108,8 @@ bool RoomWithServer::isMoveInBoard(int x, int y) {
 @return true if it is indside.
 false if not
 */
-bool RoomWithServer::isBoardCellEmpty(int x, int y) {
-	return this->board[y][x] == 0;
+bool RoomWithServer::isboardWithServerCellEmpty(int x, int y) {
+	return this->boardWithServer[y][x] == 0;
 }
 /*
 @function isMatchEndByWin: Check if current tur player win
@@ -125,10 +125,10 @@ bool RoomWithServer::isMatchEndByWin() {
 	int type = curMove.type;
 	int x = curMove.x;
 	int y = curMove.y;
-	//Print current board
-	for (int i = 0; i < BOARD_HEIGHT; i++) {
-		for (int j = 0; j < BOARD_WIDTH; j++) {
-			std::cout << this->board[i][j] << " ";
+	//Print current boardWithServer
+	for (int i = 0; i < boardWithServer_HEIGHT; i++) {
+		for (int j = 0; j < boardWithServer_WIDTH; j++) {
+			std::cout << this->boardWithServer[i][j] << " ";
 		}
 		std::cout << std::endl;
 	}
@@ -137,16 +137,16 @@ bool RoomWithServer::isMatchEndByWin() {
 	int score;
 	for (int lineType = 0; lineType < 4; lineType++) {
 		score = 0;
-		startX = x - (BOARD_WIN_SCORE - 1) * dx[lineType];
-		startY = y - (BOARD_WIN_SCORE - 1) * dy[lineType];
-		for (int i = 0; i < 2 * BOARD_WIN_SCORE - 1; i++) {
+		startX = x - (boardWithServer_WIN_SCORE - 1) * dx[lineType];
+		startY = y - (boardWithServer_WIN_SCORE - 1) * dy[lineType];
+		for (int i = 0; i < 2 * boardWithServer_WIN_SCORE - 1; i++) {
 			currentX = startX + i * dx[lineType];
 			currentY = startY + i * dy[lineType];
-			if (!RoomWithServer::isMoveInBoard(currentX, currentY)) continue;
-			if (this->board[currentY][currentX] != type) score = 0;
+			if (!RoomWithServer::isMoveInboardWithServer(currentX, currentY)) continue;
+			if (this->boardWithServer[currentY][currentX] != type) score = 0;
 			else {
 				score++;
-				if (score == BOARD_WIN_SCORE) return true;
+				if (score == boardWithServer_WIN_SCORE) return true;
 			}
 		}
 	}
@@ -159,7 +159,7 @@ bool RoomWithServer::isMatchEndByWin() {
 false if not
 */
 bool RoomWithServer::isMatchEndByDraw() {
-	return this->movesList.size() >= BOARD_WIDTH * BOARD_HEIGHT;
+	return this->movesList.size() >= boardWithServer_WIDTH * boardWithServer_HEIGHT;
 }
 /*
 @function getMatchResult: Return type of match result based on current moves list
@@ -184,10 +184,10 @@ OPCODE_PLAY if the move is added
 
 */
 int RoomWithServer::addPlayerMove(PlayerMove aMove) {
-	if (!RoomWithServer::isMoveInBoard(aMove.x, aMove.y) || !RoomWithServer::isBoardCellEmpty(aMove.x, aMove.y)) {
+	if (!RoomWithServer::isMoveInboardWithServer(aMove.x, aMove.y) || !RoomWithServer::isboardWithServerCellEmpty(aMove.x, aMove.y)) {
 		return OPCODE_PLAY_INVALID_CORDINATE_SERVER;
 	}
-	this->board[aMove.y][aMove.x] = aMove.type;
+	this->boardWithServer[aMove.y][aMove.x] = aMove.type;
 	this->movesList.push_back(aMove);
 	return OPCODE_PLAY_WITH_SERVER;
 }
@@ -232,9 +232,9 @@ int Defense[] = { 0, 3, 27, 99, 729, 6561, 59049 };
 void RoomWithServer::caculateChess(int* coordinateServer) {
     long max = 0;
     int imax = 1, jmax = 1;
-    for (int i = 0; i < BOARD_HEIGHT; i++) {
-        for (int j = 0; j < BOARD_WIDTH; j++) {
-            if (this->board[i][j] == 0) {
+    for (int i = 0; i < boardWithServer_HEIGHT; i++) {
+        for (int j = 0; j < boardWithServer_WIDTH; j++) {
+            if (this->boardWithServer[i][j] == 0) {
                 long temp = serverChess(i, j) + clientChess(i, j);
                 if (temp > max) {
                     max = temp;
@@ -252,61 +252,61 @@ long RoomWithServer::serverChess(int x, int y) {
     int i = x - 1, j = y;
     int column = 0, row = 0, mdiagonal = 0, ediagonal = 0;
     int sc_ = 0, sc = 0, sr_ = 0, sr = 0, sm_ = 0, sm = 0, se_ = 0, se = 0;
-    while (this->board[i][j] == 2 && i >= 0) {
+    while (this->boardWithServer[i][j] == 2 && i >= 0) {
         column++;
         i--;
     }
-    if (this->board[i][j] == 0) sc_ = 1;
+    if (this->boardWithServer[i][j] == 0) sc_ = 1;
     i = x + 1;
-    while (this->board[i][j] == 2 && i <= BOARD_HEIGHT) {
+    while (this->boardWithServer[i][j] == 2 && i <= boardWithServer_HEIGHT) {
         column++;
         i++;
     }
-    if (this->board[i][j] == 0) sc = 1;
+    if (this->boardWithServer[i][j] == 0) sc = 1;
     i = x; j = y - 1;
-    while (this->board[i][j] == 2 && j >= 0) {
+    while (this->boardWithServer[i][j] == 2 && j >= 0) {
         row++;
         j--;
     }
-    if (this->board[i][j] == 0) sr_ = 1;
+    if (this->boardWithServer[i][j] == 0) sr_ = 1;
     j = y + 1;
-    while (this->board[i][j] == 2 && j <= BOARD_WIDTH) {
+    while (this->boardWithServer[i][j] == 2 && j <= boardWithServer_WIDTH) {
         row++;
         j++;
     }
-    if (this->board[i][j] == 0) sr = 1;
+    if (this->boardWithServer[i][j] == 0) sr = 1;
     i = x - 1; j = y - 1;
-    while (this->board[i][j] == 2 && i >= 0 && j >= 0) {
+    while (this->boardWithServer[i][j] == 2 && i >= 0 && j >= 0) {
         mdiagonal++;
         i--;
         j--;
     }
-    if (this->board[i][j] == 0) sm_ = 1;
+    if (this->boardWithServer[i][j] == 0) sm_ = 1;
     i = x + 1; j = y + 1;
-    while (this->board[i][j] == 2 && i <= BOARD_HEIGHT && j <= BOARD_WIDTH) {
+    while (this->boardWithServer[i][j] == 2 && i <= boardWithServer_HEIGHT && j <= boardWithServer_WIDTH) {
         mdiagonal++;
         i++;
         j++;
     }
-    if (this->board[i][j] == 0) sm = 1;
+    if (this->boardWithServer[i][j] == 0) sm = 1;
     i = x - 1; j = y + 1;
-    while (this->board[i][j] == 2 && i >= 0 && j <= BOARD_WIDTH) {
+    while (this->boardWithServer[i][j] == 2 && i >= 0 && j <= boardWithServer_WIDTH) {
         ediagonal++;
         i--;
         j++;
     }
-    if (this->board[i][j] == 0) se_ = 1;
+    if (this->boardWithServer[i][j] == 0) se_ = 1;
     i = x + 1; j = y - 1;
-    while (this->board[i][j] == 2 && i <= BOARD_HEIGHT && j >= 0) {
+    while (this->boardWithServer[i][j] == 2 && i <= boardWithServer_HEIGHT && j >= 0) {
         ediagonal++;
         i++;
         j--;
     }
-    if (this->board[i][j] == 0) se = 1;
-    if (column == 4) column = BOARD_WIN_SCORE;
-    if (row == 4) row = BOARD_WIN_SCORE;
-    if (mdiagonal == 4) mdiagonal = BOARD_WIN_SCORE;
-    if (ediagonal == 4) ediagonal = BOARD_WIN_SCORE;
+    if (this->boardWithServer[i][j] == 0) se = 1;
+    if (column == 4) column = boardWithServer_WIN_SCORE;
+    if (row == 4) row = boardWithServer_WIN_SCORE;
+    if (mdiagonal == 4) mdiagonal = boardWithServer_WIN_SCORE;
+    if (ediagonal == 4) ediagonal = boardWithServer_WIN_SCORE;
     if (column == 3 && sc == 1 && sc_ == 1) column = 4;
     if (row == 3 && sr == 1 && sr_ == 1) row = 4;
     if (mdiagonal == 3 && sm == 1 && sm_ == 1) mdiagonal = 4;
@@ -325,61 +325,61 @@ long RoomWithServer::clientChess(int x, int y) {
     int i = x - 1, j = y;
     int sc_ = 0, sc = 0, sr_ = 0, sr = 0, sm_ = 0, sm = 0, se_ = 0, se = 0;
     int column = 0, row = 0, mdiagonal = 0, ediagonal = 0;
-    while (this->board[i][j] == 1 && i >= 0) {
+    while (this->boardWithServer[i][j] == 1 && i >= 0) {
         column++;
         i--;
     }
-    if (this->board[i][j] == 0) sc_ = 1;
+    if (this->boardWithServer[i][j] == 0) sc_ = 1;
     i = x + 1;
-    while (this->board[i][j] == 1 && i <= BOARD_HEIGHT) {
+    while (this->boardWithServer[i][j] == 1 && i <= boardWithServer_HEIGHT) {
         column++;
         i++;
     }
-    if (this->board[i][j] == 0) sc = 1;
+    if (this->boardWithServer[i][j] == 0) sc = 1;
     i = x; j = y - 1;
-    while (this->board[i][j] == 1 && j >= 0) {
+    while (this->boardWithServer[i][j] == 1 && j >= 0) {
         row++;
         j--;
     }
-    if (this->board[i][j] == 0) sr_ = 1;
+    if (this->boardWithServer[i][j] == 0) sr_ = 1;
     j = y + 1;
-    while (this->board[i][j] == 1 && j <= BOARD_WIDTH) {
+    while (this->boardWithServer[i][j] == 1 && j <= boardWithServer_WIDTH) {
         row++;
         j++;
     }
-    if (this->board[i][j] == 0) sr = 1;
+    if (this->boardWithServer[i][j] == 0) sr = 1;
     i = x - 1; j = y - 1;
-    while (this->board[i][j] == 1 && i >= 0 && j >= 0) {
+    while (this->boardWithServer[i][j] == 1 && i >= 0 && j >= 0) {
         mdiagonal++;
         i--;
         j--;
     }
-    if (this->board[i][j] == 0) sm_ = 1;
+    if (this->boardWithServer[i][j] == 0) sm_ = 1;
     i = x + 1; j = y + 1;
-    while (this->board[i][j] == 1 && i <= BOARD_HEIGHT && j <= BOARD_WIDTH) {
+    while (this->boardWithServer[i][j] == 1 && i <= boardWithServer_HEIGHT && j <= boardWithServer_WIDTH) {
         mdiagonal++;
         i++;
         j++;
     }
-    if (this->board[i][j] == 0) sm = 1;
+    if (this->boardWithServer[i][j] == 0) sm = 1;
     i = x - 1; j = y + 1;
-    while (this->board[i][j] == 1 && i >= 0 && j <= BOARD_WIDTH) {
+    while (this->boardWithServer[i][j] == 1 && i >= 0 && j <= boardWithServer_WIDTH) {
         ediagonal++;
         i--;
         j++;
     }
-    if (this->board[i][j] == 0) se_ = 1;
+    if (this->boardWithServer[i][j] == 0) se_ = 1;
     i = x + 1; j = y - 1;
-    while (this->board[i][j] == 1 && i <= BOARD_HEIGHT && j >= 0) {
+    while (this->boardWithServer[i][j] == 1 && i <= boardWithServer_HEIGHT && j >= 0) {
         ediagonal++;
         i++;
         j--;
     }
-    if (this->board[i][j] == 0) se = 1;
-    if (column == 4) column = BOARD_WIN_SCORE;
-    if (row == 4) row = BOARD_WIN_SCORE;
-    if (mdiagonal == 4) mdiagonal = BOARD_WIN_SCORE;
-    if (ediagonal == 4) ediagonal = BOARD_WIN_SCORE;
+    if (this->boardWithServer[i][j] == 0) se = 1;
+    if (column == 4) column = boardWithServer_WIN_SCORE;
+    if (row == 4) row = boardWithServer_WIN_SCORE;
+    if (mdiagonal == 4) mdiagonal = boardWithServer_WIN_SCORE;
+    if (ediagonal == 4) ediagonal = boardWithServer_WIN_SCORE;
     if (column == 3 && sc == 1 && sc_ == 1) column = 4;
     if (row == 3 && sr == 1 && sr_ == 1) row = 4;
     if (mdiagonal == 3 && sm == 1 && sm_ == 1) mdiagonal = 4;

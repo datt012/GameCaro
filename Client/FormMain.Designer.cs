@@ -54,6 +54,7 @@
             this.buttonPlayWithPC = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.buttonChangePassword = new System.Windows.Forms.Button();
             this.statusStrip.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -74,9 +75,9 @@
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 417);
+            this.statusStrip.Location = new System.Drawing.Point(0, 418);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(344, 24);
+            this.statusStrip.Size = new System.Drawing.Size(344, 23);
             this.statusStrip.TabIndex = 16;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -84,7 +85,7 @@
             // 
             this.toolStripStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(83, 18);
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(83, 17);
             this.toolStripStatusLabel.Text = "Game Caro!";
             // 
             // flowLayoutPanel1
@@ -97,7 +98,7 @@
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(8);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(344, 417);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(344, 418);
             this.flowLayoutPanel1.TabIndex = 6;
             // 
             // groupBox1
@@ -345,6 +346,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.Controls.Add(this.buttonChangePassword, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.signOutButton, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.historyButton, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.buttonPlayWithPC, 0, 0);
@@ -401,6 +403,20 @@
             // errorProvider
             // 
             this.errorProvider.ContainerControl = this;
+            // 
+            // buttonChangePassword
+            // 
+            this.buttonChangePassword.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonChangePassword.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonChangePassword.Location = new System.Drawing.Point(163, 3);
+            this.buttonChangePassword.Name = "buttonChangePassword";
+            this.buttonChangePassword.Size = new System.Drawing.Size(74, 27);
+            this.buttonChangePassword.TabIndex = 9;
+            this.buttonChangePassword.Text = "Change";
+            this.buttonChangePassword.UseVisualStyleBackColor = true;
+            this.buttonChangePassword.Click += new System.EventHandler(this.buttonChangePassword_Click);
             // 
             // FormMain
             // 
@@ -465,5 +481,6 @@
         private System.Windows.Forms.Label challengedPlayerName;
         private System.Windows.Forms.Button historyButton;
         private System.Windows.Forms.Button buttonPlayWithPC;
+        private System.Windows.Forms.Button buttonChangePassword;
     }
 }

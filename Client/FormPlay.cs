@@ -128,8 +128,19 @@ namespace Client
             SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO));
             EventManager.eventManager.Result -= EventManager_Result;
             FormManager.openForm(Constants.FORM_MAIN);
+            openSaveFile();
             this.Close();
         }
+
+        ///<summary>
+        ///@funtion openSaveFile: Open save file
+        /// </summary>
+        private void openSaveFile()
+        {
+            FileManager.nameFile = namePlayer1.Text + "_" + namePlayer2.Text + ".txt";
+            SocketManager.socketManager.sendData(new Message(Constants.OPCODE_FILE));
+        }
+
 
         ///<summary>
         ///@funtion changeActivePictureBox: Change the active player

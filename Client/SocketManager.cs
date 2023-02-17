@@ -153,9 +153,6 @@ namespace Client
                 if (aMessage.Length == 0)
                 {
                     FileManager.saveFile();
-                    MessageBox.Show("Your match log is ready.", "Download completed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
-                    SocketManager.socketManager.sendData(new Message(Constants.OPCODE_INFO, (ushort)FormMain.App.getPlayerName().Length, FormMain.App.getPlayerName()));
                 }
                 else
                 {
@@ -177,6 +174,9 @@ namespace Client
                     break;
                 case Constants.FORM_PLAY_WITH_SERVER:
                     processRecvPlayWithServer(aMessage);
+                    break;
+                case Constants.FORM_PASSWORD:
+                    processRecvPassword(aMessage);
                     break;
                 default:
                     break;
@@ -298,6 +298,28 @@ namespace Client
                     break;
                 case Constants.OPCODE_RESULT:
                     EventManager.eventManager.notifyResult(payload);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        ///<summary>
+        ///@funtion processRecvPassword: Process data received while in FormPassword
+        ///<para></para>
+        ///@param mess: The message received
+        /// </summary>
+        private void processRecvPassword(Message aMessage)
+        {
+            byte opcode = aMessage.Opcode;
+            switch (opcode)
+            {
+                case Constants.OPCODE_CHANGE_PASSWORD_SUCCESS:
+                case Constants.OPCODE_CHANGE_PASSWORD_INVALID:
+                case Constants.OPCODE_CHANGE_PASSWORD_WRONG:
+                case Constants.OPCODE_CHANGE_DIFFERENT_NEWPASSWORD:
+                case Constants.OPCODE_CHANGE_PASSWORD_OLDNEW:
+                    EventManager.eventManager.notifyPassword(opcode);
                     break;
                 default:
                     break;

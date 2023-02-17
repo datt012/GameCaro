@@ -136,6 +136,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FormHistory";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "History Match";
             ((System.ComponentModel.ISupportInitialize)(this.listHistory)).EndInit();
             this.ResumeLayout(false);

@@ -38,6 +38,7 @@ Define match variables
 /* END DEFINE CONSTANTS */
 
 /* START DEFINE OPCODE */
+
 /*
 Opcode for sending and receiving file
 */
@@ -77,67 +78,73 @@ Opcode for sending and receiving sign out request and reply
 #define OPCODE_SIGN_OUT_NOT_LOGGED_IN 32
 
 /*
+Opcode for sending and receiving querying player's info request and reply
+*/
+#define OPCODE_INFO 40
+#define OPCODE_INFO_REPLY 41
+
+/*
 Opcode for sending and receiving list of online player request and reply
 */
-#define OPCODE_LIST 40
-#define OPCODE_LIST_REPLY 41
+#define OPCODE_LIST 50
+#define OPCODE_LIST_REPLY 51
 
 /*
 Opcode for sending and receiving challenge player request and reply
 */
-#define OPCODE_CHALLENGE 50
-#define OPCODE_CHALLENGE_ACCEPT 51
-#define OPCODE_CHALLENGE_REFUSE 52
-#define OPCODE_CHALLENGE_INVALID_RANK 53
-#define OPCODE_CHALLENGE_BUSY 54
-#define OPCODE_CHALLENGE_NOT_FOUND 55
-
-/*
-Opcode for sending and receiving querying player's info request and reply
-*/
-#define OPCODE_INFO 60
-#define OPCODE_INFO_REPLY 61
-
-/*
-Opcode for receiving request and sending reply of players' move in a match 
-*/
-#define OPCODE_PLAY 70
-#define OPCODE_PLAY_OPPONENT 71
-#define OPCODE_PLAY_INVALID_CORDINATE 72
-#define OPCODE_PLAY_INVALID_TURN 73
-
-/*
-Opcode for receiving request and sending reply players surrender while in a match 
-*/
-#define OPCODE_SURRENDER 80
-#define OPCODE_SURRENDER_WITH_SERVER 81
-
-/*
-Opcode for sending and receiving game result request and reply
-*/
-#define OPCODE_RESULT 90
-#define OPCODE_TIMER_DRAW 91
-#define OPCODE_TIMER_DRAW_WITH_SERVER 92
-
-/*
-Opcode for sending and receiving querying history match request and reply
-*/
-#define OPCODE_HISTORY 100
-#define OPCODE_HISTORY_REPLY 101
+#define OPCODE_CHALLENGE 60
+#define OPCODE_CHALLENGE_ACCEPT 61
+#define OPCODE_CHALLENGE_REFUSE 62
+#define OPCODE_CHALLENGE_INVALID_RANK 63
+#define OPCODE_CHALLENGE_BUSY 64
+#define OPCODE_CHALLENGE_NOT_FOUND 65
 
 /*
 Opcode for sending and receiving challenge player request and reply to server
 */
-#define OPCODE_CHALLENGE_WITH_SERVER 110
-#define OPCODE_CHALLENGE_WITH_SERVER_PLAY 111
-#define OPCODE_CHALLENGE_WITH_SERVER_OVERLOAD 112
+#define OPCODE_CHALLENGE_WITH_SERVER 70
+#define OPCODE_CHALLENGE_WITH_SERVER_PLAY 71
+#define OPCODE_CHALLENGE_WITH_SERVER_OVERLOAD 72
+
+/*
+Opcode for receiving request and sending reply of players' move in a match
+*/
+#define OPCODE_PLAY 80
+#define OPCODE_PLAY_OPPONENT 81
+#define OPCODE_PLAY_INVALID_CORDINATE 82
+#define OPCODE_PLAY_INVALID_TURN 83
 
 /*
 Opcode for receiving request and sending reply of players' move in a match to server
 */
-#define OPCODE_PLAY_WITH_SERVER 120
-#define OPCODE_PLAY_REPLY_SERVER 121
-#define OPCODE_PLAY_INVALID_CORDINATE_SERVER 122
-#define OPCODE_PLAY_INVALID_TURN_SERVER 123
+#define OPCODE_PLAY_WITH_SERVER 90
+#define OPCODE_PLAY_REPLY_SERVER 91
+#define OPCODE_PLAY_INVALID_CORDINATE_SERVER 92
+#define OPCODE_PLAY_INVALID_TURN_SERVER 93
+
+/*
+Opcode for sending and receiving game result request and reply
+*/
+#define OPCODE_RESULT 100
+#define OPCODE_SURRENDER 101
+#define OPCODE_SURRENDER_WITH_SERVER 102
+#define OPCODE_TIMER_DRAW 103
+#define OPCODE_TIMER_DRAW_WITH_SERVER 104
+
+/*
+Opcode for sending and receiving querying history match request and reply
+*/
+#define OPCODE_HISTORY 110
+#define OPCODE_HISTORY_REPLY 111
+
+/*
+Opcode for sending and receiving query change password request and reply
+*/
+#define OPCODE_CHANGE_PASSWORD 120
+#define OPCODE_CHANGE_PASSWORD_SUCCESS 121
+#define OPCODE_CHANGE_PASSWORD_WRONG 122
+#define OPCODE_CHANGE_DIFFERENT_NEWPASSWORD 123
+#define OPCODE_CHANGE_PASSWORD_INVALID 124
+#define OPCODE_CHANGE_PASSWORD_OLDNEW 125
 /* END OPCODE */
 

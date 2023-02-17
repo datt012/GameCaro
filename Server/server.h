@@ -282,6 +282,8 @@ void handleRecvTimerDraw(CLIENT* aClient);
 */
 void handleRecvTimerDrawWithServer(CLIENT* aClient);
 
+void handleRecvChangePassword(CLIENT* aClient);
+
 /*
 @function handleSend: Assign client's reply to a suitable handle
 
@@ -446,6 +448,9 @@ void handleRecv(CLIENT* aClient) {
 		break;
 	case OPCODE_CHALLENGE_WITH_SERVER:
 		handleRecvChallengeWithServer(aClient);
+		break;
+	case OPCODE_CHANGE_PASSWORD:
+		handleRecvChangePassword(aClient);
 		break;
 	default:
 		break;
@@ -788,7 +793,7 @@ void handleRecvPlayWithServer(CLIENT* aClient) {
 	aRoomWithServer->caculateChess(coordinateServer);
 	memcpy(coordinateReply, coordinateServer, 1);
 	memcpy(coordinateReply + 1, coordinateServer + 1, 1);
-	PlayerMove aMoveServer = { coordinateServer[0], coordinateServer[1], TYPE_X};
+	PlayerMove aMoveServer = { coordinateServer[0], coordinateServer[1], TYPE_X };
 	ret = aRoomWithServer->addPlayerMove(aMoveServer);
 	if (ret != OPCODE_PLAY_WITH_SERVER) {
 		Send(aClient, (char)ret, 0, NULL);
@@ -799,7 +804,7 @@ void handleRecvPlayWithServer(CLIENT* aClient) {
 	//Check for match result then send the result if the match ends
 	matchResult = aRoomWithServer->getMatchResult();
 	if (matchResult == MATCH_CONTINUE) {
-		return; 
+		return;
 	}
 	switch (matchResult) {
 	case MATCH_END_BY_DRAW:
@@ -859,6 +864,36 @@ void handleRecvTimerDrawWithServer(CLIENT* aClient) {
 	updateFreeStatus(aClient->username, UPDATE_USER_NOT_BUSY);
 	updateMatchLogWithServer(aRoomWithServer, aClient, MATCH_END_BY_DRAW, "No one");
 	removeRoomWithServer(aClient->socket);
+}
+
+void handleRecvChangePassword(CLIENT* aClient) {
+	std::string payload(aClient->buff);
+	std::string oldPassword = payload.substr(0, payload.find(" "));
+	std::string newPassword = payload.substr(oldPassword.size() + 1, payload.find(" "));
+	std::string newRepassword = payload.substr(oldPassword.size() + newPassword.size() + 2);
+	if (oldPassword.compare("47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=") == 0 || 
+		newPassword.compare("47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=") == 0 ||
+		newRepassword.compare("47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=") == 0) {
+		Send(aClient, OPCODE_CHANGE_PASSWORD_INVALID, 0, NULL);
+		return;
+	}
+	else if (oldPassword.compare(getPassword(aClient->username)) != 0) {
+		Send(aClient, OPCODE_CHANGE_PASSWORD_WRONG, 0, NULL);
+		return;
+	}
+	else if (oldPassword.compare(newPassword) == 0) {
+		Send(aClient, OPCODE_CHANGE_PASSWORD_OLDNEW, 0, NULL);
+		return;
+	}
+	else if (newPassword.compare(newRepassword) != 0){
+		Send(aClient, OPCODE_CHANGE_DIFFERENT_NEWPASSWORD, 0, NULL);
+		return;
+	}
+	else {
+		updatePassword(aClient->username, newPassword);
+		Send(aClient, OPCODE_CHANGE_PASSWORD_SUCCESS, 0, NULL);
+		return;
+	}
 }
 
 void updateMatchPlayers(CLIENT* winner, CLIENT* loser) {

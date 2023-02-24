@@ -70,7 +70,6 @@
 
         public const byte OPCODE_CHALLENGE_WITH_SERVER = 70;
         public const byte OPCODE_CHALLENGE_WITH_SERVER_PLAY = 71;
-        public const byte OPCODE_CHALLENGE_WITH_SERVER_OVERLOAD = 72;
 
         public const byte OPCODE_PLAY = 80;
         public const byte OPCODE_PLAY_OPPONENT = 81;

@@ -1,7 +1,7 @@
 #pragma once
 /* START DEFINE CONSTANTS */
 /*
-Define sever variables
+Define server variables
 */
 #define SERVER_ADDR "127.0.0.1"
 #define SERVER_PORT 5500

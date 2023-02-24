@@ -17,12 +17,11 @@ namespace Client
         private static FormMain _app;
         public string playerName;
         public string opponentName;
-        private bool isFree;
         private Dictionary<string, KeyValuePair<string, string>> dictionary = new Dictionary<string, KeyValuePair<string, string>>();
 
-        /// <summary>
-        /// Store one instance of Form Main
-        /// </summary>
+        ///<summary>
+        ///Store one instance of Form Main
+        ///</summary>
         public static FormMain App
         {
             get
@@ -34,7 +33,6 @@ namespace Client
                 return _app;
             }
         }
-
         public FormMain() {
             InitializeComponent();
             EventManager.eventManager.Challenge += EventManager_Challenge;
@@ -44,7 +42,6 @@ namespace Client
             EventManager.eventManager.SignOut += EventManager_SignOut;
             EventManager.eventManager.Info += EventManager_Info;
             EventManager.eventManager.History += EventManager_History;
-            this.isFree = false;
             this.Shown += FormMain_Shown;
             this.FormClosing += new FormClosingEventHandler(FormMain_FormClosing);
             this.FormClosed += new FormClosedEventHandler(FormMain_FormClosed);
@@ -59,16 +56,6 @@ namespace Client
         {
             this.userNameInfo.Text = name;
             this.toolStripStatusLabel.Text = "Welcome player " + name + "!";
-        }
-
-        ///<summary>
-        ///@funtion getSaveFileDialog: Get the form dialog save file instance
-        ///<para></para>
-        ///@return The form's SaveFileDialog
-        /// </summary>
-        public System.Windows.Forms.SaveFileDialog getSaveFileDialog()
-        {
-            return this.saveFileDialog;
         }
 
         /// <summary>
@@ -89,7 +76,6 @@ namespace Client
         public void FormMain_Shown(Object sender, EventArgs e)
         {
             FormManager.openForm(Constants.FORM_ACCOUNT);
-            this.isFree = true;
         }
 
         ///<summary>
@@ -250,6 +236,7 @@ namespace Client
                 }
             }));
         }
+
         ///<summary>
         ///@funtion EventManager_Info: Triggered when there is a reply from server the player's info
         ///<para></para>
@@ -277,12 +264,6 @@ namespace Client
         private void EventManager_Invite(object sender, SuperEventArgs e)
         {
             this.opponentName = e.ReturnText;
-            if(!isFree)
-            {
-                Message sentMessage = new Message(Constants.OPCODE_CHALLENGE_REFUSE, (ushort)opponentName.Length, opponentName);
-                SocketManager.socketManager.sendData(sentMessage);
-                return;
-            }
             string msg = opponentName.Substring(0,opponentName.Length-1) + " sent a challenged. Accept?";
             DialogResult dialogResult = MessageBox.Show(msg, "Challenge incoming!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);   
             if (dialogResult == DialogResult.Yes)
@@ -358,27 +339,20 @@ namespace Client
         {
             FormMain.App.BeginInvoke((MethodInvoker)(() =>
             {
-                if (e.ReturnCode == Constants.OPCODE_CHALLENGE_WITH_SERVER_PLAY)
+                this.Hide();
+                bool formHistoryAlready = false;
+                if (Application.OpenForms.OfType<FormHistory>().FirstOrDefault() != null)
                 {
-                    this.Hide();
-                    bool formHistoryAlready = false;
-                    if (Application.OpenForms.OfType<FormHistory>().FirstOrDefault() != null)
-                    {
-                        Application.OpenForms.OfType<FormHistory>().FirstOrDefault().Close();
-                        formHistoryAlready = true;
-                    }
-                    SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
-                    FormManager.openForm(Constants.FORM_PLAY_WITH_SERVER);
-                    this.Show();
-                    SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
-                    if (formHistoryAlready == true)
-                    {
-                        SocketManager.socketManager.sendData(new Message(Constants.OPCODE_HISTORY));
-                    }
+                    Application.OpenForms.OfType<FormHistory>().FirstOrDefault().Close();
+                    formHistoryAlready = true;
                 }
-                else
+                SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
+                FormManager.openForm(Constants.FORM_PLAY_WITH_SERVER);
+                this.Show();
+                SocketManager.socketManager.sendData(new Message(Constants.OPCODE_LIST));
+                if (formHistoryAlready == true)
                 {
-                    MessageBox.Show("Sorry, server is overload", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    SocketManager.socketManager.sendData(new Message(Constants.OPCODE_HISTORY));
                 }
             }));
         }
@@ -408,9 +382,8 @@ namespace Client
             }));
         }
 
-        
         ///<summary>
-        ///@funtion changeStatus: Change the toolStripStatusLabel1 content
+        ///@funtion changeStatus: Change the tool strip status label content
         /// </summary>
         private void changeStatus(string status)
         {
@@ -418,7 +391,7 @@ namespace Client
         }
 
         ///<summary>
-        ///@funtion signOutButton_Click: Triggered when the button server is clicked
+        ///@funtion buttonPlayWithServer_Click: Triggered when the button server is clicked
         ///<para></para>
         ///@param sender: The object that trigger the event
         ///<para></para>
@@ -434,6 +407,13 @@ namespace Client
             }
         }
 
+        ///<summary>
+        ///@funtion buttonChangePassword_Click: Triggered when the button change password is clicked
+        ///<para></para>
+        ///@param sender: The object that trigger the event
+        ///<para></para>
+        ///@param e: The events argument sent when the function is triggered
+        /// </summary>
         private void buttonChangePassword_Click(object sender, EventArgs e)
         {
             FormManager.openForm(Constants.FORM_PASSWORD);

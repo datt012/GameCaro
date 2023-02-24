@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Client.Board">
+    <Position X="18" Y="2" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AQACAAAAAAAAIBAACEAAACgNAQJgAABBIAEABQAUIAA=</HashCode>
+      <FileName>Board.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.BoardWithServer">
+    <Position X="13" Y="7.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAKAAACEQAACgNASJgAABBIAEABQAEIAA=</HashCode>
+      <FileName>BoardWithServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.EventManager">
+    <Position X="16" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBACCAAIAUCABCQAAMAIUgIAggAAACeICmAkACAGI=</HashCode>
+      <FileName>EventManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.FileManager">
+    <Position X="8.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAgAAAAAAEAAAAJAAAAAAAAAA=</HashCode>
+      <FileName>FileManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.FormAccount">
+    <Position X="18" Y="9" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AASAAAgQACAAABAEBmSCAAAKAQAAAACCwGAwBgEEICg=</HashCode>
+      <FileName>FormAccount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.FormHistory">
+    <Position X="16" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>wAAAAAAAACAAAIAAAACAAAACABAAAEAAAAAAAAAEAiA=</HashCode>
+      <FileName>FormHistory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.FormMain">
+    <Position X="5" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>lBAES0FSojAAFRAAAQGAAAVGAOAIAQgFgCARAAAhAKE=</HashCode>
+      <FileName>FormMain.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.FormManager">
+    <Position X="14" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAIAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>FormManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.FormPassword">
+    <Position X="11" Y="2" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAABCAAABAQBACAAAECAKAAAAACgEAYEAAFAAA=</HashCode>
+      <FileName>FormPassword.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.FormPlay">
+    <Position X="21.75" Y="2.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>yAAAAEAQACCFABAABEKgACACAAEIAIgUJABQABAAAGE=</HashCode>
+      <FileName>FormPlay.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.FormPlayWithServer">
+    <Position X="8" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>CAAAAEAQACiFCAAABECgACAiAAAIAAhUBABQAAAAAGE=</HashCode>
+      <FileName>FormPlayWithServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.Player">
+    <Position X="14" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAACAAAAAgAA=</HashCode>
+      <FileName>Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Client.SocketManager">
+    <Position X="10.5" Y="9.25" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>EAAAoAAAAAAEAEQEAEAQAAAAIABAEAEAAAIABAAAAAA=</HashCode>
+      <FileName>SocketManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -217,7 +217,6 @@ namespace Client
                     EventManager.eventManager.notifyHistory(payload);
                     break;
                 case Constants.OPCODE_CHALLENGE_WITH_SERVER_PLAY:
-                case Constants.OPCODE_CHALLENGE_WITH_SERVER_OVERLOAD:
                     EventManager.eventManager.notifyServer(opcode);
                     break;
                 default:

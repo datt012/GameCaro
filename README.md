@@ -5,7 +5,9 @@
 ### Install Visual Studio 2022
 ### Install SQL Server 2022
 ### Import Project
-### Run Server.exe
-### Run Client.exe
+
+In the project directory, you can run:
+### Server.exe
+### Client.exe
 
 
